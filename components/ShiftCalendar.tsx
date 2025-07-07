@@ -22,28 +22,67 @@ export default function ShiftCalendar() {
     D: '#FFDD44'  // Yellow
   };
 
-  // A shift working days pattern: Tuesday, Monday, Thursday, Friday, Sunday, Wednesday, Saturday
-  // Day of week mapping: Sunday=0, Monday=1, Tuesday=2, Wednesday=3, Thursday=4, Friday=5, Saturday=6
-  const aShiftDaysOfWeek = [2, 1, 4, 5, 0, 3, 6]; // Tuesday, Monday, Thursday, Friday, Sunday, Wednesday, Saturday
-  
-  // B shift working days pattern: Wednesday, Tuesday, Friday, Saturday, Monday, Thursday, Sunday
-  // (Same pattern as A shift but offset by one day)
-  const bShiftDaysOfWeek = [3, 2, 5, 6, 1, 4, 0]; // Wednesday, Tuesday, Friday, Saturday, Monday, Thursday, Sunday
+  // July 2024 schedule as provided
+  const julySchedule = {
+    1: 'A',   // July 1st A shift
+    2: 'B',   // July 2nd B shift
+    3: 'D',   // July 3rd D shift
+    4: 'C',   // July 4th C shift
+    5: 'B',   // July 5th B shift
+    6: 'C',   // July 6th C shift
+    7: 'A',   // July 7th A shift
+    8: 'B',   // July 8th B shift
+    9: 'C',   // July 9th C shift
+    10: 'A',  // July 10th A shift
+    11: 'D',  // July 11th D shift
+    12: 'C',  // July 12th C shift
+    13: 'D',  // July 13th D shift
+    14: 'B',  // July 14th B shift
+    15: 'C',  // July 15th C shift
+    16: 'D',  // July 16th D shift
+    17: 'B',  // July 17th B shift
+    18: 'A',  // July 18th A shift
+    19: 'D',  // July 19th D shift
+    20: 'A',  // July 20th A shift
+    21: 'C',  // July 21st C shift
+    22: 'D',  // July 22nd D shift
+    23: 'A',  // July 23rd A shift
+    24: 'C',  // July 24th C shift
+    25: 'B',  // July 25th B shift
+    26: 'A',  // July 26th A shift
+    27: 'B',  // July 27th B shift
+    28: 'D',  // July 28th D shift
+    29: 'A',  // July 29th A shift
+    30: 'B',  // July 30th B shift
+    31: 'D'   // July 31st D shift
+  };
 
   const getShiftForDate = (date: Date): 'A' | 'B' | 'C' | 'D' | null => {
-    const dayOfWeek = date.getDay(); // 0 (Sunday) to 6 (Saturday)
+    const year = date.getFullYear();
+    const month = date.getMonth(); // 0-based (July = 6)
+    const day = date.getDate();
     
-    // Check if this day of the week is an A shift day
-    if (aShiftDaysOfWeek.includes(dayOfWeek)) {
-      return 'A';
+    // For July 2024, use the exact schedule provided
+    if (year === 2024 && month === 6) { // July is month 6 (0-based)
+      return julySchedule[day] as 'A' | 'B' | 'C' | 'D' || null;
     }
     
-    // Check if this day of the week is a B shift day
-    if (bShiftDaysOfWeek.includes(dayOfWeek)) {
-      return 'B';
-    }
+    // For other months, calculate based on the 31-day cycle from July 1st, 2024
+    const july1st2024 = new Date(2024, 6, 1); // July 1st, 2024
+    const diffInDays = Math.floor((date.getTime() - july1st2024.getTime()) / (1000 * 60 * 60 * 24));
     
-    return null;
+    // Create a 31-day pattern from the July schedule
+    const pattern = [
+      'A', 'B', 'D', 'C', 'B', 'C', 'A', 'B', 'C', 'A', // Days 1-10
+      'D', 'C', 'D', 'B', 'C', 'D', 'B', 'A', 'D', 'A', // Days 11-20
+      'C', 'D', 'A', 'C', 'B', 'A', 'B', 'D', 'A', 'B', // Days 21-30
+      'D' // Day 31
+    ];
+    
+    // Calculate which day in the pattern this date corresponds to
+    const patternIndex = ((diffInDays % 31) + 31) % 31; // Handle negative numbers for dates before July 1st
+    
+    return pattern[patternIndex] as 'A' | 'B' | 'C' | 'D';
   };
 
   // Export function to get current shift for use in other components
@@ -230,9 +269,33 @@ export default function ShiftCalendar() {
             />
             <Text style={commonStyles.textSecondary}>Shift B (Grey)</Text>
           </View>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View
+              style={{
+                width: 16,
+                height: 16,
+                backgroundColor: shiftColors.C,
+                borderRadius: 8,
+                marginRight: 6
+              }}
+            />
+            <Text style={commonStyles.textSecondary}>Shift C (Blue)</Text>
+          </View>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View
+              style={{
+                width: 16,
+                height: 16,
+                backgroundColor: shiftColors.D,
+                borderRadius: 8,
+                marginRight: 6
+              }}
+            />
+            <Text style={commonStyles.textSecondary}>Shift D (Yellow)</Text>
+          </View>
         </View>
         <Text style={[commonStyles.textSecondary, { fontSize: 12, marginTop: 8 }]}>
-          A and B shifts are displayed. C and D shifts are not shown.
+          All shifts are 24 hours long.
         </Text>
       </View>
 
@@ -328,7 +391,7 @@ export default function ShiftCalendar() {
                       weekday: 'long', 
                       month: 'long', 
                       day: 'numeric' 
-                    })}
+                    })} - 24 hours
                   </Text>
                 </View>
               </View>
@@ -366,25 +429,25 @@ export default function ShiftCalendar() {
         return null;
       })()}
 
-      {/* Shift Pattern Info */}
+      {/* Schedule Info */}
       <View style={[commonStyles.card, { marginTop: 16, backgroundColor: colors.cardBackground + '80' }]}>
         <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
           <Icon name="information-circle" size={20} style={{ color: colors.accent, marginRight: 8, marginTop: 2 }} />
           <View style={{ flex: 1 }}>
             <Text style={[commonStyles.text, { fontSize: 14, fontWeight: '600', marginBottom: 8 }]}>
-              Shift Schedule Patterns
+              Shift Schedule Information
             </Text>
             <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 4 }]}>
-              A shift works on: Tuesday → Monday → Thursday → Friday → Sunday → Wednesday → Saturday
-            </Text>
-            <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 8 }]}>
-              B shift works on: Wednesday → Tuesday → Friday → Saturday → Monday → Thursday → Sunday
+              • All shifts are 24 hours long
             </Text>
             <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 4 }]}>
-              Both patterns repeat every week.
+              • Schedule follows a 31-day repeating pattern
+            </Text>
+            <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 4 }]}>
+              • Pattern starts from July 1st, 2024
             </Text>
             <Text style={[commonStyles.textSecondary, { fontSize: 12 }]}>
-              A shift (red) and B shift (grey) are displayed. C and D shifts are not shown.
+              • All four shifts (A, B, C, D) are displayed
             </Text>
           </View>
         </View>
@@ -396,7 +459,7 @@ export default function ShiftCalendar() {
           <Icon name="link" size={20} style={{ color: colors.accent, marginRight: 8 }} />
           <View style={{ flex: 1 }}>
             <Text style={[commonStyles.textSecondary, { fontSize: 12 }]}>
-              Simplified A and B shift calendar based on custom schedule
+              Custom shift calendar based on provided schedule
             </Text>
             <Text style={[commonStyles.textSecondary, { fontSize: 12 }]}>
               Tap &quot;Full View&quot; for the complete online calendar
@@ -411,23 +474,36 @@ export default function ShiftCalendar() {
 // Export the getCurrentShift function for use in other components
 export const getCurrentShift = (): 'A' | 'B' | 'C' | 'D' | null => {
   const today = new Date();
-  const dayOfWeek = today.getDay(); // 0 (Sunday) to 6 (Saturday)
+  const year = today.getFullYear();
+  const month = today.getMonth(); // 0-based (July = 6)
+  const day = today.getDate();
   
-  // A shift working days pattern: Tuesday, Monday, Thursday, Friday, Sunday, Wednesday, Saturday
-  const aShiftDaysOfWeek = [2, 1, 4, 5, 0, 3, 6]; // Tuesday, Monday, Thursday, Friday, Sunday, Wednesday, Saturday
+  // July 2024 schedule as provided
+  const julySchedule = {
+    1: 'A', 2: 'B', 3: 'D', 4: 'C', 5: 'B', 6: 'C', 7: 'A', 8: 'B', 9: 'C', 10: 'A',
+    11: 'D', 12: 'C', 13: 'D', 14: 'B', 15: 'C', 16: 'D', 17: 'B', 18: 'A', 19: 'D', 20: 'A',
+    21: 'C', 22: 'D', 23: 'A', 24: 'C', 25: 'B', 26: 'A', 27: 'B', 28: 'D', 29: 'A', 30: 'B', 31: 'D'
+  };
   
-  // B shift working days pattern: Wednesday, Tuesday, Friday, Saturday, Monday, Thursday, Sunday
-  const bShiftDaysOfWeek = [3, 2, 5, 6, 1, 4, 0]; // Wednesday, Tuesday, Friday, Saturday, Monday, Thursday, Sunday
-  
-  // Check if this day of the week is an A shift day
-  if (aShiftDaysOfWeek.includes(dayOfWeek)) {
-    return 'A';
+  // For July 2024, use the exact schedule provided
+  if (year === 2024 && month === 6) { // July is month 6 (0-based)
+    return julySchedule[day] as 'A' | 'B' | 'C' | 'D' || null;
   }
   
-  // Check if this day of the week is a B shift day
-  if (bShiftDaysOfWeek.includes(dayOfWeek)) {
-    return 'B';
-  }
+  // For other months, calculate based on the 31-day cycle from July 1st, 2024
+  const july1st2024 = new Date(2024, 6, 1); // July 1st, 2024
+  const diffInDays = Math.floor((today.getTime() - july1st2024.getTime()) / (1000 * 60 * 60 * 24));
   
-  return null;
+  // Create a 31-day pattern from the July schedule
+  const pattern = [
+    'A', 'B', 'D', 'C', 'B', 'C', 'A', 'B', 'C', 'A', // Days 1-10
+    'D', 'C', 'D', 'B', 'C', 'D', 'B', 'A', 'D', 'A', // Days 11-20
+    'C', 'D', 'A', 'C', 'B', 'A', 'B', 'D', 'A', 'B', // Days 21-30
+    'D' // Day 31
+  ];
+  
+  // Calculate which day in the pattern this date corresponds to
+  const patternIndex = ((diffInDays % 31) + 31) % 31; // Handle negative numbers for dates before July 1st
+  
+  return pattern[patternIndex] as 'A' | 'B' | 'C' | 'D';
 };
