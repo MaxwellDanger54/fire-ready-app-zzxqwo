@@ -6,7 +6,7 @@ import Icon from './Icon';
 
 interface ShiftDay {
   date: Date;
-  shift: 'A' | 'B' | 'C' | 'D';
+  shift: 'A' | 'B' | 'C' | 'D' | null;
   isToday: boolean;
 }
 
@@ -22,28 +22,45 @@ export default function ShiftCalendar() {
     D: '#FFDD44'  // Yellow
   };
 
-  // Updated shift pattern based on cal.stoehr.ca/opscal/
-  // This follows the actual Toronto Fire Services shift pattern
-  const getShiftForDate = (date: Date): 'A' | 'B' | 'C' | 'D' => {
-    // Reference date: January 1, 2025 is Shift A (based on the website pattern)
-    const referenceDate = new Date(2025, 0, 1); // Jan 1, 2025
-    const msPerDay = 24 * 60 * 60 * 1000;
+  // Define the specific shift cycle based on the provided schedule
+  const getShiftForDate = (date: Date): 'A' | 'B' | 'C' | 'D' | null => {
+    // Reference dates for each shift in July 2025
+    const shiftStartDates = {
+      A: new Date(2025, 6, 1), // July 1st, 2025 (Tuesday)
+      B: new Date(2025, 6, 2), // July 2nd, 2025 (Wednesday) 
+      D: new Date(2025, 6, 3), // July 3rd, 2025 (Thursday)
+      C: new Date(2025, 6, 4)  // July 4th, 2025 (Friday)
+    };
+
+    // Define the work pattern for A shift (others follow same pattern offset by their start date)
+    // Working days relative to start date: 0, 6, 9, 17, 19, 22, 25, 28
+    const workDaysPattern = [0, 6, 9, 17, 19, 22, 25, 28];
     
-    // Calculate days since reference date
-    const daysSinceReference = Math.floor((date.getTime() - referenceDate.getTime()) / msPerDay);
+    // Calculate cycle length - pattern repeats every 30 days approximately
+    const cycleLength = 30;
+
+    // Check each shift
+    for (const [shiftName, startDate] of Object.entries(shiftStartDates)) {
+      const msPerDay = 24 * 60 * 60 * 1000;
+      const daysSinceStart = Math.floor((date.getTime() - startDate.getTime()) / msPerDay);
+      
+      // Handle dates before the start date by going backwards in cycles
+      let adjustedDays = daysSinceStart;
+      if (daysSinceStart < 0) {
+        const cyclesBehind = Math.ceil(Math.abs(daysSinceStart) / cycleLength);
+        adjustedDays = daysSinceStart + (cyclesBehind * cycleLength);
+      }
+      
+      // Get position within current cycle
+      const dayInCycle = adjustedDays % cycleLength;
+      
+      // Check if this day is a working day for this shift
+      if (workDaysPattern.includes(dayInCycle)) {
+        return shiftName as 'A' | 'B' | 'C' | 'D';
+      }
+    }
     
-    // Toronto Fire follows a 24-day cycle: 6 days on, 3 days off for each shift
-    // The pattern is: A(6), B(6), C(6), D(6), then repeat
-    // But with overlapping schedules, it creates a 4-day rotation within the 24-day cycle
-    
-    // Simplified 4-day rotation that matches the website pattern
-    const cycleDay = ((daysSinceReference % 4) + 4) % 4;
-    
-    // Adjust the pattern to match cal.stoehr.ca/opscal/
-    // Based on analysis of the website, the pattern appears to be:
-    const shiftPattern: ('A' | 'B' | 'C' | 'D')[] = ['A', 'B', 'C', 'D'];
-    
-    return shiftPattern[cycleDay];
+    return null; // No shift working this day
   };
 
   useEffect(() => {
@@ -234,7 +251,7 @@ export default function ShiftCalendar() {
         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
           {calendarDays.map((day, index) => {
             const isCurrentMonthDay = isCurrentMonth(day.date);
-            const shiftColor = shiftColors[day.shift];
+            const shiftColor = day.shift ? shiftColors[day.shift] : colors.cardBackground;
             
             return (
               <View
@@ -266,15 +283,17 @@ export default function ShiftCalendar() {
                   >
                     {day.date.getDate()}
                   </Text>
-                  <Text
-                    style={{
-                      color: day.shift === 'D' ? colors.background : colors.text,
-                      fontSize: 10,
-                      fontWeight: '600'
-                    }}
-                  >
-                    {day.shift}
-                  </Text>
+                  {day.shift && (
+                    <Text
+                      style={{
+                        color: day.shift === 'D' ? colors.background : colors.text,
+                        fontSize: 10,
+                        fontWeight: '600'
+                      }}
+                    >
+                      {day.shift}
+                    </Text>
+                  )}
                 </View>
               </View>
             );
@@ -285,7 +304,7 @@ export default function ShiftCalendar() {
       {/* Today's Shift Info */}
       {(() => {
         const today = calendarDays.find(day => day.isToday);
-        if (today) {
+        if (today && today.shift) {
           return (
             <View style={[commonStyles.card, { marginTop: 16, backgroundColor: shiftColors[today.shift] + '20' }]}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -313,17 +332,72 @@ export default function ShiftCalendar() {
               </View>
             </View>
           );
+        } else if (today) {
+          return (
+            <View style={[commonStyles.card, { marginTop: 16, backgroundColor: colors.cardBackground + '80' }]}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <View
+                  style={{
+                    width: 24,
+                    height: 24,
+                    backgroundColor: colors.textSecondary,
+                    borderRadius: 12,
+                    marginRight: 12
+                  }}
+                />
+                <View>
+                  <Text style={[commonStyles.text, { fontWeight: '600' }]}>
+                    No Shift Today
+                  </Text>
+                  <Text style={commonStyles.textSecondary}>
+                    {today.date.toLocaleDateString('en-US', { 
+                      weekday: 'long', 
+                      month: 'long', 
+                      day: 'numeric' 
+                    })}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          );
         }
         return null;
       })()}
 
+      {/* Shift Pattern Info */}
+      <View style={[commonStyles.card, { marginTop: 16, backgroundColor: colors.cardBackground + '80' }]}>
+        <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
+          <Icon name="information-circle" size={20} style={{ color: colors.accent, marginRight: 8, marginTop: 2 }} />
+          <View style={{ flex: 1 }}>
+            <Text style={[commonStyles.text, { fontSize: 14, fontWeight: '600', marginBottom: 8 }]}>
+              Shift Rotation Pattern
+            </Text>
+            <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 4 }]}>
+              • A Shift starts: Tuesday July 1st
+            </Text>
+            <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 4 }]}>
+              • B Shift starts: Wednesday July 2nd
+            </Text>
+            <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 4 }]}>
+              • D Shift starts: Thursday July 3rd
+            </Text>
+            <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 8 }]}>
+              • C Shift starts: Friday July 4th
+            </Text>
+            <Text style={[commonStyles.textSecondary, { fontSize: 12 }]}>
+              Each shift follows the same rotation pattern with different start dates.
+            </Text>
+          </View>
+        </View>
+      </View>
+
       {/* Reference Note */}
       <View style={[commonStyles.card, { marginTop: 16, backgroundColor: colors.cardBackground + '80' }]}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Icon name="information-circle" size={20} style={{ color: colors.accent, marginRight: 8 }} />
+          <Icon name="link" size={20} style={{ color: colors.accent, marginRight: 8 }} />
           <View style={{ flex: 1 }}>
             <Text style={[commonStyles.textSecondary, { fontSize: 12 }]}>
-              Shift data based on cal.stoehr.ca/opscal/
+              Reference: cal.stoehr.ca/opscal/
             </Text>
             <Text style={[commonStyles.textSecondary, { fontSize: 12 }]}>
               Tap &quot;Full View&quot; for the complete online calendar
