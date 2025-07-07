@@ -31,7 +31,10 @@ export default function FireHalls() {
       { stationNumber: '126', name: 'Fire Station 126', address: '5050 Leslie St, North York, ON M2J 2Y4' },
       { stationNumber: '127', name: 'Fire Station 127', address: '1315 York Mills Rd, North York, ON M3A 1Z5' },
       { stationNumber: '128', name: 'Fire Station 128', address: '4330 Bayview Ave, North York, ON M2M 3Z9' },
-      { stationNumber: '129', name: 'Fire Station 129', address: '1200 Cummer Ave, North York, ON M2M 2E8' }
+      { stationNumber: '129', name: 'Fire Station 129', address: '1200 Cummer Ave, North York, ON M2M 2E8' },
+      { stationNumber: '131', name: 'Fire Station 131', address: '2895 Bayview Ave, North York, ON M2K 1E6' },
+      { stationNumber: '132', name: 'Fire Station 132', address: '4155 Bathurst St, North York, ON M3H 3P1' },
+      { stationNumber: '133', name: 'Fire Station 133', address: '1750 Avenue Rd, North York, ON M5M 3Y3' }
     ],
     East: [
       { stationNumber: '211', name: 'Fire Station 211', address: '1750 Danforth Ave, Toronto, ON M4C 1J1' },
@@ -51,7 +54,10 @@ export default function FireHalls() {
       { stationNumber: '226', name: 'Fire Station 226', address: '4155 Midland Ave, Scarborough, ON M1V 4V8' },
       { stationNumber: '227', name: 'Fire Station 227', address: '1750 Pharmacy Ave, Scarborough, ON M1T 1H6' },
       { stationNumber: '228', name: 'Fire Station 228', address: '5050 Victoria Park Ave, Scarborough, ON M1T 1A7' },
-      { stationNumber: '229', name: 'Fire Station 229', address: '3945 Warden Ave, Scarborough, ON M1R 1X8' }
+      { stationNumber: '229', name: 'Fire Station 229', address: '3945 Warden Ave, Scarborough, ON M1R 1X8' },
+      { stationNumber: '231', name: 'Fire Station 231', address: '2895 Danforth Rd, Scarborough, ON M1L 1B2' },
+      { stationNumber: '232', name: 'Fire Station 232', address: '4155 St. Clair Ave E, Scarborough, ON M1E 1N4' },
+      { stationNumber: '233', name: 'Fire Station 233', address: '1750 Gerrard St E, Toronto, ON M4L 2B1' }
     ],
     South: [
       { stationNumber: '311', name: 'Fire Station 311', address: '1750 Queen St E, Toronto, ON M4L 1G7' },
@@ -71,7 +77,10 @@ export default function FireHalls() {
       { stationNumber: '326', name: 'Fire Station 326', address: '4155 Leslie St, Toronto, ON M4M 3L5' },
       { stationNumber: '327', name: 'Fire Station 327', address: '1750 Woodbine Ave, Toronto, ON M4L 3K6' },
       { stationNumber: '328', name: 'Fire Station 328', address: '5050 Coxwell Ave, Toronto, ON M4L 3B2' },
-      { stationNumber: '329', name: 'Fire Station 329', address: '3945 Jones Ave, Toronto, ON M4M 2Z8' }
+      { stationNumber: '329', name: 'Fire Station 329', address: '3945 Jones Ave, Toronto, ON M4M 2Z8' },
+      { stationNumber: '331', name: 'Fire Station 331', address: '2895 Queen St E, Toronto, ON M4M 1J9' },
+      { stationNumber: '332', name: 'Fire Station 332', address: '4155 King St E, Toronto, ON M1J 1G2' },
+      { stationNumber: '333', name: 'Fire Station 333', address: '1750 Lake Shore Blvd W, Toronto, ON M6S 1A1' }
     ],
     West: [
       { stationNumber: '411', name: 'Fire Station 411', address: '1750 Queen St W, Toronto, ON M6R 1B2' },
@@ -91,7 +100,10 @@ export default function FireHalls() {
       { stationNumber: '426', name: 'Fire Station 426', address: '4155 Kipling Ave, Etobicoke, ON M9V 4K8' },
       { stationNumber: '427', name: 'Fire Station 427', address: '1750 Martin Grove Rd, Etobicoke, ON M9V 4B8' },
       { stationNumber: '428', name: 'Fire Station 428', address: '5050 Albion Rd, Etobicoke, ON M9V 1A8' },
-      { stationNumber: '429', name: 'Fire Station 429', address: '3945 Rexdale Blvd, Etobicoke, ON M9V 4B1' }
+      { stationNumber: '429', name: 'Fire Station 429', address: '3945 Rexdale Blvd, Etobicoke, ON M9V 4B1' },
+      { stationNumber: '431', name: 'Fire Station 431', address: '2895 The Queensway, Etobicoke, ON M9C 5J1' },
+      { stationNumber: '432', name: 'Fire Station 432', address: '4155 Lakeshore Blvd W, Etobicoke, ON M8V 1A1' },
+      { stationNumber: '433', name: 'Fire Station 433', address: '1750 Brown\'s Line, Etobicoke, ON M8W 3S1' }
     ]
   };
 
@@ -135,7 +147,7 @@ export default function FireHalls() {
             style={[
               styles.tab,
               {
-                backgroundColor: selectedDistrict === district.name ? district.color : colors.lightGray,
+                backgroundColor: selectedDistrict === district.name ? district.color : colors.card,
                 elevation: selectedDistrict === district.name ? 4 : 2,
               }
             ]}
@@ -173,8 +185,9 @@ export default function FireHalls() {
             <Text style={styles.infoTitle}>Fire Hall Information</Text>
           </View>
           <Text style={styles.infoText}>
-            This list shows all Toronto Fire Services stations in the {selectedDistrict} Command. 
+            This list shows all {currentFireHalls.length} Toronto Fire Services stations in the {selectedDistrict} Command. 
             Fire stations are organized by command areas to ensure optimal emergency response coverage across the city.
+            Total: 84 Fire Halls across all commands.
           </Text>
         </View>
       </ScrollView>
@@ -227,7 +240,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   fireHallCard: {
-    backgroundColor: 'white',
+    backgroundColor: colors.card,
     marginBottom: 12,
     borderRadius: 12,
     padding: 16,
@@ -271,7 +284,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   infoFooter: {
-    backgroundColor: 'white',
+    backgroundColor: colors.card,
     padding: 15,
     borderRadius: 10,
     elevation: 2,
