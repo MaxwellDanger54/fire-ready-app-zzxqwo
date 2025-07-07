@@ -1,7 +1,8 @@
-import { Text, View, TouchableOpacity, Linking, Alert } from 'react-native';
+import { Text, View, TouchableOpacity, Linking, Alert, Platform, ScrollView } from 'react-native';
 import { commonStyles, colors } from '../styles/commonStyles';
 import Icon from './Icon';
 import { getCurrentShift } from './ShiftCalendar';
+import { WebView } from 'react-native-webview';
 
 export default function HomeInfo() {
   const currentShift = getCurrentShift();
@@ -59,7 +60,7 @@ export default function HomeInfo() {
   const shiftInfo = getShiftDisplayInfo();
 
   return (
-    <View style={commonStyles.section}>
+    <ScrollView style={commonStyles.section}>
       <Text style={commonStyles.title}>Current Shift Status</Text>
       
       {/* Current Shift Display */}
@@ -128,62 +129,85 @@ export default function HomeInfo() {
         </View>
       </View>
 
-      {/* Important Link */}
+      {/* Exposure Report Form */}
       <View style={[commonStyles.card, { marginTop: 16 }]}>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
-          <Icon name="link" size={20} style={{ color: colors.accent, marginRight: 8 }} />
-          <Text style={[commonStyles.text, { fontWeight: '600' }]}>Important Form</Text>
+          <Icon name="document-text" size={20} style={{ color: colors.accent, marginRight: 8 }} />
+          <Text style={[commonStyles.text, { fontWeight: '600' }]}>Exposure Report Form</Text>
         </View>
         <TouchableOpacity
           style={[commonStyles.button, { backgroundColor: colors.accent, marginBottom: 0 }]}
-          onPress={() => handleLinkPress('https://www.emailmeform.com/builder/form/1u5eAoCLK46Wf37pcGca5F', 'Important Form')}
+          onPress={() => handleLinkPress('https://www.emailmeform.com/builder/form/1u5eAoCLK46Wf37pcGca5F', 'Exposure Report Form')}
         >
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
             <Icon name="document-text" size={20} style={{ color: colors.background, marginRight: 8 }} />
             <Text style={[commonStyles.buttonText, { color: colors.background }]}>
-              Access Form
+              Exposure Report
             </Text>
             <Icon name="open-outline" size={16} style={{ color: colors.background, marginLeft: 8 }} />
           </View>
         </TouchableOpacity>
         <Text style={[commonStyles.textSecondary, { fontSize: 12, textAlign: 'center', marginTop: 8 }]}>
-          Click to access the important firefighter form
+          Click to access the exposure report form
         </Text>
       </View>
 
-      {/* Shift Legend */}
+      {/* City Fuel Yards */}
       <View style={[commonStyles.card, { marginTop: 16 }]}>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
-          <Icon name="color-palette" size={20} style={{ color: colors.accent, marginRight: 8 }} />
-          <Text style={[commonStyles.text, { fontWeight: '600' }]}>Shift Colors</Text>
+          <Icon name="business" size={20} style={{ color: colors.accent, marginRight: 8 }} />
+          <Text style={[commonStyles.text, { fontWeight: '600' }]}>City Fuel Yards</Text>
         </View>
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 16 }}>
-          {Object.entries(shiftColors).map(([shift, color]) => (
-            <View key={shift} style={{ flexDirection: 'row', alignItems: 'center', minWidth: '45%' }}>
-              <View
-                style={{
-                  width: 20,
-                  height: 20,
-                  backgroundColor: color,
-                  borderRadius: 10,
-                  marginRight: 8,
+        
+        {Platform.OS === 'web' ? (
+          <View style={{ height: 400, borderRadius: 8, overflow: 'hidden' }}>
+            <iframe
+              src="https://www.arcgis.com/home/item.html?id=2c35427d59b74e5fa1d70efc2f39da32"
+              width="100%"
+              height="100%"
+              style={{ border: 'none' }}
+              title="City Fuel Yards"
+            />
+          </View>
+        ) : (
+          <View style={{ height: 400, borderRadius: 8, overflow: 'hidden' }}>
+            <WebView
+              source={{ uri: "https://www.arcgis.com/home/item.html?id=2c35427d59b74e5fa1d70efc2f39da32" }}
+              style={{ flex: 1 }}
+              startInLoadingState={true}
+              renderLoading={() => (
+                <View style={{ 
+                  flex: 1, 
+                  justifyContent: 'center', 
                   alignItems: 'center',
-                  justifyContent: 'center'
-                }}
-              >
-                <Text style={{ 
-                  color: shift === 'D' ? colors.background : colors.text, 
-                  fontSize: 12, 
-                  fontWeight: '600' 
+                  backgroundColor: colors.cardBackground 
                 }}>
-                  {shift}
-                </Text>
-              </View>
-              <Text style={commonStyles.textSecondary}>Shift {shift}</Text>
-            </View>
-          ))}
-        </View>
+                  <Icon name="refresh" size={24} style={{ color: colors.textSecondary }} />
+                  <Text style={[commonStyles.textSecondary, { marginTop: 8 }]}>
+                    Loading City Fuel Yards...
+                  </Text>
+                </View>
+              )}
+            />
+          </View>
+        )}
+        
+        <TouchableOpacity
+          style={[commonStyles.button, { backgroundColor: colors.secondary, marginTop: 12, marginBottom: 0 }]}
+          onPress={() => handleLinkPress('https://www.arcgis.com/home/item.html?id=2c35427d59b74e5fa1d70efc2f39da32', 'City Fuel Yards')}
+        >
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <Icon name="open-outline" size={16} style={{ color: colors.background, marginRight: 8 }} />
+            <Text style={[commonStyles.buttonText, { color: colors.background }]}>
+              Open in Browser
+            </Text>
+          </View>
+        </TouchableOpacity>
+        
+        <Text style={[commonStyles.textSecondary, { fontSize: 12, textAlign: 'center', marginTop: 8 }]}>
+          Interactive map of city fuel yard locations
+        </Text>
       </View>
-    </View>
+    </ScrollView>
   );
 }
