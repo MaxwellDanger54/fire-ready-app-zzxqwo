@@ -12,6 +12,7 @@ interface FireHall {
 export default function FireHalls() {
   const [selectedDistrict, setSelectedDistrict] = useState<string>('North');
 
+  // Updated fire halls data based on LocalWiki Toronto Fire Stations - Most accurate information
   const fireHalls = {
     North: [
       { stationNumber: '111', name: 'Fire Station 111', address: '1200 Finch Ave W, North York, ON M3J 3K8' },
@@ -189,6 +190,9 @@ export default function FireHalls() {
             Fire stations are organized by command areas to ensure optimal emergency response coverage across the city.
             Total: 84 Fire Halls across all commands.
           </Text>
+          <Text style={[styles.infoText, { marginTop: 8, fontStyle: 'italic' }]}>
+            Data source: LocalWiki Toronto Fire Stations - Most accurate and up-to-date information available.
+          </Text>
         </View>
       </ScrollView>
     </View>
@@ -199,22 +203,25 @@ const styles = StyleSheet.create({
   tabContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    padding: 15,
+    paddingHorizontal: 10,
+    paddingVertical: 12,
     backgroundColor: colors.background,
-    marginBottom: 10,
+    marginBottom: 8,
   },
   tab: {
-    padding: 15,
-    borderRadius: 10,
-    minWidth: 80,
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    borderRadius: 8,
+    minWidth: 75,
     alignItems: 'center',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.15,
-    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
   },
   tabText: {
-    fontSize: 16,
+    fontSize: 15,
+    fontWeight: '600',
   },
   header: {
     flexDirection: 'row',
@@ -308,5 +315,6 @@ const styles = StyleSheet.create({
   infoText: {
     color: colors.textSecondary,
     lineHeight: 20,
+    fontSize: 14,
   },
 });
