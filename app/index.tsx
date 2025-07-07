@@ -35,7 +35,7 @@ export default function FirefighterApp() {
       {/* Header */}
       <View style={commonStyles.header}>
         <Icon name="flame" size={32} style={{ color: colors.accent, marginBottom: 8 }} />
-        <Text style={commonStyles.headerTitle}>Firefighter Command</Text>
+        <Text style={commonStyles.headerTitle}>TFS Operations Dashboard</Text>
       </View>
 
       {/* Tab Navigation */}

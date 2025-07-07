@@ -152,60 +152,26 @@ export default function HomeInfo() {
         </Text>
       </View>
 
-      {/* City Fuel Yards */}
+      {/* Fire Hall Meals */}
       <View style={[commonStyles.card, { marginTop: 16 }]}>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
-          <Icon name="business" size={20} style={{ color: colors.accent, marginRight: 8 }} />
-          <Text style={[commonStyles.text, { fontWeight: '600' }]}>City Fuel Yards</Text>
+          <Icon name="restaurant" size={20} style={{ color: colors.accent, marginRight: 8 }} />
+          <Text style={[commonStyles.text, { fontWeight: '600' }]}>Fire Hall Meals</Text>
         </View>
-        
-        {Platform.OS === 'web' ? (
-          <View style={{ height: 400, borderRadius: 8, overflow: 'hidden' }}>
-            <iframe
-              src="https://www.arcgis.com/home/item.html?id=2c35427d59b74e5fa1d70efc2f39da32"
-              width="100%"
-              height="100%"
-              style={{ border: 'none' }}
-              title="City Fuel Yards"
-            />
-          </View>
-        ) : (
-          <View style={{ height: 400, borderRadius: 8, overflow: 'hidden' }}>
-            <WebView
-              source={{ uri: "https://www.arcgis.com/home/item.html?id=2c35427d59b74e5fa1d70efc2f39da32" }}
-              style={{ flex: 1 }}
-              startInLoadingState={true}
-              renderLoading={() => (
-                <View style={{ 
-                  flex: 1, 
-                  justifyContent: 'center', 
-                  alignItems: 'center',
-                  backgroundColor: colors.cardBackground 
-                }}>
-                  <Icon name="refresh" size={24} style={{ color: colors.textSecondary }} />
-                  <Text style={[commonStyles.textSecondary, { marginTop: 8 }]}>
-                    Loading City Fuel Yards...
-                  </Text>
-                </View>
-              )}
-            />
-          </View>
-        )}
-        
         <TouchableOpacity
-          style={[commonStyles.button, { backgroundColor: colors.secondary, marginTop: 12, marginBottom: 0 }]}
-          onPress={() => handleLinkPress('https://www.arcgis.com/home/item.html?id=2c35427d59b74e5fa1d70efc2f39da32', 'City Fuel Yards')}
+          style={[commonStyles.button, { backgroundColor: colors.secondary, marginBottom: 0 }]}
+          onPress={() => handleLinkPress('https://drive.google.com/drive/folders/14Q94zwAusBnpA2Wk7a0Ja_ZjwZNY08Cf?usp=sharing', 'Fire Hall Meals')}
         >
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-            <Icon name="open-outline" size={16} style={{ color: colors.background, marginRight: 8 }} />
+            <Icon name="restaurant" size={20} style={{ color: colors.background, marginRight: 8 }} />
             <Text style={[commonStyles.buttonText, { color: colors.background }]}>
-              Open in Browser
+              Access Meal Plans
             </Text>
+            <Icon name="open-outline" size={16} style={{ color: colors.background, marginLeft: 8 }} />
           </View>
         </TouchableOpacity>
-        
         <Text style={[commonStyles.textSecondary, { fontSize: 12, textAlign: 'center', marginTop: 8 }]}>
-          Interactive map of city fuel yard locations
+          Access fire hall meal planning resources
         </Text>
       </View>
     </ScrollView>
