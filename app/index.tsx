@@ -5,8 +5,9 @@ import Icon from '../components/Icon';
 import ImportantNumbers from '../components/ImportantNumbers';
 import ResourceLinks from '../components/ResourceLinks';
 import EmergencyInfo from '../components/EmergencyInfo';
+import ShiftCalendar from '../components/ShiftCalendar';
 
-type TabType = 'emergency' | 'numbers' | 'resources';
+type TabType = 'emergency' | 'numbers' | 'resources' | 'calendar';
 
 export default function FirefighterApp() {
   const [activeTab, setActiveTab] = useState<TabType>('emergency');
@@ -19,6 +20,8 @@ export default function FirefighterApp() {
         return <ImportantNumbers />;
       case 'resources':
         return <ResourceLinks />;
+      case 'calendar':
+        return <ShiftCalendar />;
       default:
         return <EmergencyInfo />;
     }
@@ -71,6 +74,26 @@ export default function FirefighterApp() {
             activeTab === 'numbers' && commonStyles.activeTabText
           ]}>
             Numbers
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[commonStyles.tab, activeTab === 'calendar' && commonStyles.activeTab]}
+          onPress={() => setActiveTab('calendar')}
+        >
+          <Icon 
+            name="calendar" 
+            size={20} 
+            style={{ 
+              color: activeTab === 'calendar' ? colors.text : colors.textSecondary,
+              marginBottom: 4 
+            }} 
+          />
+          <Text style={[
+            commonStyles.tabText,
+            activeTab === 'calendar' && commonStyles.activeTabText
+          ]}>
+            Calendar
           </Text>
         </TouchableOpacity>
 
