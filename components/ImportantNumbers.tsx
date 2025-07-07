@@ -41,26 +41,30 @@ export default function ImportantNumbers() {
     { name: 'EAP/CIS', number: '8-9327' },
   ];
 
-  const getIconForContact = (name: string): keyof typeof Icon.prototype = {
-    'COMMUNICATIONS': 'radio',
-    'F.R.E.D.': 'medical',
-    'MECHANICAL': 'construct',
-    'DESIGNATED OFFICER': 'person',
-    'BIO HAZARD': 'warning',
-    'QUARTERMASTER': 'shirt',
-    'PAYROLL': 'card',
-    'FOOD BANK': 'restaurant',
-    'IT HELP': 'laptop',
-    'QUATTRO HELP': 'help-circle',
-    'RMS HELP': 'desktop',
-    'SHOE TRUCK': 'car',
-    'RADIO': 'radio',
-    'TIRE REPAIRS': 'car-sport',
-    'SCBA ROOM': 'fitness',
-    'GARBAGE': 'trash',
-    'POISON CONTROL': 'medical',
-    'EAP/CIS': 'people',
-  }[name.split(' ')[0]] || 'call';
+  const getIconForContact = (name: string) => {
+    const iconMap: { [key: string]: string } = {
+      'COMMUNICATIONS': 'radio',
+      'F.R.E.D.': 'medical',
+      'MECHANICAL': 'construct',
+      'DESIGNATED OFFICER': 'person',
+      'BIO HAZARD': 'warning',
+      'QUARTERMASTER': 'shirt',
+      'PAYROLL': 'card',
+      'FOOD BANK': 'restaurant',
+      'IT HELP': 'laptop',
+      'QUATTRO HELP': 'help-circle',
+      'RMS HELP': 'desktop',
+      'SHOE TRUCK': 'car',
+      'RADIO': 'radio',
+      'TIRE REPAIRS': 'car-sport',
+      'SCBA ROOM': 'fitness',
+      'GARBAGE': 'trash',
+      'POISON CONTROL': 'medical',
+      'EAP/CIS': 'people',
+    };
+    
+    return iconMap[name.split(' ')[0]] || 'call';
+  };
 
   return (
     <View style={commonStyles.section}>
