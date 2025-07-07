@@ -1,63 +1,104 @@
-import { Text, View, Image, SafeAreaView } from 'react-native';
-import { router } from 'expo-router';
-import { useState, useEffect } from 'react';
-import Button from '../components/Button';
-import { commonStyles, buttonStyles } from '../styles/commonStyles';
+import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { useState } from 'react';
+import { commonStyles, colors } from '../styles/commonStyles';
+import Icon from '../components/Icon';
+import ImportantNumbers from '../components/ImportantNumbers';
+import ResourceLinks from '../components/ResourceLinks';
+import EmergencyInfo from '../components/EmergencyInfo';
 
-// Declare the window properties we're using
-declare global {
-  interface Window {
-    handleInstallClick: () => void;
-    canInstall: boolean;
-  }
-}
+type TabType = 'emergency' | 'numbers' | 'resources';
 
-export default function MainScreen() {
-  const [canInstall, setCanInstall] = useState(false);
+export default function FirefighterApp() {
+  const [activeTab, setActiveTab] = useState<TabType>('emergency');
 
-  useEffect(() => {
-    // Initial check
-    setCanInstall(false);
-
-    // Set up polling interval
-    const intervalId = setInterval(() => {
-      if(window.canInstall) {
-        setCanInstall(true);
-        clearInterval(intervalId);
-      }
-    }, 500);
-
-    // Cleanup
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case 'emergency':
+        return <EmergencyInfo />;
+      case 'numbers':
+        return <ImportantNumbers />;
+      case 'resources':
+        return <ResourceLinks />;
+      default:
+        return <EmergencyInfo />;
+    }
+  };
 
   return (
     <View style={commonStyles.container}>
-      <View style={commonStyles.content}>
-        <Image
-          source={require('../assets/images/final_quest_240x240.png')}
-          style={{ width: 180, height: 180 }}
-          resizeMode="contain"
-        />
-        <Text style={commonStyles.title}>This is a placeholder app.</Text>
-        <Text style={commonStyles.text}>Your app will be displayed here when it's ready.</Text>
-        <View style={commonStyles.buttonContainer}>
-          {canInstall && (
-            <Button
-              text="Install App"
-              onPress={() => {
-                if(window.handleInstallClick) {
-                  window.handleInstallClick();
-                  setCanInstall(false); // Update state after installation
-                }
-              }}
-              style={buttonStyles.instructionsButton}
-            />
-          )}
-        </View>
+      {/* Header */}
+      <View style={commonStyles.header}>
+        <Icon name="flame" size={32} style={{ color: colors.accent, marginBottom: 8 }} />
+        <Text style={commonStyles.headerTitle}>Firefighter Command</Text>
       </View>
+
+      {/* Tab Navigation */}
+      <View style={commonStyles.tabContainer}>
+        <TouchableOpacity
+          style={[commonStyles.tab, activeTab === 'emergency' && commonStyles.activeTab]}
+          onPress={() => setActiveTab('emergency')}
+        >
+          <Icon 
+            name="warning" 
+            size={20} 
+            style={{ 
+              color: activeTab === 'emergency' ? colors.text : colors.textSecondary,
+              marginBottom: 4 
+            }} 
+          />
+          <Text style={[
+            commonStyles.tabText,
+            activeTab === 'emergency' && commonStyles.activeTabText
+          ]}>
+            Emergency
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[commonStyles.tab, activeTab === 'numbers' && commonStyles.activeTab]}
+          onPress={() => setActiveTab('numbers')}
+        >
+          <Icon 
+            name="call" 
+            size={20} 
+            style={{ 
+              color: activeTab === 'numbers' ? colors.text : colors.textSecondary,
+              marginBottom: 4 
+            }} 
+          />
+          <Text style={[
+            commonStyles.tabText,
+            activeTab === 'numbers' && commonStyles.activeTabText
+          ]}>
+            Numbers
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[commonStyles.tab, activeTab === 'resources' && commonStyles.activeTab]}
+          onPress={() => setActiveTab('resources')}
+        >
+          <Icon 
+            name="library" 
+            size={20} 
+            style={{ 
+              color: activeTab === 'resources' ? colors.text : colors.textSecondary,
+              marginBottom: 4 
+            }} 
+          />
+          <Text style={[
+            commonStyles.tabText,
+            activeTab === 'resources' && commonStyles.activeTabText
+          ]}>
+            Resources
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Content */}
+      <ScrollView style={commonStyles.content} showsVerticalScrollIndicator={false}>
+        {renderTabContent()}
+      </ScrollView>
     </View>
   );
 }
