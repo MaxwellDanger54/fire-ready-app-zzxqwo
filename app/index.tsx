@@ -6,15 +6,16 @@ import ImportantNumbers from '../components/ImportantNumbers';
 import ResourceLinks from '../components/ResourceLinks';
 import EmergencyInfo from '../components/EmergencyInfo';
 import ShiftCalendar from '../components/ShiftCalendar';
+import FireHalls from '../components/FireHalls';
 
-type TabType = 'emergency' | 'numbers' | 'resources' | 'calendar';
+type TabType = 'home' | 'numbers' | 'resources' | 'calendar' | 'firehalls';
 
 export default function FirefighterApp() {
-  const [activeTab, setActiveTab] = useState<TabType>('emergency');
+  const [activeTab, setActiveTab] = useState<TabType>('home');
 
   const renderTabContent = () => {
     switch (activeTab) {
-      case 'emergency':
+      case 'home':
         return <EmergencyInfo />;
       case 'numbers':
         return <ImportantNumbers />;
@@ -22,6 +23,8 @@ export default function FirefighterApp() {
         return <ResourceLinks />;
       case 'calendar':
         return <ShiftCalendar />;
+      case 'firehalls':
+        return <FireHalls />;
       default:
         return <EmergencyInfo />;
     }
@@ -36,87 +39,114 @@ export default function FirefighterApp() {
       </View>
 
       {/* Tab Navigation */}
-      <View style={commonStyles.tabContainer}>
-        <TouchableOpacity
-          style={[commonStyles.tab, activeTab === 'emergency' && commonStyles.activeTab]}
-          onPress={() => setActiveTab('emergency')}
-        >
-          <Icon 
-            name="warning" 
-            size={20} 
-            style={{ 
-              color: activeTab === 'emergency' ? colors.text : colors.textSecondary,
-              marginBottom: 4 
-            }} 
-          />
-          <Text style={[
-            commonStyles.tabText,
-            activeTab === 'emergency' && commonStyles.activeTabText
-          ]}>
-            Emergency
-          </Text>
-        </TouchableOpacity>
+      <ScrollView 
+        horizontal 
+        showsHorizontalScrollIndicator={false}
+        style={{ maxHeight: 80 }}
+        contentContainerStyle={{ paddingHorizontal: 8 }}
+      >
+        <View style={[commonStyles.tabContainer, { flexDirection: 'row', width: 'auto', minWidth: '100%' }]}>
+          <TouchableOpacity
+            style={[commonStyles.tab, activeTab === 'home' && commonStyles.activeTab, { minWidth: 80 }]}
+            onPress={() => setActiveTab('home')}
+          >
+            <Icon 
+              name="home" 
+              size={20} 
+              style={{ 
+                color: activeTab === 'home' ? colors.text : colors.textSecondary,
+                marginBottom: 4 
+              }} 
+            />
+            <Text style={[
+              commonStyles.tabText,
+              activeTab === 'home' && commonStyles.activeTabText
+            ]}>
+              Home
+            </Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[commonStyles.tab, activeTab === 'numbers' && commonStyles.activeTab]}
-          onPress={() => setActiveTab('numbers')}
-        >
-          <Icon 
-            name="call" 
-            size={20} 
-            style={{ 
-              color: activeTab === 'numbers' ? colors.text : colors.textSecondary,
-              marginBottom: 4 
-            }} 
-          />
-          <Text style={[
-            commonStyles.tabText,
-            activeTab === 'numbers' && commonStyles.activeTabText
-          ]}>
-            Numbers
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={[commonStyles.tab, activeTab === 'numbers' && commonStyles.activeTab, { minWidth: 80 }]}
+            onPress={() => setActiveTab('numbers')}
+          >
+            <Icon 
+              name="call" 
+              size={20} 
+              style={{ 
+                color: activeTab === 'numbers' ? colors.text : colors.textSecondary,
+                marginBottom: 4 
+              }} 
+            />
+            <Text style={[
+              commonStyles.tabText,
+              activeTab === 'numbers' && commonStyles.activeTabText
+            ]}>
+              Numbers
+            </Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[commonStyles.tab, activeTab === 'calendar' && commonStyles.activeTab]}
-          onPress={() => setActiveTab('calendar')}
-        >
-          <Icon 
-            name="calendar" 
-            size={20} 
-            style={{ 
-              color: activeTab === 'calendar' ? colors.text : colors.textSecondary,
-              marginBottom: 4 
-            }} 
-          />
-          <Text style={[
-            commonStyles.tabText,
-            activeTab === 'calendar' && commonStyles.activeTabText
-          ]}>
-            Calendar
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={[commonStyles.tab, activeTab === 'calendar' && commonStyles.activeTab, { minWidth: 80 }]}
+            onPress={() => setActiveTab('calendar')}
+          >
+            <Icon 
+              name="calendar" 
+              size={20} 
+              style={{ 
+                color: activeTab === 'calendar' ? colors.text : colors.textSecondary,
+                marginBottom: 4 
+              }} 
+            />
+            <Text style={[
+              commonStyles.tabText,
+              activeTab === 'calendar' && commonStyles.activeTabText
+            ]}>
+              Calendar
+            </Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[commonStyles.tab, activeTab === 'resources' && commonStyles.activeTab]}
-          onPress={() => setActiveTab('resources')}
-        >
-          <Icon 
-            name="library" 
-            size={20} 
-            style={{ 
-              color: activeTab === 'resources' ? colors.text : colors.textSecondary,
-              marginBottom: 4 
-            }} 
-          />
-          <Text style={[
-            commonStyles.tabText,
-            activeTab === 'resources' && commonStyles.activeTabText
-          ]}>
-            Resources
-          </Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity
+            style={[commonStyles.tab, activeTab === 'firehalls' && commonStyles.activeTab, { minWidth: 80 }]}
+            onPress={() => setActiveTab('firehalls')}
+          >
+            <Icon 
+              name="business" 
+              size={20} 
+              style={{ 
+                color: activeTab === 'firehalls' ? colors.text : colors.textSecondary,
+                marginBottom: 4 
+              }} 
+            />
+            <Text style={[
+              commonStyles.tabText,
+              activeTab === 'firehalls' && commonStyles.activeTabText
+            ]}>
+              Fire Halls
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[commonStyles.tab, activeTab === 'resources' && commonStyles.activeTab, { minWidth: 80 }]}
+            onPress={() => setActiveTab('resources')}
+          >
+            <Icon 
+              name="library" 
+              size={20} 
+              style={{ 
+                color: activeTab === 'resources' ? colors.text : colors.textSecondary,
+                marginBottom: 4 
+              }} 
+            />
+            <Text style={[
+              commonStyles.tabText,
+              activeTab === 'resources' && commonStyles.activeTabText
+            ]}>
+              Resources
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
 
       {/* Content */}
       <ScrollView style={commonStyles.content} showsVerticalScrollIndicator={false}>

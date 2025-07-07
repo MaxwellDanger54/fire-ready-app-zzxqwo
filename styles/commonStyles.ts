@@ -146,4 +146,103 @@ export const commonStyles = StyleSheet.create({
   activeTabText: {
     color: colors.text,
   },
+  sectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+    paddingHorizontal: 16,
+    paddingTop: 16,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: colors.text,
+    fontFamily: 'Roboto_700Bold',
+  },
+  filterButton: {
+    backgroundColor: colors.backgroundAlt,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    marginRight: 8,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  activeFilterButton: {
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
+  },
+  filterButtonText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: colors.textSecondary,
+    fontFamily: 'Roboto_600SemiBold',
+  },
+  activeFilterButtonText: {
+    color: colors.text,
+  },
+  cardHeader: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    marginBottom: 12,
+  },
+  cardTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: colors.text,
+    fontFamily: 'Roboto_700Bold',
+    marginBottom: 4,
+  },
+  cardSubtitle: {
+    fontSize: 14,
+    fontWeight: '400',
+    color: colors.textSecondary,
+    fontFamily: 'Roboto_400Regular',
+  },
+  cardContent: {
+    marginBottom: 16,
+  },
+  infoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  infoText: {
+    fontSize: 14,
+    fontWeight: '400',
+    color: colors.text,
+    fontFamily: 'Roboto_400Regular',
+    flex: 1,
+  },
+  cardActions: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    gap: 8,
+  },
+  actionButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 6,
+  },
+  actionButtonText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: 'white',
+    fontFamily: 'Roboto_600SemiBold',
+  },
+  districtBadge: {
+    backgroundColor: colors.accent,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+  districtBadgeText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: colors.background,
+    fontFamily: 'Roboto_600SemiBold',
+  },
 });
