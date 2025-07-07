@@ -4,7 +4,7 @@ import { commonStyles, colors } from '../styles/commonStyles';
 import Icon from '../components/Icon';
 import ImportantNumbers from '../components/ImportantNumbers';
 import ResourceLinks from '../components/ResourceLinks';
-import EmergencyInfo from '../components/EmergencyInfo';
+import HomeInfo from '../components/HomeInfo';
 import ShiftCalendar from '../components/ShiftCalendar';
 import FireHalls from '../components/FireHalls';
 
@@ -16,7 +16,7 @@ export default function FirefighterApp() {
   const renderTabContent = () => {
     switch (activeTab) {
       case 'home':
-        return <EmergencyInfo />;
+        return <HomeInfo />;
       case 'numbers':
         return <ImportantNumbers />;
       case 'resources':
@@ -26,7 +26,7 @@ export default function FirefighterApp() {
       case 'firehalls':
         return <FireHalls />;
       default:
-        return <EmergencyInfo />;
+        return <HomeInfo />;
     }
   };
 

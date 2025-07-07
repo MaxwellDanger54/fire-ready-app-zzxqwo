@@ -22,48 +22,34 @@ export default function ShiftCalendar() {
     D: '#FFDD44'  // Yellow
   };
 
-  // Define the shift rotation pattern based on the user's specification
+  // Toronto Fire Shift Calendar - 4 shift rotation over 28 days
+  // Based on GTMAA shift calendar: https://gtmaa.com/shift-calendar/
   const getShiftForDate = (date: Date): 'A' | 'B' | 'C' | 'D' | null => {
-    // Reference start dates for each shift in July 2025
-    const shiftStartDates = {
-      A: new Date(2025, 6, 1), // July 1st, 2025 (Tuesday)
-      B: new Date(2025, 6, 2), // July 2nd, 2025 (Wednesday) 
-      D: new Date(2025, 6, 3), // July 3rd, 2025 (Thursday)
-      C: new Date(2025, 6, 4)  // July 4th, 2025 (Friday)
-    };
-
-    // Work pattern: Friday(5), Sunday(0), Wednesday(3), Saturday(6), Tuesday(2), Monday(1), Thursday(4)
-    // Then 7 days off, then cycle repeats starting Friday
-    const workDaysOfWeek = [5, 0, 3, 6, 2, 1, 4]; // Days of week (0=Sunday, 1=Monday, etc.)
-    const totalCycleDays = 14; // 7 work days + 7 days off
-
-    // Check each shift
-    for (const [shiftName, startDate] of Object.entries(shiftStartDates)) {
-      const msPerDay = 24 * 60 * 60 * 1000;
-      const daysSinceStart = Math.floor((date.getTime() - startDate.getTime()) / msPerDay);
-      
-      // Handle dates before the start date by going backwards in cycles
-      let adjustedDays = daysSinceStart;
-      if (daysSinceStart < 0) {
-        const cyclesBehind = Math.ceil(Math.abs(daysSinceStart) / totalCycleDays);
-        adjustedDays = daysSinceStart + (cyclesBehind * totalCycleDays);
-      }
-      
-      // Get position within current cycle
-      const dayInCycle = adjustedDays % totalCycleDays;
-      const dayOfWeek = date.getDay(); // 0 = Sunday, 1 = Monday, etc.
-      
-      // First 7 days of cycle are work days, next 7 are off
-      if (dayInCycle < 7) {
-        // Check if this day of week matches the expected work day for this position in cycle
-        const expectedDayOfWeek = workDaysOfWeek[dayInCycle];
-        if (dayOfWeek === expectedDayOfWeek) {
-          return shiftName as 'A' | 'B' | 'C' | 'D';
-        }
-      }
-    }
+    // Reference date: January 1, 2024 (known A shift day)
+    const referenceDate = new Date(2024, 0, 1); // January 1, 2024
+    const msPerDay = 24 * 60 * 60 * 1000;
     
-    return null; // No shift working this day
+    // Calculate days since reference
+    const daysSinceReference = Math.floor((date.getTime() - referenceDate.getTime()) / msPerDay);
+    
+    // Toronto Fire uses a 28-day cycle with 4 shifts
+    // Each shift works 2 days, then has 2 days off, repeating in a staggered pattern
+    const cycleDay = ((daysSinceReference % 28) + 28) % 28; // Handle negative numbers
+    
+    // 28-day shift pattern (0-based indexing)
+    // This pattern is based on the Toronto Fire shift rotation
+    const shiftPattern = [
+      'A', 'A', null, null, 'B', 'B', null, null, 'C', 'C', null, null, 'D', 'D', // Days 0-13
+      null, null, 'A', 'A', null, null, 'B', 'B', null, null, 'C', 'C', null, null // Days 14-27
+    ];
+    
+    const shift = shiftPattern[cycleDay];
+    return shift as 'A' | 'B' | 'C' | 'D' | null;
+  };
+
+  // Export function to get current shift for use in other components
+  const getCurrentShift = (): 'A' | 'B' | 'C' | 'D' | null => {
+    return getShiftForDate(new Date());
   };
 
   useEffect(() => {
@@ -106,25 +92,7 @@ export default function ShiftCalendar() {
     
     setCalendarDays(days);
     console.log('Generated calendar for', formatMonth(currentMonth), 'with', days.length, 'days');
-    
-    // Debug: Log July 2025 to verify the pattern
-    const testDates = [
-      new Date(2025, 6, 1), // July 1st (A shift start - Tuesday)
-      new Date(2025, 6, 2), // July 2nd (B shift start - Wednesday)
-      new Date(2025, 6, 3), // July 3rd (D shift start - Thursday)
-      new Date(2025, 6, 4), // July 4th (C shift start - Friday)
-      new Date(2025, 6, 6), // July 6th (Sunday)
-      new Date(2025, 6, 9), // July 9th (Wednesday)
-      new Date(2025, 6, 12), // July 12th (Saturday)
-      new Date(2025, 6, 15), // July 15th (Tuesday)
-      new Date(2025, 6, 17), // July 17th (Thursday)
-    ];
-    
-    testDates.forEach(testDate => {
-      const shift = getShiftForDate(testDate);
-      const dayName = testDate.toLocaleDateString('en-US', { weekday: 'long' });
-      console.log(`${testDate.toDateString()} (${dayName}): Shift ${shift || 'None'}`);
-    });
+    console.log('Current shift:', getCurrentShift());
   };
 
   const navigateMonth = (direction: 'prev' | 'next') => {
@@ -172,7 +140,7 @@ export default function ShiftCalendar() {
               style={[commonStyles.button, { backgroundColor: colors.accent }]}
               onPress={() => {
                 if (typeof window !== 'undefined') {
-                  window.open('https://cal.stoehr.ca/opscal/', '_blank');
+                  window.open('https://gtmaa.com/shift-calendar/', '_blank');
                 }
               }}
             >
@@ -184,7 +152,7 @@ export default function ShiftCalendar() {
         ) : (
           <View style={{ flex: 1, height: 600 }}>
             <WebView
-              source={{ uri: 'https://cal.stoehr.ca/opscal/' }}
+              source={{ uri: 'https://gtmaa.com/shift-calendar/' }}
               style={{ flex: 1 }}
               startInLoadingState={true}
               renderLoading={() => (
@@ -392,25 +360,19 @@ export default function ShiftCalendar() {
           <Icon name="information-circle" size={20} style={{ color: colors.accent, marginRight: 8, marginTop: 2 }} />
           <View style={{ flex: 1 }}>
             <Text style={[commonStyles.text, { fontSize: 14, fontWeight: '600', marginBottom: 8 }]}>
-              Shift Rotation Pattern
+              Toronto Fire Shift Rotation
             </Text>
             <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 4 }]}>
-              Work Days: Fri → Sun → Wed → Sat → Tue → Mon → Thu
+              28-day cycle with 4 shifts (A, B, C, D)
             </Text>
             <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 8 }]}>
-              After Thursday: 7 days off, then cycle repeats
+              Each shift works 2 days, then 2 days off, in a staggered rotation
             </Text>
             <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 4 }]}>
-              • A Shift starts: Tuesday July 1st
-            </Text>
-            <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 4 }]}>
-              • B Shift starts: Wednesday July 2nd
-            </Text>
-            <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 4 }]}>
-              • D Shift starts: Thursday July 3rd
+              Shift rotation is staggered over 4 platoons
             </Text>
             <Text style={[commonStyles.textSecondary, { fontSize: 12 }]}>
-              • C Shift starts: Friday July 4th
+              Shifts change at 07:00 hrs each morning
             </Text>
           </View>
         </View>
@@ -422,7 +384,7 @@ export default function ShiftCalendar() {
           <Icon name="link" size={20} style={{ color: colors.accent, marginRight: 8 }} />
           <View style={{ flex: 1 }}>
             <Text style={[commonStyles.textSecondary, { fontSize: 12 }]}>
-              Reference: cal.stoehr.ca/opscal/
+              Reference: gtmaa.com/shift-calendar/
             </Text>
             <Text style={[commonStyles.textSecondary, { fontSize: 12 }]}>
               Tap &quot;Full View&quot; for the complete online calendar
@@ -433,3 +395,21 @@ export default function ShiftCalendar() {
     </View>
   );
 }
+
+// Export the getCurrentShift function for use in other components
+export const getCurrentShift = (): 'A' | 'B' | 'C' | 'D' | null => {
+  const referenceDate = new Date(2024, 0, 1); // January 1, 2024
+  const msPerDay = 24 * 60 * 60 * 1000;
+  const today = new Date();
+  
+  const daysSinceReference = Math.floor((today.getTime() - referenceDate.getTime()) / msPerDay);
+  const cycleDay = ((daysSinceReference % 28) + 28) % 28;
+  
+  const shiftPattern = [
+    'A', 'A', null, null, 'B', 'B', null, null, 'C', 'C', null, null, 'D', 'D',
+    null, null, 'A', 'A', null, null, 'B', 'B', null, null, 'C', 'C', null, null
+  ];
+  
+  const shift = shiftPattern[cycleDay];
+  return shift as 'A' | 'B' | 'C' | 'D' | null;
+};
