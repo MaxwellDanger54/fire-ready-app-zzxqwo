@@ -397,45 +397,6 @@ export default function ShiftCalendar() {
         }
         return null;
       })()}
-
-      {/* Schedule Info */}
-      <View style={[commonStyles.card, { marginTop: 16, backgroundColor: colors.cardBackground + '80' }]}>
-        <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
-          <Icon name="information-circle" size={20} style={{ color: colors.accent, marginRight: 8, marginTop: 2 }} />
-          <View style={{ flex: 1 }}>
-            <Text style={[commonStyles.text, { fontSize: 14, fontWeight: '600', marginBottom: 8 }]}>
-              Shift Schedule Information
-            </Text>
-            <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 4 }]}>
-              • All shifts are 24 hours long
-            </Text>
-            <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 4 }]}>
-              • Schedule follows a 28-day repeating cycle
-            </Text>
-            <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 4 }]}>
-              • Cycle starts from July 1st, 2025
-            </Text>
-            <Text style={[commonStyles.textSecondary, { fontSize: 12 }]}>
-              • All four shifts (A, B, C, D) are displayed
-            </Text>
-          </View>
-        </View>
-      </View>
-
-      {/* Reference Note */}
-      <View style={[commonStyles.card, { marginTop: 16, backgroundColor: colors.cardBackground + '80' }]}>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Icon name="link" size={20} style={{ color: colors.accent, marginRight: 8 }} />
-          <View style={{ flex: 1 }}>
-            <Text style={[commonStyles.textSecondary, { fontSize: 12 }]}>
-              Custom shift calendar based on 28-day cycle
-            </Text>
-            <Text style={[commonStyles.textSecondary, { fontSize: 12 }]}>
-              Tap &quot;Full View&quot; for the complete online calendar
-            </Text>
-          </View>
-        </View>
-      </View>
     </View>
   );
 }
