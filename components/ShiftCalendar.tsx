@@ -22,9 +22,9 @@ export default function ShiftCalendar() {
     D: '#FFDD44'  // Yellow
   };
 
-  // Define the specific shift cycle based on the provided schedule
+  // Define the shift rotation pattern based on the user's specification
   const getShiftForDate = (date: Date): 'A' | 'B' | 'C' | 'D' | null => {
-    // Reference dates for each shift in July 2025
+    // Reference start dates for each shift in July 2025
     const shiftStartDates = {
       A: new Date(2025, 6, 1), // July 1st, 2025 (Tuesday)
       B: new Date(2025, 6, 2), // July 2nd, 2025 (Wednesday) 
@@ -32,12 +32,10 @@ export default function ShiftCalendar() {
       C: new Date(2025, 6, 4)  // July 4th, 2025 (Friday)
     };
 
-    // Define the work pattern for A shift (others follow same pattern offset by their start date)
-    // Working days relative to start date: 0, 6, 9, 17, 19, 22, 25, 28
-    const workDaysPattern = [0, 6, 9, 17, 19, 22, 25, 28];
-    
-    // Calculate cycle length - pattern repeats every 30 days approximately
-    const cycleLength = 30;
+    // Work pattern: Friday(5), Sunday(0), Wednesday(3), Saturday(6), Tuesday(2), Monday(1), Thursday(4)
+    // Then 7 days off, then cycle repeats starting Friday
+    const workDaysOfWeek = [5, 0, 3, 6, 2, 1, 4]; // Days of week (0=Sunday, 1=Monday, etc.)
+    const totalCycleDays = 14; // 7 work days + 7 days off
 
     // Check each shift
     for (const [shiftName, startDate] of Object.entries(shiftStartDates)) {
@@ -47,16 +45,21 @@ export default function ShiftCalendar() {
       // Handle dates before the start date by going backwards in cycles
       let adjustedDays = daysSinceStart;
       if (daysSinceStart < 0) {
-        const cyclesBehind = Math.ceil(Math.abs(daysSinceStart) / cycleLength);
-        adjustedDays = daysSinceStart + (cyclesBehind * cycleLength);
+        const cyclesBehind = Math.ceil(Math.abs(daysSinceStart) / totalCycleDays);
+        adjustedDays = daysSinceStart + (cyclesBehind * totalCycleDays);
       }
       
       // Get position within current cycle
-      const dayInCycle = adjustedDays % cycleLength;
+      const dayInCycle = adjustedDays % totalCycleDays;
+      const dayOfWeek = date.getDay(); // 0 = Sunday, 1 = Monday, etc.
       
-      // Check if this day is a working day for this shift
-      if (workDaysPattern.includes(dayInCycle)) {
-        return shiftName as 'A' | 'B' | 'C' | 'D';
+      // First 7 days of cycle are work days, next 7 are off
+      if (dayInCycle < 7) {
+        // Check if this day of week matches the expected work day for this position in cycle
+        const expectedDayOfWeek = workDaysOfWeek[dayInCycle];
+        if (dayOfWeek === expectedDayOfWeek) {
+          return shiftName as 'A' | 'B' | 'C' | 'D';
+        }
       }
     }
     
@@ -103,6 +106,25 @@ export default function ShiftCalendar() {
     
     setCalendarDays(days);
     console.log('Generated calendar for', formatMonth(currentMonth), 'with', days.length, 'days');
+    
+    // Debug: Log July 2025 to verify the pattern
+    const testDates = [
+      new Date(2025, 6, 1), // July 1st (A shift start - Tuesday)
+      new Date(2025, 6, 2), // July 2nd (B shift start - Wednesday)
+      new Date(2025, 6, 3), // July 3rd (D shift start - Thursday)
+      new Date(2025, 6, 4), // July 4th (C shift start - Friday)
+      new Date(2025, 6, 6), // July 6th (Sunday)
+      new Date(2025, 6, 9), // July 9th (Wednesday)
+      new Date(2025, 6, 12), // July 12th (Saturday)
+      new Date(2025, 6, 15), // July 15th (Tuesday)
+      new Date(2025, 6, 17), // July 17th (Thursday)
+    ];
+    
+    testDates.forEach(testDate => {
+      const shift = getShiftForDate(testDate);
+      const dayName = testDate.toLocaleDateString('en-US', { weekday: 'long' });
+      console.log(`${testDate.toDateString()} (${dayName}): Shift ${shift || 'None'}`);
+    });
   };
 
   const navigateMonth = (direction: 'prev' | 'next') => {
@@ -373,6 +395,12 @@ export default function ShiftCalendar() {
               Shift Rotation Pattern
             </Text>
             <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 4 }]}>
+              Work Days: Fri → Sun → Wed → Sat → Tue → Mon → Thu
+            </Text>
+            <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 8 }]}>
+              After Thursday: 7 days off, then cycle repeats
+            </Text>
+            <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 4 }]}>
               • A Shift starts: Tuesday July 1st
             </Text>
             <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 4 }]}>
@@ -381,11 +409,8 @@ export default function ShiftCalendar() {
             <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 4 }]}>
               • D Shift starts: Thursday July 3rd
             </Text>
-            <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 8 }]}>
-              • C Shift starts: Friday July 4th
-            </Text>
             <Text style={[commonStyles.textSecondary, { fontSize: 12 }]}>
-              Each shift follows the same rotation pattern with different start dates.
+              • C Shift starts: Friday July 4th
             </Text>
           </View>
         </View>
