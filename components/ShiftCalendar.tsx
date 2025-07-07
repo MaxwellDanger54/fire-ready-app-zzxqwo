@@ -22,29 +22,19 @@ export default function ShiftCalendar() {
     D: '#FFDD44'  // Yellow
   };
 
-  // Toronto Fire Shift Calendar - 4 shift rotation over 28 days
-  // Based on GTMAA shift calendar: https://gtmaa.com/shift-calendar/
+  // A shift working days pattern: Tuesday, Monday, Thursday, Friday, Sunday, Wednesday, Saturday
+  // Day of week mapping: Sunday=0, Monday=1, Tuesday=2, Wednesday=3, Thursday=4, Friday=5, Saturday=6
+  const aShiftDaysOfWeek = [2, 1, 4, 5, 0, 3, 6]; // Tuesday, Monday, Thursday, Friday, Sunday, Wednesday, Saturday
+
   const getShiftForDate = (date: Date): 'A' | 'B' | 'C' | 'D' | null => {
-    // Reference date: January 1, 2024 (known A shift day)
-    const referenceDate = new Date(2024, 0, 1); // January 1, 2024
-    const msPerDay = 24 * 60 * 60 * 1000;
+    const dayOfWeek = date.getDay(); // 0 (Sunday) to 6 (Saturday)
     
-    // Calculate days since reference
-    const daysSinceReference = Math.floor((date.getTime() - referenceDate.getTime()) / msPerDay);
+    // Check if this day of the week is an A shift day
+    if (aShiftDaysOfWeek.includes(dayOfWeek)) {
+      return 'A';
+    }
     
-    // Toronto Fire uses a 28-day cycle with 4 shifts
-    // Each shift works 2 days, then has 2 days off, repeating in a staggered pattern
-    const cycleDay = ((daysSinceReference % 28) + 28) % 28; // Handle negative numbers
-    
-    // 28-day shift pattern (0-based indexing)
-    // This pattern is based on the Toronto Fire shift rotation
-    const shiftPattern = [
-      'A', 'A', null, null, 'B', 'B', null, null, 'C', 'C', null, null, 'D', 'D', // Days 0-13
-      null, null, 'A', 'A', null, null, 'B', 'B', null, null, 'C', 'C', null, null // Days 14-27
-    ];
-    
-    const shift = shiftPattern[cycleDay];
-    return shift as 'A' | 'B' | 'C' | 'D' | null;
+    return null;
   };
 
   // Export function to get current shift for use in other components
@@ -206,22 +196,21 @@ export default function ShiftCalendar() {
       {/* Shift Legend */}
       <View style={[commonStyles.card, { marginBottom: 16 }]}>
         <Text style={[commonStyles.text, { fontWeight: '600', marginBottom: 12 }]}>Shift Legend</Text>
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>
-          {Object.entries(shiftColors).map(([shift, color]) => (
-            <View key={shift} style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <View
-                style={{
-                  width: 16,
-                  height: 16,
-                  backgroundColor: color,
-                  borderRadius: 8,
-                  marginRight: 6
-                }}
-              />
-              <Text style={commonStyles.textSecondary}>Shift {shift}</Text>
-            </View>
-          ))}
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View
+            style={{
+              width: 16,
+              height: 16,
+              backgroundColor: shiftColors.A,
+              borderRadius: 8,
+              marginRight: 6
+            }}
+          />
+          <Text style={commonStyles.textSecondary}>Shift A (Red)</Text>
         </View>
+        <Text style={[commonStyles.textSecondary, { fontSize: 12, marginTop: 8 }]}>
+          Only A shift is displayed. Other shifts (B, C, D) are not shown.
+        </Text>
       </View>
 
       {/* Calendar Grid */}
@@ -266,7 +255,7 @@ export default function ShiftCalendar() {
                 >
                   <Text
                     style={{
-                      color: day.shift === 'D' ? colors.background : colors.text,
+                      color: colors.text,
                       fontSize: 12,
                       fontWeight: day.isToday ? '700' : '500'
                     }}
@@ -276,7 +265,7 @@ export default function ShiftCalendar() {
                   {day.shift && (
                     <Text
                       style={{
-                        color: day.shift === 'D' ? colors.background : colors.text,
+                        color: colors.text,
                         fontSize: 10,
                         fontWeight: '600'
                       }}
@@ -354,25 +343,25 @@ export default function ShiftCalendar() {
         return null;
       })()}
 
-      {/* Shift Pattern Info */}
+      {/* A Shift Pattern Info */}
       <View style={[commonStyles.card, { marginTop: 16, backgroundColor: colors.cardBackground + '80' }]}>
         <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
           <Icon name="information-circle" size={20} style={{ color: colors.accent, marginRight: 8, marginTop: 2 }} />
           <View style={{ flex: 1 }}>
             <Text style={[commonStyles.text, { fontSize: 14, fontWeight: '600', marginBottom: 8 }]}>
-              Toronto Fire Shift Rotation
+              A Shift Schedule Pattern
             </Text>
             <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 4 }]}>
-              28-day cycle with 4 shifts (A, B, C, D)
+              A shift works on the following days of the week:
             </Text>
             <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 8 }]}>
-              Each shift works 2 days, then 2 days off, in a staggered rotation
+              Tuesday → Monday → Thursday → Friday → Sunday → Wednesday → Saturday
             </Text>
             <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 4 }]}>
-              Shift rotation is staggered over 4 platoons
+              This pattern repeats every week.
             </Text>
             <Text style={[commonStyles.textSecondary, { fontSize: 12 }]}>
-              Shifts change at 07:00 hrs each morning
+              Only A shift is displayed in red. Other shifts are not shown.
             </Text>
           </View>
         </View>
@@ -384,7 +373,7 @@ export default function ShiftCalendar() {
           <Icon name="link" size={20} style={{ color: colors.accent, marginRight: 8 }} />
           <View style={{ flex: 1 }}>
             <Text style={[commonStyles.textSecondary, { fontSize: 12 }]}>
-              Reference: gtmaa.com/shift-calendar/
+              Simplified A shift calendar based on custom schedule
             </Text>
             <Text style={[commonStyles.textSecondary, { fontSize: 12 }]}>
               Tap &quot;Full View&quot; for the complete online calendar
@@ -398,18 +387,16 @@ export default function ShiftCalendar() {
 
 // Export the getCurrentShift function for use in other components
 export const getCurrentShift = (): 'A' | 'B' | 'C' | 'D' | null => {
-  const referenceDate = new Date(2024, 0, 1); // January 1, 2024
-  const msPerDay = 24 * 60 * 60 * 1000;
   const today = new Date();
+  const dayOfWeek = today.getDay(); // 0 (Sunday) to 6 (Saturday)
   
-  const daysSinceReference = Math.floor((today.getTime() - referenceDate.getTime()) / msPerDay);
-  const cycleDay = ((daysSinceReference % 28) + 28) % 28;
+  // A shift working days pattern: Tuesday, Monday, Thursday, Friday, Sunday, Wednesday, Saturday
+  const aShiftDaysOfWeek = [2, 1, 4, 5, 0, 3, 6]; // Tuesday, Monday, Thursday, Friday, Sunday, Wednesday, Saturday
   
-  const shiftPattern = [
-    'A', 'A', null, null, 'B', 'B', null, null, 'C', 'C', null, null, 'D', 'D',
-    null, null, 'A', 'A', null, null, 'B', 'B', null, null, 'C', 'C', null, null
-  ];
+  // Check if this day of the week is an A shift day
+  if (aShiftDaysOfWeek.includes(dayOfWeek)) {
+    return 'A';
+  }
   
-  const shift = shiftPattern[cycleDay];
-  return shift as 'A' | 'B' | 'C' | 'D' | null;
+  return null;
 };
