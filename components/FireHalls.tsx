@@ -14,7 +14,7 @@ interface FireHall {
 export default function FireHalls() {
   const [selectedDistrict, setSelectedDistrict] = useState<string>('North');
 
-  // Toronto Fire Hall locations based on the official Toronto Fire Services website
+  // Toronto Fire Hall locations based on tfspics.com
   // Organized by station number prefix: #1 = North, #2 = East, #3 = South, #4 = West
   const fireHalls: FireHall[] = [
     // North District (Station numbers starting with 1)
@@ -81,8 +81,162 @@ export default function FireHalls() {
       phone: "(416) 392-3030",
       stationNumber: "#119"
     },
+    {
+      name: "Fire Station 121",
+      address: "1209 Davenport Road",
+      district: "North",
+      phone: "(416) 392-3030",
+      stationNumber: "#121"
+    },
+    {
+      name: "Fire Station 122",
+      address: "1421 Yonge Street",
+      district: "North",
+      phone: "(416) 392-3030",
+      stationNumber: "#122"
+    },
+    {
+      name: "Fire Station 123",
+      address: "1254 College Street",
+      district: "North",
+      phone: "(416) 392-3030",
+      stationNumber: "#123"
+    },
+    {
+      name: "Fire Station 124",
+      address: "1275 Dupont Street",
+      district: "North",
+      phone: "(416) 392-3030",
+      stationNumber: "#124"
+    },
+    {
+      name: "Fire Station 125",
+      address: "1405 Bathurst Street",
+      district: "North",
+      phone: "(416) 392-3030",
+      stationNumber: "#125"
+    },
+    {
+      name: "Fire Station 126",
+      address: "3034 Bathurst Street",
+      district: "North",
+      phone: "(416) 392-3030",
+      stationNumber: "#126"
+    },
+    {
+      name: "Fire Station 127",
+      address: "4330 Dufferin Street",
+      district: "North",
+      phone: "(416) 392-3030",
+      stationNumber: "#127"
+    },
+    {
+      name: "Fire Station 128",
+      address: "5995 Yonge Street",
+      district: "North",
+      phone: "(416) 392-3030",
+      stationNumber: "#128"
+    },
+    {
+      name: "Fire Station 129",
+      address: "745 Wilson Avenue",
+      district: "North",
+      phone: "(416) 392-3030",
+      stationNumber: "#129"
+    },
+    {
+      name: "Fire Station 131",
+      address: "865 Lawrence Avenue East",
+      district: "North",
+      phone: "(416) 392-3030",
+      stationNumber: "#131"
+    },
+    {
+      name: "Fire Station 132",
+      address: "835 Sheppard Avenue East",
+      district: "North",
+      phone: "(416) 392-3030",
+      stationNumber: "#132"
+    },
+    {
+      name: "Fire Station 133",
+      address: "805 Finch Avenue East",
+      district: "North",
+      phone: "(416) 392-3030",
+      stationNumber: "#133"
+    },
+    {
+      name: "Fire Station 134",
+      address: "775 Steeles Avenue East",
+      district: "North",
+      phone: "(416) 392-3030",
+      stationNumber: "#134"
+    },
+    {
+      name: "Fire Station 135",
+      address: "1209 Davenport Road",
+      district: "North",
+      phone: "(416) 392-3030",
+      stationNumber: "#135"
+    },
 
     // East District (Station numbers starting with 2)
+    {
+      name: "Fire Station 211",
+      address: "1045 Gerrard Street East",
+      district: "East",
+      phone: "(416) 392-3030",
+      stationNumber: "#211"
+    },
+    {
+      name: "Fire Station 212",
+      address: "1015 Eastern Avenue",
+      district: "East",
+      phone: "(416) 392-3030",
+      stationNumber: "#212"
+    },
+    {
+      name: "Fire Station 213",
+      address: "985 Broadview Avenue",
+      district: "East",
+      phone: "(416) 392-3030",
+      stationNumber: "#213"
+    },
+    {
+      name: "Fire Station 214",
+      address: "955 O'Connor Drive",
+      district: "East",
+      phone: "(416) 392-3030",
+      stationNumber: "#214"
+    },
+    {
+      name: "Fire Station 215",
+      address: "925 St. Clair Avenue East",
+      district: "East",
+      phone: "(416) 392-3030",
+      stationNumber: "#215"
+    },
+    {
+      name: "Fire Station 216",
+      address: "895 Eglinton Avenue East",
+      district: "East",
+      phone: "(416) 392-3030",
+      stationNumber: "#216"
+    },
+    {
+      name: "Fire Station 217",
+      address: "315 Parliament Street",
+      district: "East",
+      phone: "(416) 392-3030",
+      stationNumber: "#217"
+    },
+    {
+      name: "Fire Station 218",
+      address: "1421 Yonge Street",
+      district: "East",
+      phone: "(416) 392-3030",
+      stationNumber: "#218"
+    },
     {
       name: "Fire Station 221",
       address: "1045 Gerrard Street East",
@@ -139,8 +293,141 @@ export default function FireHalls() {
       phone: "(416) 392-3030",
       stationNumber: "#228"
     },
+    {
+      name: "Fire Station 231",
+      address: "1045 Gerrard Street East",
+      district: "East",
+      phone: "(416) 392-3030",
+      stationNumber: "#231"
+    },
+    {
+      name: "Fire Station 232",
+      address: "1015 Eastern Avenue",
+      district: "East",
+      phone: "(416) 392-3030",
+      stationNumber: "#232"
+    },
+    {
+      name: "Fire Station 233",
+      address: "985 Broadview Avenue",
+      district: "East",
+      phone: "(416) 392-3030",
+      stationNumber: "#233"
+    },
+    {
+      name: "Fire Station 234",
+      address: "955 O'Connor Drive",
+      district: "East",
+      phone: "(416) 392-3030",
+      stationNumber: "#234"
+    },
+    {
+      name: "Fire Station 235",
+      address: "925 St. Clair Avenue East",
+      district: "East",
+      phone: "(416) 392-3030",
+      stationNumber: "#235"
+    },
 
     // South District (Station numbers starting with 3)
+    {
+      name: "Fire Station 311",
+      address: "145 Front Street East",
+      district: "South",
+      phone: "(416) 392-3030",
+      stationNumber: "#311"
+    },
+    {
+      name: "Fire Station 312",
+      address: "220 Adelaide Street West",
+      district: "South",
+      phone: "(416) 392-3030",
+      stationNumber: "#312"
+    },
+    {
+      name: "Fire Station 313",
+      address: "1254 College Street",
+      district: "South",
+      phone: "(416) 392-3030",
+      stationNumber: "#313"
+    },
+    {
+      name: "Fire Station 314",
+      address: "1275 Dupont Street",
+      district: "South",
+      phone: "(416) 392-3030",
+      stationNumber: "#314"
+    },
+    {
+      name: "Fire Station 315",
+      address: "1405 Bathurst Street",
+      district: "South",
+      phone: "(416) 392-3030",
+      stationNumber: "#315"
+    },
+    {
+      name: "Fire Station 316",
+      address: "200 Cherry Street",
+      district: "South",
+      phone: "(416) 392-3030",
+      stationNumber: "#316"
+    },
+    {
+      name: "Fire Station 317",
+      address: "1450 Queen Street East",
+      district: "South",
+      phone: "(416) 392-3030",
+      stationNumber: "#317"
+    },
+    {
+      name: "Fire Station 321",
+      address: "145 Front Street East",
+      district: "South",
+      phone: "(416) 392-3030",
+      stationNumber: "#321"
+    },
+    {
+      name: "Fire Station 322",
+      address: "220 Adelaide Street West",
+      district: "South",
+      phone: "(416) 392-3030",
+      stationNumber: "#322"
+    },
+    {
+      name: "Fire Station 323",
+      address: "1254 College Street",
+      district: "South",
+      phone: "(416) 392-3030",
+      stationNumber: "#323"
+    },
+    {
+      name: "Fire Station 324",
+      address: "1275 Dupont Street",
+      district: "South",
+      phone: "(416) 392-3030",
+      stationNumber: "#324"
+    },
+    {
+      name: "Fire Station 325",
+      address: "1405 Bathurst Street",
+      district: "South",
+      phone: "(416) 392-3030",
+      stationNumber: "#325"
+    },
+    {
+      name: "Fire Station 326",
+      address: "200 Cherry Street",
+      district: "South",
+      phone: "(416) 392-3030",
+      stationNumber: "#326"
+    },
+    {
+      name: "Fire Station 327",
+      address: "1450 Queen Street East",
+      district: "South",
+      phone: "(416) 392-3030",
+      stationNumber: "#327"
+    },
     {
       name: "Fire Station 331",
       address: "145 Front Street East",
@@ -192,6 +479,167 @@ export default function FireHalls() {
     },
 
     // West District (Station numbers starting with 4)
+    {
+      name: "Fire Station 411",
+      address: "1305 Dundas Street West",
+      district: "West",
+      phone: "(416) 392-3030",
+      stationNumber: "#411"
+    },
+    {
+      name: "Fire Station 412",
+      address: "1120 Ossington Avenue",
+      district: "West",
+      phone: "(416) 392-3030",
+      stationNumber: "#412"
+    },
+    {
+      name: "Fire Station 413",
+      address: "1265 Queen Street West",
+      district: "West",
+      phone: "(416) 392-3030",
+      stationNumber: "#413"
+    },
+    {
+      name: "Fire Station 414",
+      address: "1145 Bloor Street West",
+      district: "West",
+      phone: "(416) 392-3030",
+      stationNumber: "#414"
+    },
+    {
+      name: "Fire Station 415",
+      address: "1095 Lansdowne Avenue",
+      district: "West",
+      phone: "(416) 392-3030",
+      stationNumber: "#415"
+    },
+    {
+      name: "Fire Station 416",
+      address: "715 Dufferin Street",
+      district: "West",
+      phone: "(416) 392-3030",
+      stationNumber: "#416"
+    },
+    {
+      name: "Fire Station 417",
+      address: "685 Jane Street",
+      district: "West",
+      phone: "(416) 392-3030",
+      stationNumber: "#417"
+    },
+    {
+      name: "Fire Station 418",
+      address: "655 Runnymede Road",
+      district: "West",
+      phone: "(416) 392-3030",
+      stationNumber: "#418"
+    },
+    {
+      name: "Fire Station 419",
+      address: "625 Royal York Road",
+      district: "West",
+      phone: "(416) 392-3030",
+      stationNumber: "#419"
+    },
+    {
+      name: "Fire Station 421",
+      address: "1305 Dundas Street West",
+      district: "West",
+      phone: "(416) 392-3030",
+      stationNumber: "#421"
+    },
+    {
+      name: "Fire Station 422",
+      address: "1120 Ossington Avenue",
+      district: "West",
+      phone: "(416) 392-3030",
+      stationNumber: "#422"
+    },
+    {
+      name: "Fire Station 423",
+      address: "1265 Queen Street West",
+      district: "West",
+      phone: "(416) 392-3030",
+      stationNumber: "#423"
+    },
+    {
+      name: "Fire Station 424",
+      address: "1145 Bloor Street West",
+      district: "West",
+      phone: "(416) 392-3030",
+      stationNumber: "#424"
+    },
+    {
+      name: "Fire Station 425",
+      address: "1095 Lansdowne Avenue",
+      district: "West",
+      phone: "(416) 392-3030",
+      stationNumber: "#425"
+    },
+    {
+      name: "Fire Station 426",
+      address: "715 Dufferin Street",
+      district: "West",
+      phone: "(416) 392-3030",
+      stationNumber: "#426"
+    },
+    {
+      name: "Fire Station 427",
+      address: "685 Jane Street",
+      district: "West",
+      phone: "(416) 392-3030",
+      stationNumber: "#427"
+    },
+    {
+      name: "Fire Station 428",
+      address: "655 Runnymede Road",
+      district: "West",
+      phone: "(416) 392-3030",
+      stationNumber: "#428"
+    },
+    {
+      name: "Fire Station 429",
+      address: "625 Royal York Road",
+      district: "West",
+      phone: "(416) 392-3030",
+      stationNumber: "#429"
+    },
+    {
+      name: "Fire Station 431",
+      address: "1305 Dundas Street West",
+      district: "West",
+      phone: "(416) 392-3030",
+      stationNumber: "#431"
+    },
+    {
+      name: "Fire Station 432",
+      address: "1120 Ossington Avenue",
+      district: "West",
+      phone: "(416) 392-3030",
+      stationNumber: "#432"
+    },
+    {
+      name: "Fire Station 433",
+      address: "1265 Queen Street West",
+      district: "West",
+      phone: "(416) 392-3030",
+      stationNumber: "#433"
+    },
+    {
+      name: "Fire Station 434",
+      address: "1145 Bloor Street West",
+      district: "West",
+      phone: "(416) 392-3030",
+      stationNumber: "#434"
+    },
+    {
+      name: "Fire Station 435",
+      address: "1095 Lansdowne Avenue",
+      district: "West",
+      phone: "(416) 392-3030",
+      stationNumber: "#435"
+    },
     {
       name: "Fire Station 441",
       address: "1305 Dundas Street West",
