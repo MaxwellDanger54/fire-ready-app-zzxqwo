@@ -51,15 +51,15 @@ export default function FirefighterApp() {
             }}
           />
           
-          {/* Text centered over the logo */}
+          {/* Text centered over the logo - moved up more */}
           <View style={{
             position: 'absolute',
-            top: '50%',
+            top: '40%',
             left: 0,
             right: 0,
             alignItems: 'center',
             justifyContent: 'center',
-            transform: [{ translateY: -11 }]
+            transform: [{ translateY: -15 }]
           }}>
             <Text style={[commonStyles.headerTitle, {
               fontSize: 22,

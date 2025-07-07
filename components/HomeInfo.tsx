@@ -174,6 +174,29 @@ export default function HomeInfo() {
           Access fire hall meal planning resources
         </Text>
       </View>
+
+      {/* TFS Medical Directives */}
+      <View style={[commonStyles.card, { marginTop: 16 }]}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
+          <Icon name="medical" size={20} style={{ color: colors.accent, marginRight: 8 }} />
+          <Text style={[commonStyles.text, { fontWeight: '600' }]}>TFS Medical Directives</Text>
+        </View>
+        <TouchableOpacity
+          style={[commonStyles.button, { backgroundColor: colors.primary, marginBottom: 0 }]}
+          onPress={() => handleLinkPress('https://drive.google.com/file/d/1ejyjd4I_-1lHdYY3RcGnd1dG7fUQzKop/view?usp=sharing', 'TFS Medical Directives')}
+        >
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <Icon name="medical" size={20} style={{ color: colors.background, marginRight: 8 }} />
+            <Text style={[commonStyles.buttonText, { color: colors.background }]}>
+              View Medical Directives
+            </Text>
+            <Icon name="open-outline" size={16} style={{ color: colors.background, marginLeft: 8 }} />
+          </View>
+        </TouchableOpacity>
+        <Text style={[commonStyles.textSecondary, { fontSize: 12, textAlign: 'center', marginTop: 8 }]}>
+          Access TFS medical directives and protocols
+        </Text>
+      </View>
     </ScrollView>
   );
 }
