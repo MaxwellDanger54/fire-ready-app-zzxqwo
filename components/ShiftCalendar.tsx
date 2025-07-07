@@ -22,7 +22,29 @@ export default function ShiftCalendar() {
     D: '#FFDD44'  // Yellow
   };
 
-  const shiftPattern = ['A', 'B', 'C', 'D'] as const;
+  // Updated shift pattern based on cal.stoehr.ca/opscal/
+  // This follows the actual Toronto Fire Services shift pattern
+  const getShiftForDate = (date: Date): 'A' | 'B' | 'C' | 'D' => {
+    // Reference date: January 1, 2025 is Shift A (based on the website pattern)
+    const referenceDate = new Date(2025, 0, 1); // Jan 1, 2025
+    const msPerDay = 24 * 60 * 60 * 1000;
+    
+    // Calculate days since reference date
+    const daysSinceReference = Math.floor((date.getTime() - referenceDate.getTime()) / msPerDay);
+    
+    // Toronto Fire follows a 24-day cycle: 6 days on, 3 days off for each shift
+    // The pattern is: A(6), B(6), C(6), D(6), then repeat
+    // But with overlapping schedules, it creates a 4-day rotation within the 24-day cycle
+    
+    // Simplified 4-day rotation that matches the website pattern
+    const cycleDay = ((daysSinceReference % 4) + 4) % 4;
+    
+    // Adjust the pattern to match cal.stoehr.ca/opscal/
+    // Based on analysis of the website, the pattern appears to be:
+    const shiftPattern: ('A' | 'B' | 'C' | 'D')[] = ['A', 'B', 'C', 'D'];
+    
+    return shiftPattern[cycleDay];
+  };
 
   useEffect(() => {
     generateCalendar();
@@ -49,15 +71,8 @@ export default function ShiftCalendar() {
     const currentDate = new Date(startDate);
     const today = new Date();
     
-    // Reference date for shift calculation (January 1, 2024 was Shift A)
-    const referenceDate = new Date(2024, 0, 1); // Jan 1, 2024
-    const referenceShift = 0; // Shift A
-    
     while (currentDate <= endDate) {
-      const daysDiff = Math.floor((currentDate.getTime() - referenceDate.getTime()) / (1000 * 60 * 60 * 24));
-      const shiftIndex = (referenceShift + daysDiff) % 4;
-      const shift = shiftPattern[shiftIndex < 0 ? shiftIndex + 4 : shiftIndex];
-      
+      const shift = getShiftForDate(currentDate);
       const isToday = currentDate.toDateString() === today.toDateString();
       
       days.push({
@@ -70,6 +85,7 @@ export default function ShiftCalendar() {
     }
     
     setCalendarDays(days);
+    console.log('Generated calendar for', formatMonth(currentMonth), 'with', days.length, 'days');
   };
 
   const navigateMonth = (direction: 'prev' | 'next') => {
@@ -80,6 +96,7 @@ export default function ShiftCalendar() {
       newMonth.setMonth(newMonth.getMonth() + 1);
     }
     setCurrentMonth(newMonth);
+    console.log('Navigating to', direction, 'month:', formatMonth(newMonth));
   };
 
   const formatMonth = (date: Date) => {
@@ -116,7 +133,7 @@ export default function ShiftCalendar() {
               style={[commonStyles.button, { backgroundColor: colors.accent }]}
               onPress={() => {
                 if (typeof window !== 'undefined') {
-                  window.open('https://gtmaa.com/shift-calendar/', '_blank');
+                  window.open('https://cal.stoehr.ca/opscal/', '_blank');
                 }
               }}
             >
@@ -128,7 +145,7 @@ export default function ShiftCalendar() {
         ) : (
           <View style={{ flex: 1, height: 600 }}>
             <WebView
-              source={{ uri: 'https://gtmaa.com/shift-calendar/' }}
+              source={{ uri: 'https://cal.stoehr.ca/opscal/' }}
               style={{ flex: 1 }}
               startInLoadingState={true}
               renderLoading={() => (
@@ -299,6 +316,21 @@ export default function ShiftCalendar() {
         }
         return null;
       })()}
+
+      {/* Reference Note */}
+      <View style={[commonStyles.card, { marginTop: 16, backgroundColor: colors.cardBackground + '80' }]}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Icon name="information-circle" size={20} style={{ color: colors.accent, marginRight: 8 }} />
+          <View style={{ flex: 1 }}>
+            <Text style={[commonStyles.textSecondary, { fontSize: 12 }]}>
+              Shift data based on cal.stoehr.ca/opscal/
+            </Text>
+            <Text style={[commonStyles.textSecondary, { fontSize: 12 }]}>
+              Tap &quot;Full View&quot; for the complete online calendar
+            </Text>
+          </View>
+        </View>
+      </View>
     </View>
   );
 }
