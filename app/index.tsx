@@ -41,10 +41,10 @@ export default function FirefighterApp() {
             width: 80,
             height: 80,
             marginBottom: 12,
-            resizeMode: 'contain'
+            resizeMode: 'contain',
+            backgroundColor: 'transparent'
           }}
         />
-        <Icon name="flame" size={32} style={{ color: colors.accent, marginBottom: 8 }} />
         <Text style={commonStyles.headerTitle}>TFS Operations Dashboard</Text>
       </View>
 
