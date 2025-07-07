@@ -1,4 +1,4 @@
-import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, View, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { useState } from 'react';
 import { commonStyles, colors } from '../styles/commonStyles';
 import Icon from '../components/Icon';
@@ -34,6 +34,16 @@ export default function FirefighterApp() {
     <View style={commonStyles.container}>
       {/* Header */}
       <View style={commonStyles.header}>
+        {/* Logo */}
+        <Image 
+          source={require('../assets/images/f87f8a27-3a96-4c13-ae8c-d3d53c9423e8.png')}
+          style={{
+            width: 80,
+            height: 80,
+            marginBottom: 12,
+            resizeMode: 'contain'
+          }}
+        />
         <Icon name="flame" size={32} style={{ color: colors.accent, marginBottom: 8 }} />
         <Text style={commonStyles.headerTitle}>TFS Operations Dashboard</Text>
       </View>

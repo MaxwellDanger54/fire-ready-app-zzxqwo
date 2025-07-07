@@ -13,9 +13,8 @@ export default function ImportantNumbers() {
     Linking.openURL(`tel:${number}`);
   };
 
-  // Contacts sorted alphabetically by name
+  // Contacts sorted alphabetically by name (Arnold Louie removed)
   const contacts: ContactItem[] = [
-    { name: 'ARNOLD LOUIE', number: '416-338-9071' },
     { name: 'BIO HAZARD BIN PICKUP', number: '905-789-6660' },
     { name: 'BIO HAZARD BIN PICKUP', number: '905-793-2966', description: 'EXT 21' },
     { name: 'COMMUNICATIONS', number: '8-9000 & 8-9001', description: 'CAPT LINE' },
@@ -62,7 +61,6 @@ export default function ImportantNumbers() {
       'GARBAGE': 'trash',
       'POISON CONTROL': 'medical',
       'EAP/CIS': 'people',
-      'ARNOLD': 'person',
     };
     
     return iconMap[name.split(' ')[0]] || 'call';
