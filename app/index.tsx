@@ -32,20 +32,48 @@ export default function FirefighterApp() {
 
   return (
     <View style={commonStyles.container}>
-      {/* Header */}
+      {/* Header with integrated logo and text */}
       <View style={commonStyles.header}>
-        {/* Logo */}
-        <Image 
-          source={require('../assets/images/f87f8a27-3a96-4c13-ae8c-d3d53c9423e8.png')}
-          style={{
-            width: 80,
-            height: 80,
-            marginBottom: 12,
-            resizeMode: 'contain',
-            backgroundColor: 'transparent'
-          }}
-        />
-        <Text style={commonStyles.headerTitle}>TFS Operations Dashboard</Text>
+        <View style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'relative',
+          marginBottom: 8
+        }}>
+          {/* New larger logo */}
+          <Image 
+            source={require('../assets/images/ef1b634c-92d0-4664-ab3a-0c43e8987c0d.png')}
+            style={{
+              width: 120,
+              height: 120,
+              resizeMode: 'contain',
+              marginBottom: -10
+            }}
+          />
+          
+          {/* Text integrated with logo */}
+          <View style={{
+            position: 'absolute',
+            bottom: -35,
+            left: 0,
+            right: 0,
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <Text style={[commonStyles.headerTitle, {
+              fontSize: 22,
+              fontWeight: '800',
+              color: colors.text,
+              textAlign: 'center',
+              textShadowColor: 'rgba(0, 0, 0, 0.5)',
+              textShadowOffset: { width: 1, height: 1 },
+              textShadowRadius: 3,
+              letterSpacing: 0.5
+            }]}>
+              TFS Operations Dashboard
+            </Text>
+          </View>
+        </View>
       </View>
 
       {/* Tab Navigation - Fixed layout without scrolling */}
@@ -55,7 +83,8 @@ export default function FirefighterApp() {
         paddingHorizontal: 8,
         paddingVertical: 8,
         marginHorizontal: 8,
-        marginBottom: 8
+        marginBottom: 8,
+        marginTop: 16
       }]}>
         <TouchableOpacity
           style={[
