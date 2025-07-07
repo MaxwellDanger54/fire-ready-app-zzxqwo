@@ -25,6 +25,10 @@ export default function ShiftCalendar() {
   // A shift working days pattern: Tuesday, Monday, Thursday, Friday, Sunday, Wednesday, Saturday
   // Day of week mapping: Sunday=0, Monday=1, Tuesday=2, Wednesday=3, Thursday=4, Friday=5, Saturday=6
   const aShiftDaysOfWeek = [2, 1, 4, 5, 0, 3, 6]; // Tuesday, Monday, Thursday, Friday, Sunday, Wednesday, Saturday
+  
+  // B shift working days pattern: Wednesday, Tuesday, Friday, Saturday, Monday, Thursday, Sunday
+  // (Same pattern as A shift but offset by one day)
+  const bShiftDaysOfWeek = [3, 2, 5, 6, 1, 4, 0]; // Wednesday, Tuesday, Friday, Saturday, Monday, Thursday, Sunday
 
   const getShiftForDate = (date: Date): 'A' | 'B' | 'C' | 'D' | null => {
     const dayOfWeek = date.getDay(); // 0 (Sunday) to 6 (Saturday)
@@ -32,6 +36,11 @@ export default function ShiftCalendar() {
     // Check if this day of the week is an A shift day
     if (aShiftDaysOfWeek.includes(dayOfWeek)) {
       return 'A';
+    }
+    
+    // Check if this day of the week is a B shift day
+    if (bShiftDaysOfWeek.includes(dayOfWeek)) {
+      return 'B';
     }
     
     return null;
@@ -196,20 +205,34 @@ export default function ShiftCalendar() {
       {/* Shift Legend */}
       <View style={[commonStyles.card, { marginBottom: 16 }]}>
         <Text style={[commonStyles.text, { fontWeight: '600', marginBottom: 12 }]}>Shift Legend</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <View
-            style={{
-              width: 16,
-              height: 16,
-              backgroundColor: shiftColors.A,
-              borderRadius: 8,
-              marginRight: 6
-            }}
-          />
-          <Text style={commonStyles.textSecondary}>Shift A (Red)</Text>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 16 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View
+              style={{
+                width: 16,
+                height: 16,
+                backgroundColor: shiftColors.A,
+                borderRadius: 8,
+                marginRight: 6
+              }}
+            />
+            <Text style={commonStyles.textSecondary}>Shift A (Red)</Text>
+          </View>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View
+              style={{
+                width: 16,
+                height: 16,
+                backgroundColor: shiftColors.B,
+                borderRadius: 8,
+                marginRight: 6
+              }}
+            />
+            <Text style={commonStyles.textSecondary}>Shift B (Grey)</Text>
+          </View>
         </View>
         <Text style={[commonStyles.textSecondary, { fontSize: 12, marginTop: 8 }]}>
-          Only A shift is displayed. Other shifts (B, C, D) are not shown.
+          A and B shifts are displayed. C and D shifts are not shown.
         </Text>
       </View>
 
@@ -343,25 +366,25 @@ export default function ShiftCalendar() {
         return null;
       })()}
 
-      {/* A Shift Pattern Info */}
+      {/* Shift Pattern Info */}
       <View style={[commonStyles.card, { marginTop: 16, backgroundColor: colors.cardBackground + '80' }]}>
         <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
           <Icon name="information-circle" size={20} style={{ color: colors.accent, marginRight: 8, marginTop: 2 }} />
           <View style={{ flex: 1 }}>
             <Text style={[commonStyles.text, { fontSize: 14, fontWeight: '600', marginBottom: 8 }]}>
-              A Shift Schedule Pattern
+              Shift Schedule Patterns
             </Text>
             <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 4 }]}>
-              A shift works on the following days of the week:
+              A shift works on: Tuesday → Monday → Thursday → Friday → Sunday → Wednesday → Saturday
             </Text>
             <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 8 }]}>
-              Tuesday → Monday → Thursday → Friday → Sunday → Wednesday → Saturday
+              B shift works on: Wednesday → Tuesday → Friday → Saturday → Monday → Thursday → Sunday
             </Text>
             <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 4 }]}>
-              This pattern repeats every week.
+              Both patterns repeat every week.
             </Text>
             <Text style={[commonStyles.textSecondary, { fontSize: 12 }]}>
-              Only A shift is displayed in red. Other shifts are not shown.
+              A shift (red) and B shift (grey) are displayed. C and D shifts are not shown.
             </Text>
           </View>
         </View>
@@ -373,7 +396,7 @@ export default function ShiftCalendar() {
           <Icon name="link" size={20} style={{ color: colors.accent, marginRight: 8 }} />
           <View style={{ flex: 1 }}>
             <Text style={[commonStyles.textSecondary, { fontSize: 12 }]}>
-              Simplified A shift calendar based on custom schedule
+              Simplified A and B shift calendar based on custom schedule
             </Text>
             <Text style={[commonStyles.textSecondary, { fontSize: 12 }]}>
               Tap &quot;Full View&quot; for the complete online calendar
@@ -393,9 +416,17 @@ export const getCurrentShift = (): 'A' | 'B' | 'C' | 'D' | null => {
   // A shift working days pattern: Tuesday, Monday, Thursday, Friday, Sunday, Wednesday, Saturday
   const aShiftDaysOfWeek = [2, 1, 4, 5, 0, 3, 6]; // Tuesday, Monday, Thursday, Friday, Sunday, Wednesday, Saturday
   
+  // B shift working days pattern: Wednesday, Tuesday, Friday, Saturday, Monday, Thursday, Sunday
+  const bShiftDaysOfWeek = [3, 2, 5, 6, 1, 4, 0]; // Wednesday, Tuesday, Friday, Saturday, Monday, Thursday, Sunday
+  
   // Check if this day of the week is an A shift day
   if (aShiftDaysOfWeek.includes(dayOfWeek)) {
     return 'A';
+  }
+  
+  // Check if this day of the week is a B shift day
+  if (bShiftDaysOfWeek.includes(dayOfWeek)) {
+    return 'B';
   }
   
   return null;
