@@ -38,109 +38,159 @@ export default function FirefighterApp() {
         <Text style={commonStyles.headerTitle}>TFS Operations Dashboard</Text>
       </View>
 
-      {/* Tab Navigation */}
+      {/* Tab Navigation - Made bigger with more spacing */}
       <ScrollView 
         horizontal 
         showsHorizontalScrollIndicator={false}
-        style={{ maxHeight: 80 }}
-        contentContainerStyle={{ paddingHorizontal: 8 }}
+        style={{ maxHeight: 100, marginBottom: 15 }}
+        contentContainerStyle={{ paddingHorizontal: 12, paddingVertical: 8 }}
       >
         <View style={[commonStyles.tabContainer, { flexDirection: 'row', width: 'auto', minWidth: '100%' }]}>
           <TouchableOpacity
-            style={[commonStyles.tab, activeTab === 'home' && commonStyles.activeTab, { minWidth: 80 }]}
+            style={[
+              commonStyles.tab, 
+              activeTab === 'home' && commonStyles.activeTab, 
+              { 
+                minWidth: 90, 
+                paddingVertical: 16, 
+                paddingHorizontal: 12,
+                marginHorizontal: 4
+              }
+            ]}
             onPress={() => setActiveTab('home')}
           >
             <Icon 
               name="home" 
-              size={20} 
+              size={24} 
               style={{ 
                 color: activeTab === 'home' ? colors.text : colors.textSecondary,
-                marginBottom: 4 
+                marginBottom: 6 
               }} 
             />
             <Text style={[
               commonStyles.tabText,
-              activeTab === 'home' && commonStyles.activeTabText
+              activeTab === 'home' && commonStyles.activeTabText,
+              { fontSize: 16 }
             ]}>
               Home
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[commonStyles.tab, activeTab === 'numbers' && commonStyles.activeTab, { minWidth: 80 }]}
+            style={[
+              commonStyles.tab, 
+              activeTab === 'numbers' && commonStyles.activeTab, 
+              { 
+                minWidth: 90, 
+                paddingVertical: 16, 
+                paddingHorizontal: 12,
+                marginHorizontal: 4
+              }
+            ]}
             onPress={() => setActiveTab('numbers')}
           >
             <Icon 
               name="call" 
-              size={20} 
+              size={24} 
               style={{ 
                 color: activeTab === 'numbers' ? colors.text : colors.textSecondary,
-                marginBottom: 4 
+                marginBottom: 6 
               }} 
             />
             <Text style={[
               commonStyles.tabText,
-              activeTab === 'numbers' && commonStyles.activeTabText
+              activeTab === 'numbers' && commonStyles.activeTabText,
+              { fontSize: 16 }
             ]}>
               Numbers
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[commonStyles.tab, activeTab === 'calendar' && commonStyles.activeTab, { minWidth: 80 }]}
+            style={[
+              commonStyles.tab, 
+              activeTab === 'calendar' && commonStyles.activeTab, 
+              { 
+                minWidth: 90, 
+                paddingVertical: 16, 
+                paddingHorizontal: 12,
+                marginHorizontal: 4
+              }
+            ]}
             onPress={() => setActiveTab('calendar')}
           >
             <Icon 
               name="calendar" 
-              size={20} 
+              size={24} 
               style={{ 
                 color: activeTab === 'calendar' ? colors.text : colors.textSecondary,
-                marginBottom: 4 
+                marginBottom: 6 
               }} 
             />
             <Text style={[
               commonStyles.tabText,
-              activeTab === 'calendar' && commonStyles.activeTabText
+              activeTab === 'calendar' && commonStyles.activeTabText,
+              { fontSize: 16 }
             ]}>
               Calendar
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[commonStyles.tab, activeTab === 'firehalls' && commonStyles.activeTab, { minWidth: 80 }]}
+            style={[
+              commonStyles.tab, 
+              activeTab === 'firehalls' && commonStyles.activeTab, 
+              { 
+                minWidth: 90, 
+                paddingVertical: 16, 
+                paddingHorizontal: 12,
+                marginHorizontal: 4
+              }
+            ]}
             onPress={() => setActiveTab('firehalls')}
           >
             <Icon 
               name="business" 
-              size={20} 
+              size={24} 
               style={{ 
                 color: activeTab === 'firehalls' ? colors.text : colors.textSecondary,
-                marginBottom: 4 
+                marginBottom: 6 
               }} 
             />
             <Text style={[
               commonStyles.tabText,
-              activeTab === 'firehalls' && commonStyles.activeTabText
+              activeTab === 'firehalls' && commonStyles.activeTabText,
+              { fontSize: 16 }
             ]}>
               Fire Halls
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[commonStyles.tab, activeTab === 'resources' && commonStyles.activeTab, { minWidth: 80 }]}
+            style={[
+              commonStyles.tab, 
+              activeTab === 'resources' && commonStyles.activeTab, 
+              { 
+                minWidth: 90, 
+                paddingVertical: 16, 
+                paddingHorizontal: 12,
+                marginHorizontal: 4
+              }
+            ]}
             onPress={() => setActiveTab('resources')}
           >
             <Icon 
               name="library" 
-              size={20} 
+              size={24} 
               style={{ 
                 color: activeTab === 'resources' ? colors.text : colors.textSecondary,
-                marginBottom: 4 
+                marginBottom: 6 
               }} 
             />
             <Text style={[
               commonStyles.tabText,
-              activeTab === 'resources' && commonStyles.activeTabText
+              activeTab === 'resources' && commonStyles.activeTabText,
+              { fontSize: 16 }
             ]}>
               Resources
             </Text>
