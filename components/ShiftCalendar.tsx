@@ -22,67 +22,36 @@ export default function ShiftCalendar() {
     D: '#FFDD44'  // Yellow
   };
 
-  // July 2025 schedule as provided
-  const julySchedule = {
-    1: 'A',   // July 1st A shift
-    2: 'B',   // July 2nd B shift
-    3: 'D',   // July 3rd D shift
-    4: 'C',   // July 4th C shift
-    5: 'B',   // July 5th B shift
-    6: 'C',   // July 6th C shift
-    7: 'A',   // July 7th A shift
-    8: 'B',   // July 8th B shift
-    9: 'C',   // July 9th C shift
-    10: 'A',  // July 10th A shift
-    11: 'D',  // July 11th D shift
-    12: 'C',  // July 12th C shift
-    13: 'D',  // July 13th D shift
-    14: 'B',  // July 14th B shift
-    15: 'C',  // July 15th C shift
-    16: 'D',  // July 16th D shift
-    17: 'B',  // July 17th B shift
-    18: 'A',  // July 18th A shift
-    19: 'D',  // July 19th D shift
-    20: 'A',  // July 20th A shift
-    21: 'C',  // July 21st C shift
-    22: 'D',  // July 22nd D shift
-    23: 'A',  // July 23rd A shift
-    24: 'C',  // July 24th C shift
-    25: 'B',  // July 25th B shift
-    26: 'A',  // July 26th A shift
-    27: 'B',  // July 27th B shift
-    28: 'D',  // July 28th D shift
-    29: 'A',  // July 29th A shift
-    30: 'B',  // July 30th B shift
-    31: 'D'   // July 31st D shift
-  };
+  // July 2025 schedule as provided (first 28 days for the cycle)
+  const baseSchedule = [
+    'A', 'B', 'D', 'C', 'B', 'C', 'A', 'B', 'C', 'A', // Days 1-10
+    'D', 'C', 'D', 'B', 'C', 'D', 'B', 'A', 'D', 'A', // Days 11-20
+    'C', 'D', 'A', 'C', 'B', 'A', 'B', 'D'            // Days 21-28 (28-day cycle)
+  ];
 
   const getShiftForDate = (date: Date): 'A' | 'B' | 'C' | 'D' | null => {
     const year = date.getFullYear();
     const month = date.getMonth(); // 0-based (July = 6)
     const day = date.getDate();
     
-    // For July 2025, use the exact schedule provided
+    // For July 2025, use the exact schedule provided for the first 31 days
     if (year === 2025 && month === 6) { // July is month 6 (0-based)
+      const julySchedule = {
+        1: 'A', 2: 'B', 3: 'D', 4: 'C', 5: 'B', 6: 'C', 7: 'A', 8: 'B', 9: 'C', 10: 'A',
+        11: 'D', 12: 'C', 13: 'D', 14: 'B', 15: 'C', 16: 'D', 17: 'B', 18: 'A', 19: 'D', 20: 'A',
+        21: 'C', 22: 'D', 23: 'A', 24: 'C', 25: 'B', 26: 'A', 27: 'B', 28: 'D', 29: 'A', 30: 'B', 31: 'D'
+      };
       return julySchedule[day] as 'A' | 'B' | 'C' | 'D' || null;
     }
     
-    // For other months, calculate based on the 31-day cycle from July 1st, 2025
-    const july1st2025 = new Date(2025, 6, 1); // July 1st, 2025
+    // For all other months and years, use the 28-day cycle starting from July 1st, 2025
+    const july1st2025 = new Date(2025, 6, 1); // July 1st, 2025 (start of cycle)
     const diffInDays = Math.floor((date.getTime() - july1st2025.getTime()) / (1000 * 60 * 60 * 24));
     
-    // Create a 31-day pattern from the July schedule
-    const pattern = [
-      'A', 'B', 'D', 'C', 'B', 'C', 'A', 'B', 'C', 'A', // Days 1-10
-      'D', 'C', 'D', 'B', 'C', 'D', 'B', 'A', 'D', 'A', // Days 11-20
-      'C', 'D', 'A', 'C', 'B', 'A', 'B', 'D', 'A', 'B', // Days 21-30
-      'D' // Day 31
-    ];
+    // Calculate which day in the 28-day pattern this date corresponds to
+    const cycleDay = ((diffInDays % 28) + 28) % 28; // Handle negative numbers for dates before July 1st
     
-    // Calculate which day in the pattern this date corresponds to
-    const patternIndex = ((diffInDays % 31) + 31) % 31; // Handle negative numbers for dates before July 1st
-    
-    return pattern[patternIndex] as 'A' | 'B' | 'C' | 'D';
+    return baseSchedule[cycleDay] as 'A' | 'B' | 'C' | 'D';
   };
 
   // Export function to get current shift for use in other components
@@ -441,10 +410,10 @@ export default function ShiftCalendar() {
               • All shifts are 24 hours long
             </Text>
             <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 4 }]}>
-              • Schedule follows a 31-day repeating pattern
+              • Schedule follows a 28-day repeating cycle
             </Text>
             <Text style={[commonStyles.textSecondary, { fontSize: 12, marginBottom: 4 }]}>
-              • Pattern starts from July 1st, 2025
+              • Cycle starts from July 1st, 2025
             </Text>
             <Text style={[commonStyles.textSecondary, { fontSize: 12 }]}>
               • All four shifts (A, B, C, D) are displayed
@@ -459,7 +428,7 @@ export default function ShiftCalendar() {
           <Icon name="link" size={20} style={{ color: colors.accent, marginRight: 8 }} />
           <View style={{ flex: 1 }}>
             <Text style={[commonStyles.textSecondary, { fontSize: 12 }]}>
-              Custom shift calendar based on provided schedule
+              Custom shift calendar based on 28-day cycle
             </Text>
             <Text style={[commonStyles.textSecondary, { fontSize: 12 }]}>
               Tap &quot;Full View&quot; for the complete online calendar
@@ -478,32 +447,29 @@ export const getCurrentShift = (): 'A' | 'B' | 'C' | 'D' | null => {
   const month = today.getMonth(); // 0-based (July = 6)
   const day = today.getDate();
   
-  // July 2025 schedule as provided
-  const julySchedule = {
-    1: 'A', 2: 'B', 3: 'D', 4: 'C', 5: 'B', 6: 'C', 7: 'A', 8: 'B', 9: 'C', 10: 'A',
-    11: 'D', 12: 'C', 13: 'D', 14: 'B', 15: 'C', 16: 'D', 17: 'B', 18: 'A', 19: 'D', 20: 'A',
-    21: 'C', 22: 'D', 23: 'A', 24: 'C', 25: 'B', 26: 'A', 27: 'B', 28: 'D', 29: 'A', 30: 'B', 31: 'D'
-  };
-  
-  // For July 2025, use the exact schedule provided
+  // For July 2025, use the exact schedule provided for the first 31 days
   if (year === 2025 && month === 6) { // July is month 6 (0-based)
+    const julySchedule = {
+      1: 'A', 2: 'B', 3: 'D', 4: 'C', 5: 'B', 6: 'C', 7: 'A', 8: 'B', 9: 'C', 10: 'A',
+      11: 'D', 12: 'C', 13: 'D', 14: 'B', 15: 'C', 16: 'D', 17: 'B', 18: 'A', 19: 'D', 20: 'A',
+      21: 'C', 22: 'D', 23: 'A', 24: 'C', 25: 'B', 26: 'A', 27: 'B', 28: 'D', 29: 'A', 30: 'B', 31: 'D'
+    };
     return julySchedule[day] as 'A' | 'B' | 'C' | 'D' || null;
   }
   
-  // For other months, calculate based on the 31-day cycle from July 1st, 2025
-  const july1st2025 = new Date(2025, 6, 1); // July 1st, 2025
+  // For all other months and years, use the 28-day cycle starting from July 1st, 2025
+  const july1st2025 = new Date(2025, 6, 1); // July 1st, 2025 (start of cycle)
   const diffInDays = Math.floor((today.getTime() - july1st2025.getTime()) / (1000 * 60 * 60 * 24));
   
-  // Create a 31-day pattern from the July schedule
-  const pattern = [
+  // 28-day cycle pattern
+  const baseSchedule = [
     'A', 'B', 'D', 'C', 'B', 'C', 'A', 'B', 'C', 'A', // Days 1-10
     'D', 'C', 'D', 'B', 'C', 'D', 'B', 'A', 'D', 'A', // Days 11-20
-    'C', 'D', 'A', 'C', 'B', 'A', 'B', 'D', 'A', 'B', // Days 21-30
-    'D' // Day 31
+    'C', 'D', 'A', 'C', 'B', 'A', 'B', 'D'            // Days 21-28 (28-day cycle)
   ];
   
-  // Calculate which day in the pattern this date corresponds to
-  const patternIndex = ((diffInDays % 31) + 31) % 31; // Handle negative numbers for dates before July 1st
+  // Calculate which day in the 28-day pattern this date corresponds to
+  const cycleDay = ((diffInDays % 28) + 28) % 28; // Handle negative numbers for dates before July 1st
   
-  return pattern[patternIndex] as 'A' | 'B' | 'C' | 'D';
+  return baseSchedule[cycleDay] as 'A' | 'B' | 'C' | 'D';
 };

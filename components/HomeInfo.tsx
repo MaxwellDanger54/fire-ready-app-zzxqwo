@@ -1,4 +1,4 @@
-import { Text, View } from 'react-native';
+import { Text, View, TouchableOpacity, Linking, Alert } from 'react-native';
 import { commonStyles, colors } from '../styles/commonStyles';
 import Icon from './Icon';
 import { getCurrentShift } from './ShiftCalendar';
@@ -30,6 +30,30 @@ export default function HomeInfo() {
         description: 'All shifts off duty'
       };
     }
+  };
+
+  const handleLinkPress = (url: string, title: string) => {
+    console.log('Opening link:', url);
+    Linking.canOpenURL(url)
+      .then((supported) => {
+        if (supported) {
+          return Linking.openURL(url);
+        } else {
+          Alert.alert(
+            'Cannot Open Link',
+            `Unable to open ${title}. Please check your internet connection or try again later.`,
+            [{ text: 'OK' }]
+          );
+        }
+      })
+      .catch((err) => {
+        console.error('Error opening link:', err);
+        Alert.alert(
+          'Error',
+          `Failed to open ${title}. Please try again.`,
+          [{ text: 'OK' }]
+        );
+      });
   };
 
   const shiftInfo = getShiftDisplayInfo();
@@ -104,6 +128,29 @@ export default function HomeInfo() {
         </View>
       </View>
 
+      {/* Important Link */}
+      <View style={[commonStyles.card, { marginTop: 16 }]}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
+          <Icon name="link" size={20} style={{ color: colors.accent, marginRight: 8 }} />
+          <Text style={[commonStyles.text, { fontWeight: '600' }]}>Important Form</Text>
+        </View>
+        <TouchableOpacity
+          style={[commonStyles.button, { backgroundColor: colors.accent, marginBottom: 0 }]}
+          onPress={() => handleLinkPress('https://www.emailmeform.com/builder/form/1u5eAoCLK46Wf37pcGca5F', 'Important Form')}
+        >
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <Icon name="document-text" size={20} style={{ color: colors.background, marginRight: 8 }} />
+            <Text style={[commonStyles.buttonText, { color: colors.background }]}>
+              Access Form
+            </Text>
+            <Icon name="open-outline" size={16} style={{ color: colors.background, marginLeft: 8 }} />
+          </View>
+        </TouchableOpacity>
+        <Text style={[commonStyles.textSecondary, { fontSize: 12, textAlign: 'center', marginTop: 8 }]}>
+          Click to access the important firefighter form
+        </Text>
+      </View>
+
       {/* Shift Legend */}
       <View style={[commonStyles.card, { marginTop: 16 }]}>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
@@ -136,19 +183,6 @@ export default function HomeInfo() {
             </View>
           ))}
         </View>
-      </View>
-
-      {/* Quick Info */}
-      <View style={[commonStyles.card, { marginTop: 16, backgroundColor: colors.backgroundAlt }]}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
-          <Icon name="information-circle" size={20} style={{ color: colors.accent, marginRight: 8 }} />
-          <Text style={[commonStyles.text, { fontWeight: '600' }]}>Shift Information</Text>
-        </View>
-        <Text style={[commonStyles.textSecondary, { fontSize: 14, lineHeight: 20 }]}>
-          Toronto Fire operates on a 28-day rotation cycle with 4 shifts (A, B, C, D). 
-          Each shift works 2 days, then has 2 days off, in a staggered pattern. 
-          Shifts change at 07:00 hrs each morning.
-        </Text>
       </View>
     </View>
   );
