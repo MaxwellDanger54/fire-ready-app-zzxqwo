@@ -152,6 +152,29 @@ export default function HomeInfo() {
         </Text>
       </View>
 
+      {/* Stoehr Calls Website */}
+      <View style={[commonStyles.card, { marginTop: 16 }]}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
+          <Icon name="call" size={20} style={{ color: colors.accent, marginRight: 8 }} />
+          <Text style={[commonStyles.text, { fontWeight: '600' }]}>Stoehr Calls</Text>
+        </View>
+        <TouchableOpacity
+          style={[commonStyles.button, { backgroundColor: colors.primary, marginBottom: 0 }]}
+          onPress={() => handleLinkPress('https://calls.stoehr.ca/index.php', 'Stoehr Calls')}
+        >
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <Icon name="call" size={20} style={{ color: colors.background, marginRight: 8 }} />
+            <Text style={[commonStyles.buttonText, { color: colors.background }]}>
+              Access Stoehr Calls
+            </Text>
+            <Icon name="open-outline" size={16} style={{ color: colors.background, marginLeft: 8 }} />
+          </View>
+        </TouchableOpacity>
+        <Text style={[commonStyles.textSecondary, { fontSize: 12, textAlign: 'center', marginTop: 8 }]}>
+          Access call information and data
+        </Text>
+      </View>
+
       {/* Fire Hall Meals */}
       <View style={[commonStyles.card, { marginTop: 16 }]}>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
