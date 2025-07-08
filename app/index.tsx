@@ -1,4 +1,4 @@
-import { Text, View, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { Text, View, ScrollView, TouchableOpacity, Image, Dimensions } from 'react-native';
 import { useState } from 'react';
 import { commonStyles, colors } from '../styles/commonStyles';
 import Icon from '../components/Icon';
@@ -12,6 +12,18 @@ type TabType = 'home' | 'numbers' | 'resources' | 'calendar' | 'firehalls';
 
 export default function FirefighterApp() {
   const [activeTab, setActiveTab] = useState<TabType>('home');
+  const screenWidth = Dimensions.get('window').width;
+  
+  // Calculate responsive font size based on screen width
+  const getResponsiveFontSize = () => {
+    if (screenWidth < 350) {
+      return 16; // Very small screens
+    } else if (screenWidth < 400) {
+      return 18; // Small screens
+    } else {
+      return 20; // Normal screens and larger
+    }
+  };
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -59,17 +71,22 @@ export default function FirefighterApp() {
             right: 0,
             alignItems: 'center',
             justifyContent: 'center',
-            transform: [{ translateY: -15 }]
+            transform: [{ translateY: -15 }],
+            paddingHorizontal: 10
           }}>
             <Text style={[commonStyles.headerTitle, {
-              fontSize: 22,
+              fontSize: getResponsiveFontSize(),
               fontWeight: '800',
               color: colors.text,
               textAlign: 'center',
               textShadowColor: 'rgba(0, 0, 0, 0.5)',
               textShadowOffset: { width: 1, height: 1 },
               textShadowRadius: 3,
-              letterSpacing: 0.5
+              letterSpacing: 0.5,
+              flexWrap: 'nowrap',
+              numberOfLines: 1,
+              adjustsFontSizeToFit: true,
+              minimumFontScale: 0.7
             }]}>
               TFS Operations Dashboard
             </Text>
