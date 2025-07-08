@@ -152,20 +152,20 @@ export default function HomeInfo() {
         </Text>
       </View>
 
-      {/* Stoehr Calls Website */}
+      {/* TFS Calls Website */}
       <View style={[commonStyles.card, { marginTop: 16 }]}>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
           <Icon name="call" size={20} style={{ color: colors.accent, marginRight: 8 }} />
-          <Text style={[commonStyles.text, { fontWeight: '600' }]}>Stoehr Calls</Text>
+          <Text style={[commonStyles.text, { fontWeight: '600' }]}>TFS Calls</Text>
         </View>
         <TouchableOpacity
           style={[commonStyles.button, { backgroundColor: colors.primary, marginBottom: 0 }]}
-          onPress={() => handleLinkPress('https://calls.stoehr.ca/index.php', 'Stoehr Calls')}
+          onPress={() => handleLinkPress('https://calls.stoehr.ca/index.php', 'TFS Calls')}
         >
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
             <Icon name="call" size={20} style={{ color: colors.background, marginRight: 8 }} />
             <Text style={[commonStyles.buttonText, { color: colors.background }]}>
-              Access Stoehr Calls
+              Access TFS Calls
             </Text>
             <Icon name="open-outline" size={16} style={{ color: colors.background, marginLeft: 8 }} />
           </View>
