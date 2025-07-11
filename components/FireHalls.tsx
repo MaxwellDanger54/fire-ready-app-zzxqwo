@@ -17,17 +17,15 @@ export default function FireHalls() {
     North: [
       // 11 District
       { stationNumber: '111', name: 'Fire Station 111', address: '3300 Bayview Avenue, North York, ON' },
-      { stationNumber: '112', name: 'Fire Station 112', address: '4330 Dufferin Street, North York, ON' },
-      { stationNumber: '113', name: 'Fire Station 113', address: '1291 Wilson Avenue, North York, ON' },
+      { stationNumber: '112', name: 'Fire Station 112', address: '5700 Bathurst Street, North York, ON' },
+      { stationNumber: '113', name: 'Fire Station 113', address: '1200 Finch Avenue West, North York, ON' },
       { stationNumber: '114', name: 'Fire Station 114', address: '1315 Lawrence Avenue West, North York, ON' },
       { stationNumber: '115', name: 'Fire Station 115', address: '3415 Bathurst Street, North York, ON' },
-      { stationNumber: '116', name: 'Fire Station 116', address: '1291 Sheppard Avenue West, North York, ON' },
       // 12 District
       { stationNumber: '121', name: 'Fire Station 121', address: '1750 Finch Avenue East, North York, ON' },
       { stationNumber: '122', name: 'Fire Station 122', address: '5050 Yonge Street, North York, ON' },
       { stationNumber: '123', name: 'Fire Station 123', address: '1750 Steeles Avenue East, North York, ON' },
       { stationNumber: '124', name: 'Fire Station 124', address: '3945 Don Mills Road, North York, ON' },
-      { stationNumber: '125', name: 'Fire Station 125', address: '1750 Ellesmere Road, Scarborough, ON' },
       // 13 District
       { stationNumber: '131', name: 'Fire Station 131', address: '2895 Bayview Avenue, North York, ON' },
       { stationNumber: '132', name: 'Fire Station 132', address: '4155 Bathurst Street, North York, ON' },
