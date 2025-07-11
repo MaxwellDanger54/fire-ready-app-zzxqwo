@@ -15,16 +15,16 @@ export default function FirefighterApp() {
   const [activeTab, setActiveTab] = useState<TabType>('home');
   const screenWidth = Dimensions.get('window').width;
   
-  // Calculate responsive font size based on screen width
-  const getResponsiveFontSize = () => {
+  // Calculate responsive font size for title based on screen width
+  const getTitleFontSize = () => {
     if (screenWidth < 350) {
-      return 14; // Very small screens
+      return 22; // Very small screens
     } else if (screenWidth < 400) {
-      return 16; // Small screens
+      return 26; // Small screens
     } else if (screenWidth < 450) {
-      return 18; // Medium screens
+      return 30; // Medium screens
     } else {
-      return 20; // Normal screens and larger
+      return 34; // Normal screens and larger
     }
   };
 
@@ -68,22 +68,19 @@ export default function FirefighterApp() {
             }}
           />
           
-          {/* Text centered over the logo - moved up more */}
+          {/* Title centered over the logo - Operations on top, Dashboard below */}
           <View style={{
             position: 'absolute',
-            top: '40%',
+            top: '35%',
             left: 0,
             right: 0,
             alignItems: 'center',
             justifyContent: 'center',
             transform: [{ translateY: -15 }],
-            paddingHorizontal: 10,
-            flexDirection: 'row',
-            flexWrap: 'wrap'
+            paddingHorizontal: 10
           }}>
-            {/* Each word in its own Text component to prevent breaking */}
-            <Text style={[commonStyles.headerTitle, {
-              fontSize: getResponsiveFontSize(),
+            <Text style={{
+              fontSize: getTitleFontSize(),
               fontWeight: '800',
               color: colors.text,
               textAlign: 'center',
@@ -91,33 +88,22 @@ export default function FirefighterApp() {
               textShadowOffset: { width: 1, height: 1 },
               textShadowRadius: 3,
               letterSpacing: 0.5,
-              marginRight: 4
-            }]}>
-              TFS
-            </Text>
-            <Text style={[commonStyles.headerTitle, {
-              fontSize: getResponsiveFontSize(),
-              fontWeight: '800',
-              color: colors.text,
-              textAlign: 'center',
-              textShadowColor: 'rgba(0, 0, 0, 0.5)',
-              textShadowOffset: { width: 1, height: 1 },
-              textShadowRadius: 3,
-              letterSpacing: 0.5,
-              marginRight: 4
-            }]}>
+              lineHeight: getTitleFontSize() * 1.1,
+              marginBottom: -2
+            }}>
               Operations
             </Text>
-            <Text style={[commonStyles.headerTitle, {
-              fontSize: getResponsiveFontSize(),
+            <Text style={{
+              fontSize: getTitleFontSize(),
               fontWeight: '800',
               color: colors.text,
               textAlign: 'center',
               textShadowColor: 'rgba(0, 0, 0, 0.5)',
               textShadowOffset: { width: 1, height: 1 },
               textShadowRadius: 3,
-              letterSpacing: 0.5
-            }]}>
+              letterSpacing: 0.5,
+              lineHeight: getTitleFontSize() * 1.1
+            }}>
               Dashboard
             </Text>
           </View>
