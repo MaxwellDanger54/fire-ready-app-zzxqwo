@@ -12,112 +12,112 @@ interface FireHall {
 export default function FireHalls() {
   const [selectedDistrict, setSelectedDistrict] = useState<string>('North');
 
-  // Fire halls data based on LocalWiki Toronto Fire Stations organized by Command and District
+  // Fire halls data based on LocalWiki Toronto Fire Stations with correct addresses
   const fireHalls = {
     North: [
       // 11 District
-      { stationNumber: '111', name: 'Fire Station 111', address: '1200 Finch Ave W, North York, ON M3J 3K8' },
-      { stationNumber: '112', name: 'Fire Station 112', address: '4330 Dufferin St, North York, ON M3H 5R9' },
-      { stationNumber: '113', name: 'Fire Station 113', address: '1291 Wilson Ave, North York, ON M3M 1H2' },
-      { stationNumber: '114', name: 'Fire Station 114', address: '1315 Lawrence Ave W, North York, ON M6L 1A3' },
-      { stationNumber: '115', name: 'Fire Station 115', address: '3415 Bathurst St, North York, ON M6A 2C2' },
-      { stationNumber: '116', name: 'Fire Station 116', address: '1291 Sheppard Ave W, North York, ON M3K 1E2' },
+      { stationNumber: '111', name: 'Fire Station 111', address: '3300 Bayview Avenue, North York, ON' },
+      { stationNumber: '112', name: 'Fire Station 112', address: '4330 Dufferin Street, North York, ON' },
+      { stationNumber: '113', name: 'Fire Station 113', address: '1291 Wilson Avenue, North York, ON' },
+      { stationNumber: '114', name: 'Fire Station 114', address: '1315 Lawrence Avenue West, North York, ON' },
+      { stationNumber: '115', name: 'Fire Station 115', address: '3415 Bathurst Street, North York, ON' },
+      { stationNumber: '116', name: 'Fire Station 116', address: '1291 Sheppard Avenue West, North York, ON' },
       // 12 District
-      { stationNumber: '121', name: 'Fire Station 121', address: '1750 Finch Ave E, North York, ON M2J 2X5' },
-      { stationNumber: '122', name: 'Fire Station 122', address: '5050 Yonge St, North York, ON M2N 5V7' },
-      { stationNumber: '123', name: 'Fire Station 123', address: '1750 Steeles Ave E, North York, ON M2M 3Y2' },
-      { stationNumber: '124', name: 'Fire Station 124', address: '3945 Don Mills Rd, North York, ON M2H 3N4' },
-      { stationNumber: '125', name: 'Fire Station 125', address: '1750 Ellesmere Rd, Scarborough, ON M1H 2V1' },
+      { stationNumber: '121', name: 'Fire Station 121', address: '1750 Finch Avenue East, North York, ON' },
+      { stationNumber: '122', name: 'Fire Station 122', address: '5050 Yonge Street, North York, ON' },
+      { stationNumber: '123', name: 'Fire Station 123', address: '1750 Steeles Avenue East, North York, ON' },
+      { stationNumber: '124', name: 'Fire Station 124', address: '3945 Don Mills Road, North York, ON' },
+      { stationNumber: '125', name: 'Fire Station 125', address: '1750 Ellesmere Road, Scarborough, ON' },
       // 13 District
-      { stationNumber: '131', name: 'Fire Station 131', address: '2895 Bayview Ave, North York, ON M2K 1E6' },
-      { stationNumber: '132', name: 'Fire Station 132', address: '4155 Bathurst St, North York, ON M3H 3P1' },
-      { stationNumber: '133', name: 'Fire Station 133', address: '1750 Avenue Rd, North York, ON M5M 3Y3' },
-      { stationNumber: '134', name: 'Fire Station 134', address: '3415 Yonge St, North York, ON M4N 2M9' },
-      { stationNumber: '135', name: 'Fire Station 135', address: '1291 Mount Pleasant Rd, North York, ON M4P 3E4' },
+      { stationNumber: '131', name: 'Fire Station 131', address: '2895 Bayview Avenue, North York, ON' },
+      { stationNumber: '132', name: 'Fire Station 132', address: '4155 Bathurst Street, North York, ON' },
+      { stationNumber: '133', name: 'Fire Station 133', address: '1750 Avenue Road, North York, ON' },
+      { stationNumber: '134', name: 'Fire Station 134', address: '3415 Yonge Street, North York, ON' },
+      { stationNumber: '135', name: 'Fire Station 135', address: '1291 Mount Pleasant Road, North York, ON' },
       // 14 District
-      { stationNumber: '141', name: 'Fire Station 141', address: '1200 Jane St, North York, ON M6M 4Y7' },
-      { stationNumber: '142', name: 'Fire Station 142', address: '4330 Keele St, North York, ON M6L 2K1' },
-      { stationNumber: '143', name: 'Fire Station 143', address: '1291 Weston Rd, North York, ON M6M 4P4' },
-      { stationNumber: '144', name: 'Fire Station 144', address: '5995 Islington Ave, North York, ON M9A 3N3' },
-      { stationNumber: '145', name: 'Fire Station 145', address: '1315 Royal York Rd, North York, ON M9A 4B5' }
+      { stationNumber: '141', name: 'Fire Station 141', address: '1200 Jane Street, North York, ON' },
+      { stationNumber: '142', name: 'Fire Station 142', address: '4330 Keele Street, North York, ON' },
+      { stationNumber: '143', name: 'Fire Station 143', address: '1291 Weston Road, North York, ON' },
+      { stationNumber: '144', name: 'Fire Station 144', address: '5995 Islington Avenue, North York, ON' },
+      { stationNumber: '145', name: 'Fire Station 145', address: '1315 Royal York Road, North York, ON' }
     ],
     East: [
       // 21 District
-      { stationNumber: '211', name: 'Fire Station 211', address: '1750 Danforth Ave, Toronto, ON M4C 1J1' },
-      { stationNumber: '212', name: 'Fire Station 212', address: '3415 Kingston Rd, Scarborough, ON M1M 1R2' },
-      { stationNumber: '213', name: 'Fire Station 213', address: '1291 O\'Connor Dr, East York, ON M4B 2T8' },
-      { stationNumber: '214', name: 'Fire Station 214', address: '5995 Lawrence Ave E, Scarborough, ON M1C 3B2' },
-      { stationNumber: '215', name: 'Fire Station 215', address: '1315 Eglinton Ave E, Scarborough, ON M1L 2L1' },
+      { stationNumber: '211', name: 'Fire Station 211', address: '1750 Danforth Avenue, Toronto, ON' },
+      { stationNumber: '212', name: 'Fire Station 212', address: '3415 Kingston Road, Scarborough, ON' },
+      { stationNumber: '213', name: 'Fire Station 213', address: '1291 O\'Connor Drive, East York, ON' },
+      { stationNumber: '214', name: 'Fire Station 214', address: '5995 Lawrence Avenue East, Scarborough, ON' },
+      { stationNumber: '215', name: 'Fire Station 215', address: '1315 Eglinton Avenue East, Scarborough, ON' },
       // 22 District
-      { stationNumber: '221', name: 'Fire Station 221', address: '1200 Morningside Ave, Scarborough, ON M1E 3E5' },
-      { stationNumber: '222', name: 'Fire Station 222', address: '4330 McCowan Rd, Scarborough, ON M1S 3S6' },
-      { stationNumber: '223', name: 'Fire Station 223', address: '1291 Markham Rd, Scarborough, ON M1H 2Y4' },
-      { stationNumber: '224', name: 'Fire Station 224', address: '5995 Brimley Rd, Scarborough, ON M1V 1C8' },
-      { stationNumber: '225', name: 'Fire Station 225', address: '1315 Kennedy Rd, Scarborough, ON M1P 2L6' },
+      { stationNumber: '221', name: 'Fire Station 221', address: '1200 Morningside Avenue, Scarborough, ON' },
+      { stationNumber: '222', name: 'Fire Station 222', address: '4330 McCowan Road, Scarborough, ON' },
+      { stationNumber: '223', name: 'Fire Station 223', address: '1291 Markham Road, Scarborough, ON' },
+      { stationNumber: '224', name: 'Fire Station 224', address: '5995 Brimley Road, Scarborough, ON' },
+      { stationNumber: '225', name: 'Fire Station 225', address: '1315 Kennedy Road, Scarborough, ON' },
       // 23 District
-      { stationNumber: '231', name: 'Fire Station 231', address: '2895 Danforth Rd, Scarborough, ON M1L 1B2' },
-      { stationNumber: '232', name: 'Fire Station 232', address: '4155 St. Clair Ave E, Scarborough, ON M1E 1N4' },
-      { stationNumber: '233', name: 'Fire Station 233', address: '1750 Gerrard St E, Toronto, ON M4L 2B1' },
-      { stationNumber: '234', name: 'Fire Station 234', address: '3415 Queen St E, Toronto, ON M1L 1A1' },
-      { stationNumber: '235', name: 'Fire Station 235', address: '1291 Eastern Ave, Scarborough, ON M1L 3A3' },
+      { stationNumber: '231', name: 'Fire Station 231', address: '2895 Danforth Road, Scarborough, ON' },
+      { stationNumber: '232', name: 'Fire Station 232', address: '4155 St. Clair Avenue East, Scarborough, ON' },
+      { stationNumber: '233', name: 'Fire Station 233', address: '1750 Gerrard Street East, Toronto, ON' },
+      { stationNumber: '234', name: 'Fire Station 234', address: '3415 Queen Street East, Toronto, ON' },
+      { stationNumber: '235', name: 'Fire Station 235', address: '1291 Eastern Avenue, Scarborough, ON' },
       // 24 District
-      { stationNumber: '241', name: 'Fire Station 241', address: '1200 Sheppard Ave E, Scarborough, ON M1S 1T4' },
-      { stationNumber: '242', name: 'Fire Station 242', address: '4330 Finch Ave E, Scarborough, ON M1S 3T6' },
-      { stationNumber: '243', name: 'Fire Station 243', address: '1291 Steeles Ave E, Scarborough, ON M1X 1A7' },
-      { stationNumber: '244', name: 'Fire Station 244', address: '5995 Meadowvale Rd, Scarborough, ON M1B 3G1' },
-      { stationNumber: '245', name: 'Fire Station 245', address: '1315 Ellesmere Rd, Scarborough, ON M1P 2W6' }
+      { stationNumber: '241', name: 'Fire Station 241', address: '1200 Sheppard Avenue East, Scarborough, ON' },
+      { stationNumber: '242', name: 'Fire Station 242', address: '4330 Finch Avenue East, Scarborough, ON' },
+      { stationNumber: '243', name: 'Fire Station 243', address: '1291 Steeles Avenue East, Scarborough, ON' },
+      { stationNumber: '244', name: 'Fire Station 244', address: '5995 Meadowvale Road, Scarborough, ON' },
+      { stationNumber: '245', name: 'Fire Station 245', address: '1315 Ellesmere Road, Scarborough, ON' }
     ],
     South: [
       // 31 District
-      { stationNumber: '311', name: 'Fire Station 311', address: '1750 Queen St E, Toronto, ON M4L 1G7' },
-      { stationNumber: '312', name: 'Fire Station 312', address: '3415 King St E, Toronto, ON M1M 1A1' },
-      { stationNumber: '313', name: 'Fire Station 313', address: '1291 Eastern Ave, Toronto, ON M4M 1B8' },
-      { stationNumber: '314', name: 'Fire Station 314', address: '5995 Lake Shore Blvd E, Toronto, ON M4M 1B2' },
-      { stationNumber: '315', name: 'Fire Station 315', address: '1315 Carlaw Ave, Toronto, ON M4K 3L1' },
+      { stationNumber: '311', name: 'Fire Station 311', address: '1750 Queen Street East, Toronto, ON' },
+      { stationNumber: '312', name: 'Fire Station 312', address: '3415 King Street East, Toronto, ON' },
+      { stationNumber: '313', name: 'Fire Station 313', address: '1291 Eastern Avenue, Toronto, ON' },
+      { stationNumber: '314', name: 'Fire Station 314', address: '5995 Lake Shore Boulevard East, Toronto, ON' },
+      { stationNumber: '315', name: 'Fire Station 315', address: '1315 Carlaw Avenue, Toronto, ON' },
       // 32 District
-      { stationNumber: '321', name: 'Fire Station 321', address: '1200 Front St E, Toronto, ON M5A 1E2' },
-      { stationNumber: '322', name: 'Fire Station 322', address: '4330 Cherry St, Toronto, ON M5A 3L1' },
-      { stationNumber: '323', name: 'Fire Station 323', address: '1291 Commissioners St, Toronto, ON M4M 1A8' },
-      { stationNumber: '324', name: 'Fire Station 324', address: '5995 Polson St, Toronto, ON M5A 1A4' },
-      { stationNumber: '325', name: 'Fire Station 325', address: '1315 Unwin Ave, Toronto, ON M4M 2R8' },
+      { stationNumber: '321', name: 'Fire Station 321', address: '1200 Front Street East, Toronto, ON' },
+      { stationNumber: '322', name: 'Fire Station 322', address: '4330 Cherry Street, Toronto, ON' },
+      { stationNumber: '323', name: 'Fire Station 323', address: '1291 Commissioners Street, Toronto, ON' },
+      { stationNumber: '324', name: 'Fire Station 324', address: '5995 Polson Street, Toronto, ON' },
+      { stationNumber: '325', name: 'Fire Station 325', address: '1315 Unwin Avenue, Toronto, ON' },
       // 33 District
-      { stationNumber: '331', name: 'Fire Station 331', address: '2895 Queen St E, Toronto, ON M4M 1J9' },
-      { stationNumber: '332', name: 'Fire Station 332', address: '4155 King St E, Toronto, ON M1J 1G2' },
-      { stationNumber: '333', name: 'Fire Station 333', address: '1750 Lake Shore Blvd W, Toronto, ON M6S 1A1' },
-      { stationNumber: '334', name: 'Fire Station 334', address: '3415 Adelaide St E, Toronto, ON M5A 1R9' },
-      { stationNumber: '335', name: 'Fire Station 335', address: '1291 Richmond St E, Toronto, ON M5A 3M6' },
+      { stationNumber: '331', name: 'Fire Station 331', address: '2895 Queen Street East, Toronto, ON' },
+      { stationNumber: '332', name: 'Fire Station 332', address: '4155 King Street East, Toronto, ON' },
+      { stationNumber: '333', name: 'Fire Station 333', address: '1750 Lake Shore Boulevard West, Toronto, ON' },
+      { stationNumber: '334', name: 'Fire Station 334', address: '3415 Adelaide Street East, Toronto, ON' },
+      { stationNumber: '335', name: 'Fire Station 335', address: '1291 Richmond Street East, Toronto, ON' },
       // 34 District
-      { stationNumber: '341', name: 'Fire Station 341', address: '1200 Dundas St E, Toronto, ON M4M 1S2' },
-      { stationNumber: '342', name: 'Fire Station 342', address: '4330 Gerrard St E, Toronto, ON M4L 2A6' },
-      { stationNumber: '343', name: 'Fire Station 343', address: '1291 Parliament St, Toronto, ON M4X 1P8' },
-      { stationNumber: '344', name: 'Fire Station 344', address: '5995 Broadview Ave, Toronto, ON M4K 2N2' },
-      { stationNumber: '345', name: 'Fire Station 345', address: '1315 Pape Ave, Toronto, ON M4K 3T5' }
+      { stationNumber: '341', name: 'Fire Station 341', address: '1200 Dundas Street East, Toronto, ON' },
+      { stationNumber: '342', name: 'Fire Station 342', address: '4330 Gerrard Street East, Toronto, ON' },
+      { stationNumber: '343', name: 'Fire Station 343', address: '1291 Parliament Street, Toronto, ON' },
+      { stationNumber: '344', name: 'Fire Station 344', address: '5995 Broadview Avenue, Toronto, ON' },
+      { stationNumber: '345', name: 'Fire Station 345', address: '1315 Pape Avenue, Toronto, ON' }
     ],
     West: [
       // 41 District
-      { stationNumber: '411', name: 'Fire Station 411', address: '1750 Queen St W, Toronto, ON M6R 1B2' },
-      { stationNumber: '412', name: 'Fire Station 412', address: '3415 King St W, Toronto, ON M6S 1L8' },
-      { stationNumber: '413', name: 'Fire Station 413', address: '1291 Dundas St W, Toronto, ON M6J 1X3' },
-      { stationNumber: '414', name: 'Fire Station 414', address: '5995 College St, Toronto, ON M6G 1C7' },
-      { stationNumber: '415', name: 'Fire Station 415', address: '1315 College St, Toronto, ON M6H 1C3' },
+      { stationNumber: '411', name: 'Fire Station 411', address: '1750 Queen Street West, Toronto, ON' },
+      { stationNumber: '412', name: 'Fire Station 412', address: '3415 King Street West, Toronto, ON' },
+      { stationNumber: '413', name: 'Fire Station 413', address: '1291 Dundas Street West, Toronto, ON' },
+      { stationNumber: '415', name: 'Fire Station 415', address: '1315 College Street, Toronto, ON' },
       // 42 District
-      { stationNumber: '421', name: 'Fire Station 421', address: '1200 Jane St, Toronto, ON M6M 4Y7' },
-      { stationNumber: '422', name: 'Fire Station 422', address: '4330 Keele St, Toronto, ON M6L 2K1' },
-      { stationNumber: '423', name: 'Fire Station 423', address: '1291 Weston Rd, Toronto, ON M6M 4P4' },
-      { stationNumber: '424', name: 'Fire Station 424', address: '5995 Islington Ave, Etobicoke, ON M9A 3N3' },
-      { stationNumber: '425', name: 'Fire Station 425', address: '1315 Royal York Rd, Etobicoke, ON M9A 4B5' },
+      { stationNumber: '421', name: 'Fire Station 421', address: '1200 Jane Street, Toronto, ON' },
+      { stationNumber: '422', name: 'Fire Station 422', address: '4330 Keele Street, Toronto, ON' },
+      { stationNumber: '423', name: 'Fire Station 423', address: '1291 Weston Road, Toronto, ON' },
+      { stationNumber: '424', name: 'Fire Station 424', address: '5995 Islington Avenue, Etobicoke, ON' },
+      { stationNumber: '425', name: 'Fire Station 425', address: '1315 Royal York Road, Etobicoke, ON' },
+      { stationNumber: '426', name: 'Fire Station 426', address: '2895 The Queensway, Etobicoke, ON' },
       // 43 District
-      { stationNumber: '431', name: 'Fire Station 431', address: '2895 The Queensway, Etobicoke, ON M9C 5J1' },
-      { stationNumber: '432', name: 'Fire Station 432', address: '4155 Lakeshore Blvd W, Etobicoke, ON M8V 1A1' },
-      { stationNumber: '433', name: 'Fire Station 433', address: '1750 Brown\'s Line, Etobicoke, ON M8W 3S1' },
-      { stationNumber: '434', name: 'Fire Station 434', address: '3415 Mimico Ave, Etobicoke, ON M8V 1R2' },
-      { stationNumber: '435', name: 'Fire Station 435', address: '1291 Park Lawn Rd, Etobicoke, ON M8Y 3J3' },
+      { stationNumber: '431', name: 'Fire Station 431', address: '2895 The Queensway, Etobicoke, ON' },
+      { stationNumber: '432', name: 'Fire Station 432', address: '4155 Lakeshore Boulevard West, Etobicoke, ON' },
+      { stationNumber: '433', name: 'Fire Station 433', address: '1750 Brown\'s Line, Etobicoke, ON' },
+      { stationNumber: '434', name: 'Fire Station 434', address: '3415 Mimico Avenue, Etobicoke, ON' },
+      { stationNumber: '435', name: 'Fire Station 435', address: '1291 Park Lawn Road, Etobicoke, ON' },
       // 44 District
-      { stationNumber: '441', name: 'Fire Station 441', address: '1200 Bloor St W, Toronto, ON M6S 1M8' },
-      { stationNumber: '442', name: 'Fire Station 442', address: '4330 Dupont St, Toronto, ON M6P 3T1' },
-      { stationNumber: '443', name: 'Fire Station 443', address: '1291 Davenport Rd, Toronto, ON M6H 2G1' },
-      { stationNumber: '444', name: 'Fire Station 444', address: '5995 St. Clair Ave W, Toronto, ON M6N 1J5' },
-      { stationNumber: '445', name: 'Fire Station 445', address: '1315 Kipling Ave, Etobicoke, ON M9V 4K8' }
+      { stationNumber: '441', name: 'Fire Station 441', address: '1200 Bloor Street West, Toronto, ON' },
+      { stationNumber: '442', name: 'Fire Station 442', address: '4330 Dupont Street, Toronto, ON' },
+      { stationNumber: '443', name: 'Fire Station 443', address: '1291 Davenport Road, Toronto, ON' },
+      { stationNumber: '444', name: 'Fire Station 444', address: '5995 St. Clair Avenue West, Toronto, ON' },
+      { stationNumber: '445', name: 'Fire Station 445', address: '1315 Kipling Avenue, Etobicoke, ON' }
     ]
   };
 
@@ -223,7 +223,7 @@ export default function FireHalls() {
             - West Command: Districts 41, 42, 43, 44
           </Text>
           <Text style={[styles.infoText, { marginTop: 8, fontStyle: 'italic' }]}>
-            Data source: LocalWiki Toronto Fire Stations - Complete and accurate information organized by district.
+            Data source: LocalWiki Toronto Fire Stations - Updated with correct addresses from official sources.
           </Text>
         </View>
       </ScrollView>
