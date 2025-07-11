@@ -258,7 +258,7 @@ export default function FireHalls() {
         <Text style={commonStyles.sectionTitle}>Toronto Fire Halls</Text>
       </View>
 
-      {/* District Tabs - Now using flex layout to fit screen width without scrolling */}
+      {/* District Tabs - Enhanced with bigger text, centered, and properly spaced */}
       <View style={styles.tabContainer}>
         {districts.map(district => (
           <TouchableOpacity
@@ -276,7 +276,7 @@ export default function FireHalls() {
               styles.tabText,
               {
                 color: selectedDistrict === district.name ? 'white' : colors.textSecondary,
-                fontWeight: selectedDistrict === district.name ? 'bold' : 'normal',
+                fontWeight: selectedDistrict === district.name ? 'bold' : '600',
               }
             ]}>
               {district.name}
@@ -381,28 +381,32 @@ export default function FireHalls() {
 const styles = StyleSheet.create({
   tabContainer: {
     flexDirection: 'row',
-    paddingHorizontal: 10,
-    paddingVertical: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 16,
     backgroundColor: colors.background,
     marginBottom: 8,
-    justifyContent: 'space-between',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   tab: {
     flex: 1,
-    paddingHorizontal: 8,
-    paddingVertical: 14,
-    borderRadius: 10,
+    paddingHorizontal: 6,
+    paddingVertical: 18,
+    borderRadius: 12,
     alignItems: 'center',
+    justifyContent: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
-    marginHorizontal: 3,
+    marginHorizontal: 4,
+    minHeight: 50,
   },
   tabText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '600',
     textAlign: 'center',
+    letterSpacing: 0.5,
   },
   header: {
     flexDirection: 'row',
