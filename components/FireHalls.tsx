@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, ScrollView, TouchableOpacity, StyleSheet, Linking, Alert } from 'react-native';
 import { commonStyles, colors } from '../styles/commonStyles';
 import Icon from './Icon';
 
@@ -129,6 +129,30 @@ export default function FireHalls() {
   const selectedDistrictData = districts.find(d => d.name === selectedDistrict);
   const currentFireHalls = fireHalls[selectedDistrict as keyof typeof fireHalls] || [];
 
+  const handleDirections = async (fireHall: FireHall) => {
+    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=Toronto+Fire+Station+${fireHall.stationNumber}`;
+    
+    try {
+      const supported = await Linking.canOpenURL(googleMapsUrl);
+      if (supported) {
+        await Linking.openURL(googleMapsUrl);
+      } else {
+        Alert.alert(
+          'Unable to Open Maps',
+          'Google Maps is not available on this device.',
+          [{ text: 'OK' }]
+        );
+      }
+    } catch (error) {
+      console.error('Error opening Google Maps:', error);
+      Alert.alert(
+        'Error',
+        'Unable to open directions. Please try again.',
+        [{ text: 'OK' }]
+      );
+    }
+  };
+
   const renderFireHall = (fireHall: FireHall) => (
     <View key={fireHall.stationNumber} style={[styles.fireHallCard, { borderLeftColor: selectedDistrictData?.color }]}>
       <View style={styles.fireHallHeader}>
@@ -137,9 +161,17 @@ export default function FireHalls() {
         </View>
         <Text style={styles.fireHallName}>{fireHall.name}</Text>
       </View>
-      <View style={styles.addressContainer}>
+      <TouchableOpacity 
+        style={styles.addressContainer}
+        onPress={() => handleDirections(fireHall)}
+        activeOpacity={0.7}
+      >
         <Icon name="location" size={16} style={{ color: colors.textSecondary, marginRight: 8 }} />
         <Text style={styles.address}>{fireHall.address}</Text>
+        <Icon name="navigate" size={16} style={{ color: colors.accent, marginLeft: 8 }} />
+      </TouchableOpacity>
+      <View style={styles.directionsHint}>
+        <Text style={styles.directionsText}>Tap address for directions</Text>
       </View>
     </View>
   );
@@ -204,6 +236,12 @@ export default function FireHalls() {
           <Text style={styles.infoText}>
             This list shows all {currentFireHalls.length} Toronto Fire Services stations in the {selectedDistrict} Command. 
             Fire stations are organized by command areas and districts to ensure optimal emergency response coverage across the city.
+          </Text>
+          <Text style={[styles.infoText, { marginTop: 8 }]}>
+            <Text style={{ fontWeight: '600' }}>Getting Directions:</Text>
+          </Text>
+          <Text style={[styles.infoText, { marginLeft: 16 }]}>
+            Tap any fire hall address to open Google Maps with directions to "Toronto Fire Station [Station Number]".
           </Text>
           <Text style={[styles.infoText, { marginTop: 8 }]}>
             <Text style={{ fontWeight: '600' }}>Command Structure:</Text>
@@ -319,12 +357,26 @@ const styles = StyleSheet.create({
   addressContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
+    paddingVertical: 8,
+    paddingHorizontal: 4,
+    borderRadius: 8,
+    backgroundColor: colors.background,
+    marginBottom: 4,
   },
   address: {
     fontSize: 14,
     color: colors.textSecondary,
     lineHeight: 20,
     flex: 1,
+  },
+  directionsHint: {
+    alignItems: 'center',
+    marginTop: 4,
+  },
+  directionsText: {
+    fontSize: 12,
+    color: colors.accent,
+    fontStyle: 'italic',
   },
   infoFooter: {
     backgroundColor: colors.card,
