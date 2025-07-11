@@ -258,13 +258,8 @@ export default function FireHalls() {
         <Text style={commonStyles.sectionTitle}>Toronto Fire Halls</Text>
       </View>
 
-      {/* District Tabs */}
-      <ScrollView 
-        horizontal 
-        showsHorizontalScrollIndicator={false}
-        style={styles.tabScrollContainer}
-        contentContainerStyle={styles.tabContainer}
-      >
+      {/* District Tabs - Now using flex layout to fit screen width without scrolling */}
+      <View style={styles.tabContainer}>
         {districts.map(district => (
           <TouchableOpacity
             key={district.name}
@@ -288,7 +283,7 @@ export default function FireHalls() {
             </Text>
           </TouchableOpacity>
         ))}
-      </ScrollView>
+      </View>
 
       {/* Header */}
       <View style={[styles.header, { backgroundColor: selectedDistrictData?.color }]}>
@@ -384,31 +379,30 @@ export default function FireHalls() {
 }
 
 const styles = StyleSheet.create({
-  tabScrollContainer: {
-    maxHeight: 60,
-  },
   tabContainer: {
     flexDirection: 'row',
     paddingHorizontal: 10,
     paddingVertical: 12,
     backgroundColor: colors.background,
     marginBottom: 8,
+    justifyContent: 'space-between',
   },
   tab: {
-    paddingHorizontal: 18,
-    paddingVertical: 12,
-    borderRadius: 8,
-    minWidth: 75,
+    flex: 1,
+    paddingHorizontal: 8,
+    paddingVertical: 14,
+    borderRadius: 10,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
-    marginRight: 8,
+    marginHorizontal: 3,
   },
   tabText: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '600',
+    textAlign: 'center',
   },
   header: {
     flexDirection: 'row',
