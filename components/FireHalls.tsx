@@ -162,17 +162,13 @@ export default function FireHalls() {
         <Text style={styles.fireHallName}>{fireHall.name}</Text>
       </View>
       <TouchableOpacity 
-        style={styles.addressContainer}
+        style={styles.directionsButton}
         onPress={() => handleDirections(fireHall)}
         activeOpacity={0.7}
       >
-        <Icon name="location" size={16} style={{ color: colors.textSecondary, marginRight: 8 }} />
-        <Text style={styles.address}>{fireHall.address}</Text>
-        <Icon name="navigate" size={16} style={{ color: colors.accent, marginLeft: 8 }} />
+        <Icon name="navigate" size={20} style={{ color: 'white', marginRight: 8 }} />
+        <Text style={styles.directionsButtonText}>Get Directions</Text>
       </TouchableOpacity>
-      <View style={styles.directionsHint}>
-        <Text style={styles.directionsText}>Tap address for directions</Text>
-      </View>
     </View>
   );
 
@@ -241,7 +237,7 @@ export default function FireHalls() {
             <Text style={{ fontWeight: '600' }}>Getting Directions:</Text>
           </Text>
           <Text style={[styles.infoText, { marginLeft: 16 }]}>
-            Tap any fire hall address to open Google Maps with directions to "Toronto Fire Station [Station Number]".
+            Tap "Get Directions" to open Google Maps with directions to "Toronto Fire Station [Station Number]".
           </Text>
           <Text style={[styles.infoText, { marginTop: 8 }]}>
             <Text style={{ fontWeight: '600' }}>Command Structure:</Text>
@@ -259,7 +255,7 @@ export default function FireHalls() {
             - West Command: Districts 41, 42, 43, 44
           </Text>
           <Text style={[styles.infoText, { marginTop: 8, fontStyle: 'italic' }]}>
-            All addresses updated to match Google Maps search results for "Toronto Fire Station [Number]" for accurate navigation.
+            All fire halls link to Google Maps for accurate navigation and directions.
           </Text>
         </View>
       </ScrollView>
@@ -354,29 +350,24 @@ const styles = StyleSheet.create({
     color: colors.text,
     flex: 1,
   },
-  addressContainer: {
+  directionsButton: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    paddingVertical: 8,
-    paddingHorizontal: 4,
-    borderRadius: 8,
-    backgroundColor: colors.background,
-    marginBottom: 4,
-  },
-  address: {
-    fontSize: 14,
-    color: colors.textSecondary,
-    lineHeight: 20,
-    flex: 1,
-  },
-  directionsHint: {
     alignItems: 'center',
-    marginTop: 4,
+    justifyContent: 'center',
+    backgroundColor: colors.accent,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
   },
-  directionsText: {
-    fontSize: 12,
-    color: colors.accent,
-    fontStyle: 'italic',
+  directionsButtonText: {
+    color: 'white',
+    fontWeight: '600',
+    fontSize: 16,
   },
   infoFooter: {
     backgroundColor: colors.card,

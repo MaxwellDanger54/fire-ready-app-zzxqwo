@@ -7,9 +7,8 @@ import ResourceLinks from '../components/ResourceLinks';
 import HomeInfo from '../components/HomeInfo';
 import ShiftCalendar from '../components/ShiftCalendar';
 import FireHalls from '../components/FireHalls';
-import ActiveIncidents from '../components/ActiveIncidents';
 
-type TabType = 'home' | 'numbers' | 'resources' | 'calendar' | 'firehalls' | 'incidents';
+type TabType = 'home' | 'numbers' | 'resources' | 'calendar' | 'firehalls';
 
 export default function FirefighterApp() {
   const [activeTab, setActiveTab] = useState<TabType>('home');
@@ -38,8 +37,6 @@ export default function FirefighterApp() {
         return <ShiftCalendar />;
       case 'firehalls':
         return <FireHalls />;
-      case 'incidents':
-        return <ActiveIncidents />;
       default:
         return <HomeInfo />;
     }
@@ -228,37 +225,6 @@ export default function FirefighterApp() {
             { fontSize: 10, textAlign: 'center' }
           ]}>
             Fire Halls
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[
-            commonStyles.tab, 
-            activeTab === 'incidents' && commonStyles.activeTab, 
-            { 
-              flex: 1,
-              paddingVertical: 10, 
-              paddingHorizontal: 2,
-              marginHorizontal: 1,
-              alignItems: 'center'
-            }
-          ]}
-          onPress={() => setActiveTab('incidents')}
-        >
-          <Icon 
-            name="flame" 
-            size={18} 
-            style={{ 
-              color: activeTab === 'incidents' ? colors.text : colors.textSecondary,
-              marginBottom: 2 
-            }} 
-          />
-          <Text style={[
-            commonStyles.tabText,
-            activeTab === 'incidents' && commonStyles.activeTabText,
-            { fontSize: 10, textAlign: 'center' }
-          ]}>
-            Incidents
           </Text>
         </TouchableOpacity>
 
