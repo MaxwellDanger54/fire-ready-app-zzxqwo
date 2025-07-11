@@ -18,9 +18,11 @@ export default function FirefighterApp() {
   // Calculate responsive font size based on screen width
   const getResponsiveFontSize = () => {
     if (screenWidth < 350) {
-      return 16; // Very small screens
+      return 14; // Very small screens
     } else if (screenWidth < 400) {
-      return 18; // Small screens
+      return 16; // Small screens
+    } else if (screenWidth < 450) {
+      return 18; // Medium screens
     } else {
       return 20; // Normal screens and larger
     }
@@ -75,8 +77,11 @@ export default function FirefighterApp() {
             alignItems: 'center',
             justifyContent: 'center',
             transform: [{ translateY: -15 }],
-            paddingHorizontal: 10
+            paddingHorizontal: 10,
+            flexDirection: 'row',
+            flexWrap: 'wrap'
           }}>
+            {/* Each word in its own Text component to prevent breaking */}
             <Text style={[commonStyles.headerTitle, {
               fontSize: getResponsiveFontSize(),
               fontWeight: '800',
@@ -86,12 +91,34 @@ export default function FirefighterApp() {
               textShadowOffset: { width: 1, height: 1 },
               textShadowRadius: 3,
               letterSpacing: 0.5,
-              flexWrap: 'nowrap',
-              numberOfLines: 1,
-              adjustsFontSizeToFit: true,
-              minimumFontScale: 0.7
+              marginRight: 4
             }]}>
-              TFS Operations Dashboard
+              TFS
+            </Text>
+            <Text style={[commonStyles.headerTitle, {
+              fontSize: getResponsiveFontSize(),
+              fontWeight: '800',
+              color: colors.text,
+              textAlign: 'center',
+              textShadowColor: 'rgba(0, 0, 0, 0.5)',
+              textShadowOffset: { width: 1, height: 1 },
+              textShadowRadius: 3,
+              letterSpacing: 0.5,
+              marginRight: 4
+            }]}>
+              Operations
+            </Text>
+            <Text style={[commonStyles.headerTitle, {
+              fontSize: getResponsiveFontSize(),
+              fontWeight: '800',
+              color: colors.text,
+              textAlign: 'center',
+              textShadowColor: 'rgba(0, 0, 0, 0.5)',
+              textShadowOffset: { width: 1, height: 1 },
+              textShadowRadius: 3,
+              letterSpacing: 0.5
+            }]}>
+              Dashboard
             </Text>
           </View>
         </View>
