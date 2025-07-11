@@ -48,20 +48,6 @@ export default function ResourceLinks() {
       category: 'Training'
     },
     {
-      title: 'Calls Database',
-      description: 'Access call logs, incident reports, and response data',
-      url: 'https://calls.stoehr.ca/index.php',
-      icon: 'radio',
-      category: 'Operations'
-    },
-    {
-      title: 'Shift Calendar',
-      description: 'View detailed shift schedules and rotation patterns',
-      url: 'https://gtmaa.com/shift-calendar/',
-      icon: 'calendar',
-      category: 'Operations'
-    },
-    {
       title: 'Safety Protocols',
       description: 'Current safety guidelines and emergency procedures',
       url: 'https://www.torontofirefighters.org/safety',

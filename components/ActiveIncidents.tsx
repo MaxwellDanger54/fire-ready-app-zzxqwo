@@ -100,33 +100,6 @@ export default function ActiveIncidents() {
             </TouchableOpacity>
           </View>
         </View>
-
-        {/* Static Information */}
-        <View style={[commonStyles.card, { marginBottom: 16 }]}>
-          <Text style={[commonStyles.text, { fontSize: 16, fontWeight: '600', marginBottom: 12 }]}>
-            About Active Incidents
-          </Text>
-          <Text style={[commonStyles.textSecondary, { fontSize: 14, lineHeight: 20, marginBottom: 12 }]}>
-            The Toronto Fire Services Active Incidents page provides real-time information about:
-          </Text>
-          <View style={{ paddingLeft: 16 }}>
-            <Text style={[commonStyles.textSecondary, { fontSize: 14, marginBottom: 4 }]}>
-              • Emergency fire responses
-            </Text>
-            <Text style={[commonStyles.textSecondary, { fontSize: 14, marginBottom: 4 }]}>
-              • Medical emergency calls
-            </Text>
-            <Text style={[commonStyles.textSecondary, { fontSize: 14, marginBottom: 4 }]}>
-              • Rescue operations
-            </Text>
-            <Text style={[commonStyles.textSecondary, { fontSize: 14, marginBottom: 4 }]}>
-              • Hazardous material incidents
-            </Text>
-            <Text style={[commonStyles.textSecondary, { fontSize: 14, marginBottom: 4 }]}>
-              • Other emergency services
-            </Text>
-          </View>
-        </View>
       </ScrollView>
     );
   }
