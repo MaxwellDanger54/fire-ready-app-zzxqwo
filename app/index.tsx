@@ -17,14 +17,16 @@ export default function FirefighterApp() {
   
   // Calculate responsive font size for title based on screen width
   const getTitleFontSize = () => {
-    if (screenWidth < 350) {
-      return 22; // Very small screens
-    } else if (screenWidth < 400) {
-      return 26; // Small screens
-    } else if (screenWidth < 450) {
-      return 30; // Medium screens
+    if (screenWidth < 320) {
+      return 18; // Very small screens (iPhone SE)
+    } else if (screenWidth < 375) {
+      return 20; // Small screens
+    } else if (screenWidth < 414) {
+      return 24; // Medium screens (iPhone 8, iPhone X)
+    } else if (screenWidth < 480) {
+      return 28; // Large screens (iPhone Plus)
     } else {
-      return 34; // Normal screens and larger
+      return 32; // Extra large screens and tablets
     }
   };
 
@@ -55,14 +57,15 @@ export default function FirefighterApp() {
           alignItems: 'center',
           justifyContent: 'center',
           position: 'relative',
-          marginBottom: 8
+          marginBottom: 8,
+          width: '100%'
         }}>
           {/* New larger logo */}
           <Image 
             source={require('../assets/images/ef1b634c-92d0-4664-ab3a-0c43e8987c0d.png')}
             style={{
-              width: 120,
-              height: 120,
+              width: Math.min(120, screenWidth * 0.3),
+              height: Math.min(120, screenWidth * 0.3),
               resizeMode: 'contain',
               marginBottom: -10
             }}
@@ -77,33 +80,46 @@ export default function FirefighterApp() {
             alignItems: 'center',
             justifyContent: 'center',
             transform: [{ translateY: -15 }],
-            paddingHorizontal: 10
+            paddingHorizontal: 20,
+            width: '100%'
           }}>
-            <Text style={{
-              fontSize: getTitleFontSize(),
-              fontWeight: '800',
-              color: colors.text,
-              textAlign: 'center',
-              textShadowColor: 'rgba(0, 0, 0, 0.5)',
-              textShadowOffset: { width: 1, height: 1 },
-              textShadowRadius: 3,
-              letterSpacing: 0.5,
-              lineHeight: getTitleFontSize() * 1.1,
-              marginBottom: -2
-            }}>
+            <Text 
+              style={{
+                fontSize: getTitleFontSize(),
+                fontWeight: '800',
+                color: colors.text,
+                textAlign: 'center',
+                textShadowColor: 'rgba(0, 0, 0, 0.5)',
+                textShadowOffset: { width: 1, height: 1 },
+                textShadowRadius: 3,
+                letterSpacing: 0.5,
+                lineHeight: getTitleFontSize() * 1.1,
+                marginBottom: -2,
+                width: '100%'
+              }}
+              numberOfLines={1}
+              adjustsFontSizeToFit={true}
+              minimumFontScale={0.7}
+            >
               Operations
             </Text>
-            <Text style={{
-              fontSize: getTitleFontSize(),
-              fontWeight: '800',
-              color: colors.text,
-              textAlign: 'center',
-              textShadowColor: 'rgba(0, 0, 0, 0.5)',
-              textShadowOffset: { width: 1, height: 1 },
-              textShadowRadius: 3,
-              letterSpacing: 0.5,
-              lineHeight: getTitleFontSize() * 1.1
-            }}>
+            <Text 
+              style={{
+                fontSize: getTitleFontSize(),
+                fontWeight: '800',
+                color: colors.text,
+                textAlign: 'center',
+                textShadowColor: 'rgba(0, 0, 0, 0.5)',
+                textShadowOffset: { width: 1, height: 1 },
+                textShadowRadius: 3,
+                letterSpacing: 0.5,
+                lineHeight: getTitleFontSize() * 1.1,
+                width: '100%'
+              }}
+              numberOfLines={1}
+              adjustsFontSizeToFit={true}
+              minimumFontScale={0.7}
+            >
               Dashboard
             </Text>
           </View>
