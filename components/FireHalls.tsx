@@ -354,7 +354,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.accent,
+    backgroundColor: '#4CAF50', // Subtle green color
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: 8,
