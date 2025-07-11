@@ -7,8 +7,9 @@ import ResourceLinks from '../components/ResourceLinks';
 import HomeInfo from '../components/HomeInfo';
 import ShiftCalendar from '../components/ShiftCalendar';
 import FireHalls from '../components/FireHalls';
+import ActiveIncidents from '../components/ActiveIncidents';
 
-type TabType = 'home' | 'numbers' | 'resources' | 'calendar' | 'firehalls';
+type TabType = 'home' | 'numbers' | 'resources' | 'calendar' | 'firehalls' | 'incidents';
 
 export default function FirefighterApp() {
   const [activeTab, setActiveTab] = useState<TabType>('home');
@@ -37,6 +38,8 @@ export default function FirefighterApp() {
         return <ShiftCalendar />;
       case 'firehalls':
         return <FireHalls />;
+      case 'incidents':
+        return <ActiveIncidents />;
       default:
         return <HomeInfo />;
     }
@@ -98,9 +101,9 @@ export default function FirefighterApp() {
       <View style={[commonStyles.tabContainer, { 
         flexDirection: 'row', 
         justifyContent: 'space-between',
-        paddingHorizontal: 8,
+        paddingHorizontal: 4,
         paddingVertical: 8,
-        marginHorizontal: 8,
+        marginHorizontal: 4,
         marginBottom: 8,
         marginTop: 16
       }]}>
@@ -110,9 +113,9 @@ export default function FirefighterApp() {
             activeTab === 'home' && commonStyles.activeTab, 
             { 
               flex: 1,
-              paddingVertical: 12, 
-              paddingHorizontal: 4,
-              marginHorizontal: 2,
+              paddingVertical: 10, 
+              paddingHorizontal: 2,
+              marginHorizontal: 1,
               alignItems: 'center'
             }
           ]}
@@ -120,16 +123,16 @@ export default function FirefighterApp() {
         >
           <Icon 
             name="home" 
-            size={20} 
+            size={18} 
             style={{ 
               color: activeTab === 'home' ? colors.text : colors.textSecondary,
-              marginBottom: 4 
+              marginBottom: 2 
             }} 
           />
           <Text style={[
             commonStyles.tabText,
             activeTab === 'home' && commonStyles.activeTabText,
-            { fontSize: 12, textAlign: 'center' }
+            { fontSize: 10, textAlign: 'center' }
           ]}>
             Home
           </Text>
@@ -141,9 +144,9 @@ export default function FirefighterApp() {
             activeTab === 'numbers' && commonStyles.activeTab, 
             { 
               flex: 1,
-              paddingVertical: 12, 
-              paddingHorizontal: 4,
-              marginHorizontal: 2,
+              paddingVertical: 10, 
+              paddingHorizontal: 2,
+              marginHorizontal: 1,
               alignItems: 'center'
             }
           ]}
@@ -151,16 +154,16 @@ export default function FirefighterApp() {
         >
           <Icon 
             name="call" 
-            size={20} 
+            size={18} 
             style={{ 
               color: activeTab === 'numbers' ? colors.text : colors.textSecondary,
-              marginBottom: 4 
+              marginBottom: 2 
             }} 
           />
           <Text style={[
             commonStyles.tabText,
             activeTab === 'numbers' && commonStyles.activeTabText,
-            { fontSize: 12, textAlign: 'center' }
+            { fontSize: 10, textAlign: 'center' }
           ]}>
             Numbers
           </Text>
@@ -172,9 +175,9 @@ export default function FirefighterApp() {
             activeTab === 'calendar' && commonStyles.activeTab, 
             { 
               flex: 1,
-              paddingVertical: 12, 
-              paddingHorizontal: 4,
-              marginHorizontal: 2,
+              paddingVertical: 10, 
+              paddingHorizontal: 2,
+              marginHorizontal: 1,
               alignItems: 'center'
             }
           ]}
@@ -182,16 +185,16 @@ export default function FirefighterApp() {
         >
           <Icon 
             name="calendar" 
-            size={20} 
+            size={18} 
             style={{ 
               color: activeTab === 'calendar' ? colors.text : colors.textSecondary,
-              marginBottom: 4 
+              marginBottom: 2 
             }} 
           />
           <Text style={[
             commonStyles.tabText,
             activeTab === 'calendar' && commonStyles.activeTabText,
-            { fontSize: 12, textAlign: 'center' }
+            { fontSize: 10, textAlign: 'center' }
           ]}>
             Calendar
           </Text>
@@ -203,9 +206,9 @@ export default function FirefighterApp() {
             activeTab === 'firehalls' && commonStyles.activeTab, 
             { 
               flex: 1,
-              paddingVertical: 12, 
-              paddingHorizontal: 4,
-              marginHorizontal: 2,
+              paddingVertical: 10, 
+              paddingHorizontal: 2,
+              marginHorizontal: 1,
               alignItems: 'center'
             }
           ]}
@@ -213,18 +216,49 @@ export default function FirefighterApp() {
         >
           <Icon 
             name="business" 
-            size={20} 
+            size={18} 
             style={{ 
               color: activeTab === 'firehalls' ? colors.text : colors.textSecondary,
-              marginBottom: 4 
+              marginBottom: 2 
             }} 
           />
           <Text style={[
             commonStyles.tabText,
             activeTab === 'firehalls' && commonStyles.activeTabText,
-            { fontSize: 12, textAlign: 'center' }
+            { fontSize: 10, textAlign: 'center' }
           ]}>
             Fire Halls
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[
+            commonStyles.tab, 
+            activeTab === 'incidents' && commonStyles.activeTab, 
+            { 
+              flex: 1,
+              paddingVertical: 10, 
+              paddingHorizontal: 2,
+              marginHorizontal: 1,
+              alignItems: 'center'
+            }
+          ]}
+          onPress={() => setActiveTab('incidents')}
+        >
+          <Icon 
+            name="flame" 
+            size={18} 
+            style={{ 
+              color: activeTab === 'incidents' ? colors.text : colors.textSecondary,
+              marginBottom: 2 
+            }} 
+          />
+          <Text style={[
+            commonStyles.tabText,
+            activeTab === 'incidents' && commonStyles.activeTabText,
+            { fontSize: 10, textAlign: 'center' }
+          ]}>
+            Incidents
           </Text>
         </TouchableOpacity>
 
@@ -234,9 +268,9 @@ export default function FirefighterApp() {
             activeTab === 'resources' && commonStyles.activeTab, 
             { 
               flex: 1,
-              paddingVertical: 12, 
-              paddingHorizontal: 4,
-              marginHorizontal: 2,
+              paddingVertical: 10, 
+              paddingHorizontal: 2,
+              marginHorizontal: 1,
               alignItems: 'center'
             }
           ]}
@@ -244,16 +278,16 @@ export default function FirefighterApp() {
         >
           <Icon 
             name="library" 
-            size={20} 
+            size={18} 
             style={{ 
               color: activeTab === 'resources' ? colors.text : colors.textSecondary,
-              marginBottom: 4 
+              marginBottom: 2 
             }} 
           />
           <Text style={[
             commonStyles.tabText,
             activeTab === 'resources' && commonStyles.activeTabText,
-            { fontSize: 12, textAlign: 'center' }
+            { fontSize: 10, textAlign: 'center' }
           ]}>
             Resources
           </Text>
