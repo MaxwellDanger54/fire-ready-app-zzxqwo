@@ -220,6 +220,50 @@ export default function HomeInfo() {
           Access TFS medical directives and protocols
         </Text>
       </View>
+
+      {/* Active Incidents */}
+      <View style={[commonStyles.card, { marginTop: 16 }]}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
+          <Icon name="flame" size={20} style={{ color: colors.accent, marginRight: 8 }} />
+          <Text style={[commonStyles.text, { fontWeight: '600' }]}>Active Incidents</Text>
+        </View>
+        
+        <View style={{ 
+          backgroundColor: colors.cardBackground, 
+          borderRadius: 8, 
+          padding: 12, 
+          marginBottom: 12,
+          borderLeftWidth: 4,
+          borderLeftColor: colors.accent
+        }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}>
+            <Icon name="information-circle" size={16} style={{ color: colors.accent, marginRight: 6 }} />
+            <Text style={[commonStyles.text, { fontSize: 14, fontWeight: '600' }]}>
+              Live Incident Information
+            </Text>
+          </View>
+          <Text style={[commonStyles.textSecondary, { fontSize: 13, lineHeight: 18 }]}>
+            View real-time Toronto Fire Services active incidents, including emergency responses, 
+            fire calls, and other service activities currently in progress across the city.
+          </Text>
+        </View>
+
+        <TouchableOpacity
+          style={[commonStyles.button, { backgroundColor: '#FF6B35', marginBottom: 0 }]}
+          onPress={() => handleLinkPress('https://www.toronto.ca/community-people/public-safety-alerts/alerts-notifications/toronto-fire-active-incidents/', 'Toronto Fire Active Incidents')}
+        >
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <Icon name="flame" size={20} style={{ color: colors.background, marginRight: 8 }} />
+            <Text style={[commonStyles.buttonText, { color: colors.background }]}>
+              View Active Incidents
+            </Text>
+            <Icon name="open-outline" size={16} style={{ color: colors.background, marginLeft: 8 }} />
+          </View>
+        </TouchableOpacity>
+        <Text style={[commonStyles.textSecondary, { fontSize: 12, textAlign: 'center', marginTop: 8 }]}>
+          Access live incident data from Toronto Fire Services
+        </Text>
+      </View>
     </ScrollView>
   );
 }
