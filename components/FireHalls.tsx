@@ -9,6 +9,12 @@ interface FireHall {
   address: string;
 }
 
+interface OtherLocation {
+  name: string;
+  address: string;
+  searchQuery: string;
+}
+
 export default function FireHalls() {
   const [selectedDistrict, setSelectedDistrict] = useState<string>('North');
 
@@ -119,11 +125,41 @@ export default function FireHalls() {
     ]
   };
 
+  // Other locations data
+  const otherLocations: OtherLocation[] = [
+    {
+      name: 'Mechanical',
+      address: '40 Toryork Dr',
+      searchQuery: '40 Toryork Dr'
+    },
+    {
+      name: 'Stores',
+      address: '15 Rotherham Ave',
+      searchQuery: '15 Rotherham Ave'
+    },
+    {
+      name: 'East Training',
+      address: 'Toronto Fire Station 243',
+      searchQuery: 'Toronto Fire station 243'
+    },
+    {
+      name: 'West Training',
+      address: 'Toronto Fire Station 411',
+      searchQuery: 'Toronto Fire station 411'
+    },
+    {
+      name: 'Academy',
+      address: '895 Eastern Ave',
+      searchQuery: '895 Eastern Ave'
+    }
+  ];
+
   const districts = [
     { name: 'North', color: '#FF6B6B', description: 'Districts 11, 12, 13, 14' },
     { name: 'East', color: '#4ECDC4', description: 'Districts 21, 22, 23, 24' },
     { name: 'South', color: '#45B7D1', description: 'Districts 31, 32, 33, 34' },
-    { name: 'West', color: '#96CEB4', description: 'Districts 41, 42, 43, 44' }
+    { name: 'West', color: '#96CEB4', description: 'Districts 41, 42, 43, 44' },
+    { name: 'Other', color: '#FFA726', description: 'Training & Support Facilities' }
   ];
 
   const selectedDistrictData = districts.find(d => d.name === selectedDistrict);
@@ -131,6 +167,30 @@ export default function FireHalls() {
 
   const handleDirections = async (fireHall: FireHall) => {
     const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=Toronto+Fire+Station+${fireHall.stationNumber}`;
+    
+    try {
+      const supported = await Linking.canOpenURL(googleMapsUrl);
+      if (supported) {
+        await Linking.openURL(googleMapsUrl);
+      } else {
+        Alert.alert(
+          'Unable to Open Maps',
+          'Google Maps is not available on this device.',
+          [{ text: 'OK' }]
+        );
+      }
+    } catch (error) {
+      console.error('Error opening Google Maps:', error);
+      Alert.alert(
+        'Error',
+        'Unable to open directions. Please try again.',
+        [{ text: 'OK' }]
+      );
+    }
+  };
+
+  const handleOtherLocationDirections = async (location: OtherLocation) => {
+    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location.searchQuery)}`;
     
     try {
       const supported = await Linking.canOpenURL(googleMapsUrl);
@@ -172,6 +232,25 @@ export default function FireHalls() {
     </View>
   );
 
+  const renderOtherLocation = (location: OtherLocation) => (
+    <View key={location.name} style={[styles.fireHallCard, { borderLeftColor: selectedDistrictData?.color }]}>
+      <View style={styles.fireHallHeader}>
+        <View style={[styles.stationBadge, { backgroundColor: selectedDistrictData?.color }]}>
+          <Icon name="business" size={16} style={{ color: 'white' }} />
+        </View>
+        <Text style={styles.fireHallName}>{location.name}</Text>
+      </View>
+      <TouchableOpacity 
+        style={styles.directionsButton}
+        onPress={() => handleOtherLocationDirections(location)}
+        activeOpacity={0.7}
+      >
+        <Icon name="navigate" size={20} style={{ color: 'white', marginRight: 8 }} />
+        <Text style={styles.directionsButtonText}>Get Directions</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
   return (
     <View style={commonStyles.container}>
       <View style={commonStyles.sectionHeader}>
@@ -180,7 +259,12 @@ export default function FireHalls() {
       </View>
 
       {/* District Tabs */}
-      <View style={styles.tabContainer}>
+      <ScrollView 
+        horizontal 
+        showsHorizontalScrollIndicator={false}
+        style={styles.tabScrollContainer}
+        contentContainerStyle={styles.tabContainer}
+      >
         {districts.map(district => (
           <TouchableOpacity
             key={district.name}
@@ -204,14 +288,17 @@ export default function FireHalls() {
             </Text>
           </TouchableOpacity>
         ))}
-      </View>
+      </ScrollView>
 
       {/* Header */}
       <View style={[styles.header, { backgroundColor: selectedDistrictData?.color }]}>
         <Icon name="business" size={20} style={{ color: 'white', marginRight: 8 }} />
         <View style={{ flex: 1 }}>
           <Text style={styles.headerText}>
-            {selectedDistrict} Command - {currentFireHalls.length} Fire Halls
+            {selectedDistrict === 'Other' 
+              ? `${selectedDistrict} Facilities - ${otherLocations.length} Locations`
+              : `${selectedDistrict} Command - ${currentFireHalls.length} Fire Halls`
+            }
           </Text>
           <Text style={styles.headerSubtext}>
             {selectedDistrictData?.description}
@@ -221,41 +308,74 @@ export default function FireHalls() {
 
       {/* Fire Halls List */}
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        {currentFireHalls.map(renderFireHall)}
+        {selectedDistrict === 'Other' 
+          ? otherLocations.map(renderOtherLocation)
+          : currentFireHalls.map(renderFireHall)
+        }
         
         {/* Info Footer */}
         <View style={styles.infoFooter}>
           <View style={styles.infoHeader}>
             <Icon name="information-circle" size={20} style={{ color: colors.accent, marginRight: 8 }} />
-            <Text style={styles.infoTitle}>Fire Hall Information</Text>
+            <Text style={styles.infoTitle}>
+              {selectedDistrict === 'Other' ? 'Other Facilities Information' : 'Fire Hall Information'}
+            </Text>
           </View>
-          <Text style={styles.infoText}>
-            This list shows all {currentFireHalls.length} Toronto Fire Services stations in the {selectedDistrict} Command. 
-            Fire stations are organized by command areas and districts to ensure optimal emergency response coverage across the city.
-          </Text>
+          {selectedDistrict === 'Other' ? (
+            <>
+              <Text style={styles.infoText}>
+                This section shows Toronto Fire Services training and support facilities including mechanical services, stores, training centers, and the fire academy.
+              </Text>
+              <Text style={[styles.infoText, { marginTop: 8 }]}>
+                <Text style={{ fontWeight: '600' }}>Facilities:</Text>
+              </Text>
+              <Text style={[styles.infoText, { marginLeft: 16 }]}>
+                - Mechanical: Equipment maintenance and repair
+              </Text>
+              <Text style={[styles.infoText, { marginLeft: 16 }]}>
+                - Stores: Supply and inventory management
+              </Text>
+              <Text style={[styles.infoText, { marginLeft: 16 }]}>
+                - East Training: Eastern training facility
+              </Text>
+              <Text style={[styles.infoText, { marginLeft: 16 }]}>
+                - West Training: Western training facility
+              </Text>
+              <Text style={[styles.infoText, { marginLeft: 16 }]}>
+                - Academy: Main fire training academy
+              </Text>
+            </>
+          ) : (
+            <>
+              <Text style={styles.infoText}>
+                This list shows all {currentFireHalls.length} Toronto Fire Services stations in the {selectedDistrict} Command. 
+                Fire stations are organized by command areas and districts to ensure optimal emergency response coverage across the city.
+              </Text>
+              <Text style={[styles.infoText, { marginTop: 8 }]}>
+                <Text style={{ fontWeight: '600' }}>Command Structure:</Text>
+              </Text>
+              <Text style={[styles.infoText, { marginLeft: 16 }]}>
+                - North Command: Districts 11, 12, 13, 14
+              </Text>
+              <Text style={[styles.infoText, { marginLeft: 16 }]}>
+                - East Command: Districts 21, 22, 23, 24
+              </Text>
+              <Text style={[styles.infoText, { marginLeft: 16 }]}>
+                - South Command: Districts 31, 32, 33, 34
+              </Text>
+              <Text style={[styles.infoText, { marginLeft: 16 }]}>
+                - West Command: Districts 41, 42, 43, 44
+              </Text>
+            </>
+          )}
           <Text style={[styles.infoText, { marginTop: 8 }]}>
             <Text style={{ fontWeight: '600' }}>Getting Directions:</Text>
           </Text>
           <Text style={[styles.infoText, { marginLeft: 16 }]}>
-            Tap "Get Directions" to open Google Maps with directions to "Toronto Fire Station [Station Number]".
-          </Text>
-          <Text style={[styles.infoText, { marginTop: 8 }]}>
-            <Text style={{ fontWeight: '600' }}>Command Structure:</Text>
-          </Text>
-          <Text style={[styles.infoText, { marginLeft: 16 }]}>
-            - North Command: Districts 11, 12, 13, 14
-          </Text>
-          <Text style={[styles.infoText, { marginLeft: 16 }]}>
-            - East Command: Districts 21, 22, 23, 24
-          </Text>
-          <Text style={[styles.infoText, { marginLeft: 16 }]}>
-            - South Command: Districts 31, 32, 33, 34
-          </Text>
-          <Text style={[styles.infoText, { marginLeft: 16 }]}>
-            - West Command: Districts 41, 42, 43, 44
+            Tap "Get Directions" to open Google Maps with directions to the selected location.
           </Text>
           <Text style={[styles.infoText, { marginTop: 8, fontStyle: 'italic' }]}>
-            All fire halls link to Google Maps for accurate navigation and directions.
+            All locations link to Google Maps for accurate navigation and directions.
           </Text>
         </View>
       </ScrollView>
@@ -264,9 +384,11 @@ export default function FireHalls() {
 }
 
 const styles = StyleSheet.create({
+  tabScrollContainer: {
+    maxHeight: 60,
+  },
   tabContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
     paddingHorizontal: 10,
     paddingVertical: 12,
     backgroundColor: colors.background,
@@ -282,6 +404,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
+    marginRight: 8,
   },
   tabText: {
     fontSize: 15,
@@ -338,6 +461,8 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     borderRadius: 20,
     marginRight: 12,
+    minWidth: 40,
+    alignItems: 'center',
   },
   stationNumber: {
     color: 'white',
