@@ -307,72 +307,6 @@ export default function FireHalls() {
           ? otherLocations.map(renderOtherLocation)
           : currentFireHalls.map(renderFireHall)
         }
-        
-        {/* Info Footer */}
-        <View style={styles.infoFooter}>
-          <View style={styles.infoHeader}>
-            <Icon name="information-circle" size={20} style={{ color: colors.accent, marginRight: 8 }} />
-            <Text style={styles.infoTitle}>
-              {selectedDistrict === 'Other' ? 'Other Facilities Information' : 'Fire Hall Information'}
-            </Text>
-          </View>
-          {selectedDistrict === 'Other' ? (
-            <>
-              <Text style={styles.infoText}>
-                This section shows Toronto Fire Services training and support facilities including mechanical services, stores, training centers, and the fire academy.
-              </Text>
-              <Text style={[styles.infoText, { marginTop: 8 }]}>
-                <Text style={{ fontWeight: '600' }}>Facilities:</Text>
-              </Text>
-              <Text style={[styles.infoText, { marginLeft: 16 }]}>
-                - Mechanical: Equipment maintenance and repair
-              </Text>
-              <Text style={[styles.infoText, { marginLeft: 16 }]}>
-                - Stores: Supply and inventory management
-              </Text>
-              <Text style={[styles.infoText, { marginLeft: 16 }]}>
-                - East Training: Eastern training facility
-              </Text>
-              <Text style={[styles.infoText, { marginLeft: 16 }]}>
-                - West Training: Western training facility
-              </Text>
-              <Text style={[styles.infoText, { marginLeft: 16 }]}>
-                - Academy: Main fire training academy
-              </Text>
-            </>
-          ) : (
-            <>
-              <Text style={styles.infoText}>
-                This list shows all {currentFireHalls.length} Toronto Fire Services stations in the {selectedDistrict} Command. 
-                Fire stations are organized by command areas and districts to ensure optimal emergency response coverage across the city.
-              </Text>
-              <Text style={[styles.infoText, { marginTop: 8 }]}>
-                <Text style={{ fontWeight: '600' }}>Command Structure:</Text>
-              </Text>
-              <Text style={[styles.infoText, { marginLeft: 16 }]}>
-                - North Command: Districts 11, 12, 13, 14
-              </Text>
-              <Text style={[styles.infoText, { marginLeft: 16 }]}>
-                - East Command: Districts 21, 22, 23, 24
-              </Text>
-              <Text style={[styles.infoText, { marginLeft: 16 }]}>
-                - South Command: Districts 31, 32, 33, 34
-              </Text>
-              <Text style={[styles.infoText, { marginLeft: 16 }]}>
-                - West Command: Districts 41, 42, 43, 44
-              </Text>
-            </>
-          )}
-          <Text style={[styles.infoText, { marginTop: 8 }]}>
-            <Text style={{ fontWeight: '600' }}>Getting Directions:</Text>
-          </Text>
-          <Text style={[styles.infoText, { marginLeft: 16 }]}>
-            Tap "Get Directions" to open Google Maps with directions to the selected location.
-          </Text>
-          <Text style={[styles.infoText, { marginTop: 8, fontStyle: 'italic' }]}>
-            All locations link to Google Maps for accurate navigation and directions.
-          </Text>
-        </View>
       </ScrollView>
     </View>
   );
@@ -491,32 +425,5 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '600',
     fontSize: 16,
-  },
-  infoFooter: {
-    backgroundColor: colors.card,
-    padding: 15,
-    borderRadius: 10,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    marginBottom: 20,
-    marginTop: 10,
-  },
-  infoHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  infoTitle: {
-    fontWeight: 'bold',
-    color: colors.text,
-    fontSize: 16,
-  },
-  infoText: {
-    color: colors.textSecondary,
-    lineHeight: 20,
-    fontSize: 14,
   },
 });
