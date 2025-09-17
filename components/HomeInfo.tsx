@@ -153,7 +153,64 @@ export default function HomeInfo() {
         </View>
       </View>
 
-      {/* Exposure Report Form */}
+      {/* TFS Medical Directives - Moved above Exposure Report */}
+      <View style={[commonStyles.card, { marginTop: 16 }]}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
+          <Icon name="medical" size={20} style={{ color: colors.accent, marginRight: 8 }} />
+          <Text style={[commonStyles.text, { fontWeight: '600' }]}>TFS Medical Directives</Text>
+        </View>
+        <TouchableOpacity
+          style={[commonStyles.button, { backgroundColor: colors.primary, marginBottom: 12 }]}
+          onPress={() => handleLinkPress('https://drive.google.com/file/d/1ejyjd4I_-1lHdYY3RcGnd1dG7fUQzKop/view?usp=sharing', 'TFS Medical Directives')}
+        >
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <Icon name="medical" size={20} style={{ color: colors.background, marginRight: 8 }} />
+            <Text style={[commonStyles.buttonText, { color: colors.background }]}>
+              View Medical Directives
+            </Text>
+            <Icon name="open-outline" size={16} style={{ color: colors.background, marginLeft: 8 }} />
+          </View>
+        </TouchableOpacity>
+
+        {/* Medical Directive Buttons */}
+        <View style={{ gap: 8 }}>
+          <Button
+            text="Anaphylaxis"
+            onPress={() => handleMedicalDirectivePress('Anaphylaxis')}
+            style={{ 
+              backgroundColor: colors.accent,
+              marginTop: 0
+            }}
+            textStyle={{ color: colors.background }}
+          />
+          
+          <Button
+            text="Child Birth"
+            onPress={() => handleMedicalDirectivePress('Child Birth')}
+            style={{ 
+              backgroundColor: colors.secondary,
+              marginTop: 0
+            }}
+            textStyle={{ color: colors.background }}
+          />
+          
+          <Button
+            text="Opioid"
+            onPress={() => handleMedicalDirectivePress('Opioid')}
+            style={{ 
+              backgroundColor: '#FF6B35',
+              marginTop: 0
+            }}
+            textStyle={{ color: colors.background }}
+          />
+        </View>
+
+        <Text style={[commonStyles.textSecondary, { fontSize: 12, textAlign: 'center', marginTop: 12 }]}>
+          Access TFS medical directives and protocols
+        </Text>
+      </View>
+
+      {/* Exposure Report Form - Now positioned after TFS Medical Directives */}
       <View style={[commonStyles.card, { marginTop: 16 }]}>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
           <Icon name="document-text" size={20} style={{ color: colors.accent, marginRight: 8 }} />
@@ -219,63 +276,6 @@ export default function HomeInfo() {
         </TouchableOpacity>
         <Text style={[commonStyles.textSecondary, { fontSize: 12, textAlign: 'center', marginTop: 8 }]}>
           Access fire hall meal planning resources
-        </Text>
-      </View>
-
-      {/* TFS Medical Directives */}
-      <View style={[commonStyles.card, { marginTop: 16 }]}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
-          <Icon name="medical" size={20} style={{ color: colors.accent, marginRight: 8 }} />
-          <Text style={[commonStyles.text, { fontWeight: '600' }]}>TFS Medical Directives</Text>
-        </View>
-        <TouchableOpacity
-          style={[commonStyles.button, { backgroundColor: colors.primary, marginBottom: 12 }]}
-          onPress={() => handleLinkPress('https://drive.google.com/file/d/1ejyjd4I_-1lHdYY3RcGnd1dG7fUQzKop/view?usp=sharing', 'TFS Medical Directives')}
-        >
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-            <Icon name="medical" size={20} style={{ color: colors.background, marginRight: 8 }} />
-            <Text style={[commonStyles.buttonText, { color: colors.background }]}>
-              View Medical Directives
-            </Text>
-            <Icon name="open-outline" size={16} style={{ color: colors.background, marginLeft: 8 }} />
-          </View>
-        </TouchableOpacity>
-
-        {/* Medical Directive Buttons */}
-        <View style={{ gap: 8 }}>
-          <Button
-            text="Anaphylaxis"
-            onPress={() => handleMedicalDirectivePress('Anaphylaxis')}
-            style={{ 
-              backgroundColor: colors.accent,
-              marginTop: 0
-            }}
-            textStyle={{ color: colors.background }}
-          />
-          
-          <Button
-            text="Child Birth"
-            onPress={() => handleMedicalDirectivePress('Child Birth')}
-            style={{ 
-              backgroundColor: colors.secondary,
-              marginTop: 0
-            }}
-            textStyle={{ color: colors.background }}
-          />
-          
-          <Button
-            text="Opioid"
-            onPress={() => handleMedicalDirectivePress('Opioid')}
-            style={{ 
-              backgroundColor: '#FF6B35',
-              marginTop: 0
-            }}
-            textStyle={{ color: colors.background }}
-          />
-        </View>
-
-        <Text style={[commonStyles.textSecondary, { fontSize: 12, textAlign: 'center', marginTop: 12 }]}>
-          Access TFS medical directives and protocols
         </Text>
       </View>
     </ScrollView>
