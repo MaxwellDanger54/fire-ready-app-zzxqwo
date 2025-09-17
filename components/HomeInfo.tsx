@@ -1,12 +1,18 @@
 
+import React, { useState } from 'react';
 import { Text, View, TouchableOpacity, Linking, Alert, Platform, ScrollView } from 'react-native';
 import { commonStyles, colors } from '../styles/commonStyles';
 import Icon from './Icon';
 import Button from './Button';
 import { getCurrentShift } from './ShiftCalendar';
 import { WebView } from 'react-native-webview';
+import AnaphylaxisImageViewer from './AnaphylaxisImageViewer';
+import ChildBirthImageViewer from './ChildBirthImageViewer';
 
 export default function HomeInfo() {
+  const [isAnaphylaxisModalVisible, setIsAnaphylaxisModalVisible] = useState(false);
+  const [isChildBirthModalVisible, setIsChildBirthModalVisible] = useState(false);
+  
   const currentShift = getCurrentShift();
   const currentDate = new Date();
 
@@ -61,24 +67,31 @@ export default function HomeInfo() {
 
   const handleMedicalDirectivePress = (type: string) => {
     console.log(`${type} medical directive pressed`);
-    Alert.alert(
-      `${type} Protocol`,
-      `Opening ${type} medical directive information...`,
-      [
-        { text: 'Cancel', style: 'cancel' },
-        { 
-          text: 'View Protocol', 
-          onPress: () => {
-            // For now, we'll show an alert. In a real app, this would navigate to specific protocol pages
-            Alert.alert(
-              `${type} Medical Directive`,
-              `This would display the ${type} medical protocol and procedures.`,
-              [{ text: 'OK' }]
-            );
+    
+    if (type === 'Anaphylaxis') {
+      setIsAnaphylaxisModalVisible(true);
+    } else if (type === 'Child Birth') {
+      setIsChildBirthModalVisible(true);
+    } else {
+      Alert.alert(
+        `${type} Protocol`,
+        `Opening ${type} medical directive information...`,
+        [
+          { text: 'Cancel', style: 'cancel' },
+          { 
+            text: 'View Protocol', 
+            onPress: () => {
+              // For now, we'll show an alert. In a real app, this would navigate to specific protocol pages
+              Alert.alert(
+                `${type} Medical Directive`,
+                `This would display the ${type} medical protocol and procedures.`,
+                [{ text: 'OK' }]
+              );
+            }
           }
-        }
-      ]
-    );
+        ]
+      );
+    }
   };
 
   const shiftInfo = getShiftDisplayInfo();
@@ -278,6 +291,17 @@ export default function HomeInfo() {
           Access fire hall meal planning resources
         </Text>
       </View>
+
+      {/* Modal Components */}
+      <AnaphylaxisImageViewer
+        visible={isAnaphylaxisModalVisible}
+        onClose={() => setIsAnaphylaxisModalVisible(false)}
+      />
+
+      <ChildBirthImageViewer
+        visible={isChildBirthModalVisible}
+        onClose={() => setIsChildBirthModalVisible(false)}
+      />
     </ScrollView>
   );
 }
