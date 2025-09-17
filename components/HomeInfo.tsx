@@ -1,6 +1,8 @@
+
 import { Text, View, TouchableOpacity, Linking, Alert, Platform, ScrollView } from 'react-native';
 import { commonStyles, colors } from '../styles/commonStyles';
 import Icon from './Icon';
+import Button from './Button';
 import { getCurrentShift } from './ShiftCalendar';
 import { WebView } from 'react-native-webview';
 
@@ -55,6 +57,28 @@ export default function HomeInfo() {
           [{ text: 'OK' }]
         );
       });
+  };
+
+  const handleMedicalDirectivePress = (type: string) => {
+    console.log(`${type} medical directive pressed`);
+    Alert.alert(
+      `${type} Protocol`,
+      `Opening ${type} medical directive information...`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { 
+          text: 'View Protocol', 
+          onPress: () => {
+            // For now, we'll show an alert. In a real app, this would navigate to specific protocol pages
+            Alert.alert(
+              `${type} Medical Directive`,
+              `This would display the ${type} medical protocol and procedures.`,
+              [{ text: 'OK' }]
+            );
+          }
+        }
+      ]
+    );
   };
 
   const shiftInfo = getShiftDisplayInfo();
@@ -205,7 +229,7 @@ export default function HomeInfo() {
           <Text style={[commonStyles.text, { fontWeight: '600' }]}>TFS Medical Directives</Text>
         </View>
         <TouchableOpacity
-          style={[commonStyles.button, { backgroundColor: colors.primary, marginBottom: 0 }]}
+          style={[commonStyles.button, { backgroundColor: colors.primary, marginBottom: 12 }]}
           onPress={() => handleLinkPress('https://drive.google.com/file/d/1ejyjd4I_-1lHdYY3RcGnd1dG7fUQzKop/view?usp=sharing', 'TFS Medical Directives')}
         >
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
@@ -216,7 +240,41 @@ export default function HomeInfo() {
             <Icon name="open-outline" size={16} style={{ color: colors.background, marginLeft: 8 }} />
           </View>
         </TouchableOpacity>
-        <Text style={[commonStyles.textSecondary, { fontSize: 12, textAlign: 'center', marginTop: 8 }]}>
+
+        {/* Medical Directive Buttons */}
+        <View style={{ gap: 8 }}>
+          <Button
+            text="Anaphylaxis"
+            onPress={() => handleMedicalDirectivePress('Anaphylaxis')}
+            style={{ 
+              backgroundColor: colors.accent,
+              marginTop: 0
+            }}
+            textStyle={{ color: colors.background }}
+          />
+          
+          <Button
+            text="Child Birth"
+            onPress={() => handleMedicalDirectivePress('Child Birth')}
+            style={{ 
+              backgroundColor: colors.secondary,
+              marginTop: 0
+            }}
+            textStyle={{ color: colors.background }}
+          />
+          
+          <Button
+            text="Opioid"
+            onPress={() => handleMedicalDirectivePress('Opioid')}
+            style={{ 
+              backgroundColor: '#FF6B35',
+              marginTop: 0
+            }}
+            textStyle={{ color: colors.background }}
+          />
+        </View>
+
+        <Text style={[commonStyles.textSecondary, { fontSize: 12, textAlign: 'center', marginTop: 12 }]}>
           Access TFS medical directives and protocols
         </Text>
       </View>
