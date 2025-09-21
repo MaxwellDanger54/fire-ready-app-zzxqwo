@@ -306,11 +306,9 @@ export default function FireHalls() {
   const renderFuelYard = (fuelYard: FuelYard) => (
     <View key={fuelYard.name} style={styles.fuelYardCard}>
       <View style={styles.fuelYardContent}>
-        <View style={styles.fuelYardIcon}>
-          <Icon name="local-gas-station" size={24} style={{ color: '#4CAF50' }} />
-        </View>
-        <View style={styles.fuelYardInfo}>
-          <Text style={styles.fuelYardTitle}>- {fuelYard.name}</Text>
+        <View style={styles.fuelYardHeader}>
+          <Icon name="local-gas-station" size={20} style={{ color: '#4CAF50', marginRight: 8 }} />
+          <Text style={styles.fuelYardTitle}>{fuelYard.name}</Text>
         </View>
       </View>
       <TouchableOpacity 
@@ -557,7 +555,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: screenWidth < 375 ? 14 : 16,
   },
-  // New Fuel Yard Styles
+  // Updated Fuel Yard Styles
   fuelYardCard: {
     backgroundColor: colors.card,
     marginBottom: 12,
@@ -572,26 +570,17 @@ const styles = StyleSheet.create({
     borderLeftColor: '#4CAF50',
   },
   fuelYardContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
     marginBottom: 12,
   },
-  fuelYardIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: 'rgba(76, 175, 80, 0.1)',
+  fuelYardHeader: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 12,
-  },
-  fuelYardInfo: {
-    flex: 1,
   },
   fuelYardTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     color: colors.text,
+    flex: 1,
   },
   fuelYardButton: {
     flexDirection: 'row',
