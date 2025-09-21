@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Text, View, ScrollView, TouchableOpacity, StyleSheet, Linking, Alert, Dimensions } from 'react-native';
+import { Text, View, ScrollView, TouchableOpacity, StyleSheet, Linking, Alert, Dimensions, Image } from 'react-native';
 import { commonStyles, colors } from '../styles/commonStyles';
 import Icon from './Icon';
 
@@ -307,7 +307,11 @@ export default function FireHalls() {
     <View key={fuelYard.name} style={[styles.fireHallCard, { borderLeftColor: selectedDistrictData?.color }]}>
       <View style={styles.fireHallHeader}>
         <View style={[styles.stationBadge, { backgroundColor: selectedDistrictData?.color }]}>
-          <Icon name="car-sport" size={16} style={{ color: 'white' }} />
+          <Image 
+            source={require('../assets/images/1e919063-b45b-486c-a716-c8df629c8496.png')}
+            style={styles.gasPumpIcon}
+            resizeMode="contain"
+          />
         </View>
         <Text style={styles.fireHallName}>{fuelYard.name}</Text>
       </View>
@@ -405,11 +409,19 @@ export default function FireHalls() {
         marginHorizontal: screenWidth * 0.025,
         paddingHorizontal: getCardPadding(),
       }]}>
-        <Icon 
-          name={selectedDistrict === 'Fuel Yards' ? 'car-sport' : 'business'} 
-          size={isSmallScreen ? 18 : 20} 
-          style={{ color: 'white', marginRight: 8 }} 
-        />
+        {selectedDistrict === 'Fuel Yards' ? (
+          <Image 
+            source={require('../assets/images/1e919063-b45b-486c-a716-c8df629c8496.png')}
+            style={[styles.gasPumpIcon, { marginRight: 8 }]}
+            resizeMode="contain"
+          />
+        ) : (
+          <Icon 
+            name="business" 
+            size={isSmallScreen ? 18 : 20} 
+            style={{ color: 'white', marginRight: 8 }} 
+          />
+        )}
         <View style={{ flex: 1 }}>
           <Text style={[styles.headerText, { fontSize: isSmallScreen ? 16 : 18 }]}>
             {`${selectedDistrict} - ${getContentCount()} ${getContentType()}`}
@@ -554,5 +566,10 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '600',
     fontSize: screenWidth < 375 ? 14 : 16,
+  },
+  gasPumpIcon: {
+    width: 16,
+    height: 16,
+    tintColor: 'white',
   },
 });
