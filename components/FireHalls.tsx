@@ -137,7 +137,7 @@ export default function FireHalls() {
   const fuelYards: FuelYard[] = [
     { name: 'Booth', address: '50 booth ave Toronto, ON' },
     { name: 'Pears', address: '1008 yonge st Toronto, ON' },
-    { name: 'Manitoba', address: '2 Manitoba Dr, Toronto, ON' },
+    { name: 'CNE', address: '2 Manitoba Dr, Toronto, ON' },
     { name: 'Disco', address: '150 Disco Rd, Etobicoke, ON' },
     { name: 'Bering', address: '320 Bering Ave, Etobicoke, ON' },
     { name: 'Castlefield', address: '1401 Castlefield Ave, Toronto ON' },
@@ -307,7 +307,7 @@ export default function FireHalls() {
     <View key={fuelYard.name} style={[styles.fireHallCard, { borderLeftColor: selectedDistrictData?.color }]}>
       <View style={styles.fireHallHeader}>
         <View style={[styles.stationBadge, { backgroundColor: selectedDistrictData?.color }]}>
-          <Icon name="hardware-chip" size={16} style={{ color: 'white' }} />
+          <Icon name="car-sport" size={16} style={{ color: 'white' }} />
         </View>
         <Text style={styles.fireHallName}>{fuelYard.name}</Text>
       </View>
@@ -406,7 +406,7 @@ export default function FireHalls() {
         paddingHorizontal: getCardPadding(),
       }]}>
         <Icon 
-          name={selectedDistrict === 'Fuel Yards' ? 'hardware-chip' : 'business'} 
+          name={selectedDistrict === 'Fuel Yards' ? 'car-sport' : 'business'} 
           size={isSmallScreen ? 18 : 20} 
           style={{ color: 'white', marginRight: 8 }} 
         />
