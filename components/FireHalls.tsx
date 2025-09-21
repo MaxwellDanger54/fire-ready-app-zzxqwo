@@ -133,7 +133,7 @@ export default function FireHalls() {
     ]
   };
 
-  // Fuel Yards data
+  // Fuel Yards data with enhanced information
   const fuelYards: FuelYard[] = [
     { name: 'Booth', address: '50 booth ave Toronto, ON' },
     { name: 'Pears', address: '1008 yonge st Toronto, ON' },
@@ -304,23 +304,26 @@ export default function FireHalls() {
   );
 
   const renderFuelYard = (fuelYard: FuelYard) => (
-    <View key={fuelYard.name} style={[styles.fireHallCard, { borderLeftColor: selectedDistrictData?.color }]}>
-      <View style={styles.fireHallHeader}>
-        <View style={[styles.stationBadge, { backgroundColor: selectedDistrictData?.color }]}>
-          <Icon name="local-gas-station" size={16} style={{ color: 'white' }} />
+    <View key={fuelYard.name} style={[styles.fuelYardCard, { borderLeftColor: selectedDistrictData?.color }]}>
+      <View style={styles.fuelYardHeader}>
+        <View style={[styles.fuelYardBadge, { backgroundColor: selectedDistrictData?.color }]}>
+          <Icon name="local-gas-station" size={18} style={{ color: 'white' }} />
         </View>
-        <View style={{ flex: 1 }}>
-          <Text style={styles.fireHallName}>{fuelYard.name}</Text>
-          <Text style={styles.addressText}>{fuelYard.address}</Text>
+        <View style={styles.fuelYardInfo}>
+          <Text style={styles.fuelYardName}>{fuelYard.name} Fuel Yard</Text>
+          <View style={styles.addressRow}>
+            <Icon name="location-on" size={14} style={{ color: colors.textSecondary, marginRight: 6 }} />
+            <Text style={styles.fuelYardAddress}>{fuelYard.address}</Text>
+          </View>
         </View>
       </View>
       <TouchableOpacity 
-        style={styles.directionsButton}
+        style={[styles.fuelDirectionsButton, { backgroundColor: selectedDistrictData?.color }]}
         onPress={() => handleFuelYardDirections(fuelYard)}
-        activeOpacity={0.7}
+        activeOpacity={0.8}
       >
-        <Icon name="navigate" size={20} style={{ color: 'white', marginRight: 8 }} />
-        <Text style={styles.directionsButtonText}>Get Directions</Text>
+        <Icon name="navigate" size={18} style={{ color: 'white', marginRight: 8 }} />
+        <Text style={styles.fuelDirectionsButtonText}>Navigate</Text>
       </TouchableOpacity>
     </View>
   );
@@ -557,5 +560,81 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '600',
     fontSize: screenWidth < 375 ? 14 : 16,
+  },
+  // Enhanced Fuel Yard Styles
+  fuelYardCard: {
+    backgroundColor: colors.card,
+    marginBottom: screenHeight * 0.015,
+    borderRadius: 16,
+    padding: screenWidth < 375 ? 14 : 18,
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    borderLeftWidth: 5,
+    width: '100%',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 149, 0, 0.1)',
+  },
+  fuelYardHeader: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: 16,
+  },
+  fuelYardBadge: {
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    borderRadius: 25,
+    marginRight: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+  },
+  fuelYardInfo: {
+    flex: 1,
+    paddingTop: 2,
+  },
+  fuelYardName: {
+    fontSize: screenWidth < 375 ? 17 : 19,
+    fontWeight: 'bold',
+    color: colors.text,
+    marginBottom: 8,
+    letterSpacing: 0.3,
+  },
+  addressRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginTop: 4,
+  },
+  fuelYardAddress: {
+    fontSize: screenWidth < 375 ? 13 : 15,
+    color: colors.textSecondary,
+    flex: 1,
+    lineHeight: 20,
+  },
+  fuelDirectionsButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: screenWidth < 375 ? 12 : 14,
+    paddingHorizontal: 20,
+    borderRadius: 12,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    minHeight: 48,
+  },
+  fuelDirectionsButtonText: {
+    color: 'white',
+    fontWeight: '700',
+    fontSize: screenWidth < 375 ? 15 : 17,
+    letterSpacing: 0.5,
   },
 });
