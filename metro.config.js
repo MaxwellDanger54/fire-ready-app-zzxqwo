@@ -5,9 +5,7 @@ const config = getDefaultConfig(__dirname);
 
 // Add support for additional asset extensions
 config.resolver.assetExts.push(
-  // Adds support for `.db` files for SQLite databases
   'db',
-  // Add other asset extensions if needed
   'bin',
   'txt',
   'jpg',
@@ -28,5 +26,8 @@ config.transformer.minifierConfig = {
     keep_fnames: true,
   },
 };
+
+// Ensure proper autolinking
+config.resolver.platforms = ['ios', 'android', 'native', 'web'];
 
 module.exports = config;

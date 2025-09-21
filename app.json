@@ -1,13 +1,13 @@
 
 {
   "expo": {
-    "name": "Toronto Fire Ready",
-    "slug": "toronto-fire-ready",
+    "name": "fire-ready-app-zzxqwo",
+    "slug": "fire-ready-app-zzxqwo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/natively-dark.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "splash": {
       "image": "./assets/images/natively-dark.png",
       "resizeMode": "contain",
@@ -28,7 +28,7 @@
         "foregroundImage": "./assets/images/natively-dark.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.torontofire.ready",
+      "package": "com.WolfeWilder.tfsapp",
       "versionCode": 1,
       "permissions": [
         "ACCESS_FINE_LOCATION",
