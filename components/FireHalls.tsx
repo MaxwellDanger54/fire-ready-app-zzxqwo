@@ -337,21 +337,27 @@ export default function FireHalls() {
     return 'Fire Halls';
   };
 
-  // Responsive calculations
+  // Responsive calculations for fitting all tabs on screen
   const isSmallScreen = screenWidth < 375;
   const isMediumScreen = screenWidth >= 375 && screenWidth < 768;
   const isLargeScreen = screenWidth >= 768;
 
   const getTabWidth = () => {
-    if (isLargeScreen) return screenWidth / 6 - 16;
-    if (isMediumScreen) return Math.max(screenWidth / 6 - 8, 80);
-    return Math.max(screenWidth / 6 - 4, 70);
+    // Calculate available width for tabs (accounting for padding and margins)
+    const availableWidth = screenWidth - 32; // 16px padding on each side
+    const tabCount = districts.length; // 6 tabs total
+    const tabSpacing = 8; // 4px margin on each side of tab
+    const totalSpacing = tabSpacing * (tabCount - 1);
+    
+    return Math.floor((availableWidth - totalSpacing) / tabCount);
   };
 
   const getTabFontSize = () => {
-    if (isSmallScreen) return 12;
-    if (isMediumScreen) return 14;
-    return 16;
+    const tabWidth = getTabWidth();
+    if (tabWidth < 50) return 10;
+    if (tabWidth < 60) return 11;
+    if (tabWidth < 70) return 12;
+    return 13;
   };
 
   const getCardPadding = () => {
@@ -367,13 +373,8 @@ export default function FireHalls() {
         <Text style={commonStyles.sectionTitle}>Toronto Fire Halls</Text>
       </View>
 
-      {/* District Tabs - Responsive design */}
-      <ScrollView 
-        horizontal 
-        showsHorizontalScrollIndicator={false}
-        style={styles.tabScrollContainer}
-        contentContainerStyle={[styles.tabContainer, { paddingHorizontal: screenWidth * 0.02 }]}
-      >
+      {/* District Tabs - Fixed layout to fit all tabs on screen */}
+      <View style={styles.tabContainer}>
         {districts.map(district => (
           <TouchableOpacity
             key={district.name}
@@ -383,8 +384,6 @@ export default function FireHalls() {
                 backgroundColor: selectedDistrict === district.name ? district.color : colors.card,
                 elevation: selectedDistrict === district.name ? 4 : 2,
                 width: getTabWidth(),
-                paddingHorizontal: isSmallScreen ? 8 : 12,
-                paddingVertical: isSmallScreen ? 12 : 16,
               }
             ]}
             onPress={() => setSelectedDistrict(district.name)}
@@ -397,11 +396,11 @@ export default function FireHalls() {
                 fontSize: getTabFontSize(),
               }
             ]}>
-              {district.name}
+              {district.name === 'Fuel Yards' ? 'Fuel\nYards' : district.name}
             </Text>
           </TouchableOpacity>
         ))}
-      </ScrollView>
+      </View>
 
       {/* Header - Responsive */}
       <View style={[styles.header, { 
@@ -442,15 +441,14 @@ export default function FireHalls() {
 }
 
 const styles = StyleSheet.create({
-  tabScrollContainer: {
+  tabContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
     backgroundColor: colors.background,
     marginBottom: 8,
-    maxHeight: 80,
-  },
-  tabContainer: {
-    paddingVertical: 16,
+    justifyContent: 'space-between',
     alignItems: 'center',
-    minHeight: 60,
   },
   tab: {
     borderRadius: 12,
@@ -460,13 +458,16 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
-    marginHorizontal: 4,
-    minHeight: 44,
+    marginHorizontal: 2,
+    minHeight: 50,
+    paddingVertical: 8,
+    paddingHorizontal: 4,
   },
   tabText: {
     fontWeight: '600',
     textAlign: 'center',
-    letterSpacing: 0.5,
+    letterSpacing: 0.3,
+    lineHeight: 14,
   },
   header: {
     flexDirection: 'row',
