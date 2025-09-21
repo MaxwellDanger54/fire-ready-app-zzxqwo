@@ -304,20 +304,20 @@ export default function FireHalls() {
   );
 
   const renderFuelYard = (fuelYard: FuelYard) => (
-    <View key={fuelYard.name} style={styles.fuelYardCard}>
-      <View style={styles.fuelYardContent}>
-        <View style={styles.fuelYardHeader}>
-          <Icon name="local-gas-station" size={20} style={{ color: '#4CAF50', marginRight: 8 }} />
-          <Text style={styles.fuelYardTitle}>{fuelYard.name}</Text>
+    <View key={fuelYard.name} style={[styles.fireHallCard, { borderLeftColor: selectedDistrictData?.color }]}>
+      <View style={styles.fireHallHeader}>
+        <View style={[styles.stationBadge, { backgroundColor: selectedDistrictData?.color }]}>
+          <Icon name="local-gas-station" size={16} style={{ color: 'white' }} />
         </View>
+        <Text style={styles.fireHallName}>{fuelYard.name}</Text>
       </View>
       <TouchableOpacity 
-        style={styles.fuelYardButton}
+        style={styles.directionsButton}
         onPress={() => handleFuelYardDirections(fuelYard)}
-        activeOpacity={0.8}
+        activeOpacity={0.7}
       >
-        <Icon name="navigate" size={18} style={{ color: 'white', marginRight: 8 }} />
-        <Text style={styles.fuelYardButtonText}>Google Maps</Text>
+        <Icon name="navigate" size={20} style={{ color: 'white', marginRight: 8 }} />
+        <Text style={styles.directionsButtonText}>Get Directions</Text>
       </TouchableOpacity>
     </View>
   );
@@ -554,51 +554,5 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '600',
     fontSize: screenWidth < 375 ? 14 : 16,
-  },
-  // Updated Fuel Yard Styles
-  fuelYardCard: {
-    backgroundColor: colors.card,
-    marginBottom: 12,
-    borderRadius: 12,
-    padding: 16,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    borderLeftWidth: 4,
-    borderLeftColor: '#4CAF50',
-  },
-  fuelYardContent: {
-    marginBottom: 12,
-  },
-  fuelYardHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  fuelYardTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: colors.text,
-    flex: 1,
-  },
-  fuelYardButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#4CAF50',
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-  },
-  fuelYardButtonText: {
-    color: 'white',
-    fontWeight: '600',
-    fontSize: 16,
   },
 });
