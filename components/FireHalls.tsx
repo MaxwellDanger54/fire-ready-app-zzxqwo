@@ -304,26 +304,22 @@ export default function FireHalls() {
   );
 
   const renderFuelYard = (fuelYard: FuelYard) => (
-    <View key={fuelYard.name} style={[styles.fuelYardCard, { borderLeftColor: selectedDistrictData?.color }]}>
-      <View style={styles.fuelYardHeader}>
-        <View style={[styles.fuelYardBadge, { backgroundColor: selectedDistrictData?.color }]}>
-          <Icon name="local-gas-station" size={18} style={{ color: 'white' }} />
+    <View key={fuelYard.name} style={styles.fuelYardCard}>
+      <View style={styles.fuelYardContent}>
+        <View style={styles.fuelYardIcon}>
+          <Icon name="local-gas-station" size={24} style={{ color: '#4CAF50' }} />
         </View>
         <View style={styles.fuelYardInfo}>
-          <Text style={styles.fuelYardName}>{fuelYard.name} Fuel Yard</Text>
-          <View style={styles.addressRow}>
-            <Icon name="location-on" size={14} style={{ color: colors.textSecondary, marginRight: 6 }} />
-            <Text style={styles.fuelYardAddress}>{fuelYard.address}</Text>
-          </View>
+          <Text style={styles.fuelYardTitle}>- {fuelYard.name}</Text>
         </View>
       </View>
       <TouchableOpacity 
-        style={[styles.fuelDirectionsButton, { backgroundColor: selectedDistrictData?.color }]}
+        style={styles.fuelYardButton}
         onPress={() => handleFuelYardDirections(fuelYard)}
         activeOpacity={0.8}
       >
         <Icon name="navigate" size={18} style={{ color: 'white', marginRight: 8 }} />
-        <Text style={styles.fuelDirectionsButtonText}>Navigate</Text>
+        <Text style={styles.fuelYardButtonText}>Google Maps</Text>
       </TouchableOpacity>
     </View>
   );
@@ -561,80 +557,59 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: screenWidth < 375 ? 14 : 16,
   },
-  // Enhanced Fuel Yard Styles
+  // New Fuel Yard Styles
   fuelYardCard: {
     backgroundColor: colors.card,
-    marginBottom: screenHeight * 0.015,
-    borderRadius: 16,
-    padding: screenWidth < 375 ? 14 : 18,
-    elevation: 4,
+    marginBottom: 12,
+    borderRadius: 12,
+    padding: 16,
+    elevation: 2,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.15,
-    shadowRadius: 6,
-    borderLeftWidth: 5,
-    width: '100%',
-    borderWidth: 1,
-    borderColor: 'rgba(255, 149, 0, 0.1)',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    borderLeftWidth: 4,
+    borderLeftColor: '#4CAF50',
   },
-  fuelYardHeader: {
+  fuelYardContent: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginBottom: 16,
+    alignItems: 'center',
+    marginBottom: 12,
   },
-  fuelYardBadge: {
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    borderRadius: 25,
-    marginRight: 14,
+  fuelYardIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(76, 175, 80, 0.1)',
     alignItems: 'center',
     justifyContent: 'center',
+    marginRight: 12,
+  },
+  fuelYardInfo: {
+    flex: 1,
+  },
+  fuelYardTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.text,
+  },
+  fuelYardButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#4CAF50',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 8,
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
   },
-  fuelYardInfo: {
-    flex: 1,
-    paddingTop: 2,
-  },
-  fuelYardName: {
-    fontSize: screenWidth < 375 ? 17 : 19,
-    fontWeight: 'bold',
-    color: colors.text,
-    marginBottom: 8,
-    letterSpacing: 0.3,
-  },
-  addressRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginTop: 4,
-  },
-  fuelYardAddress: {
-    fontSize: screenWidth < 375 ? 13 : 15,
-    color: colors.textSecondary,
-    flex: 1,
-    lineHeight: 20,
-  },
-  fuelDirectionsButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: screenWidth < 375 ? 12 : 14,
-    paddingHorizontal: 20,
-    borderRadius: 12,
-    elevation: 3,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 4,
-    minHeight: 48,
-  },
-  fuelDirectionsButtonText: {
+  fuelYardButtonText: {
     color: 'white',
-    fontWeight: '700',
-    fontSize: screenWidth < 375 ? 15 : 17,
-    letterSpacing: 0.5,
+    fontWeight: '600',
+    fontSize: 16,
   },
 });
