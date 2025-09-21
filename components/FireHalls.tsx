@@ -307,7 +307,7 @@ export default function FireHalls() {
     <View key={fuelYard.name} style={[styles.fireHallCard, { borderLeftColor: selectedDistrictData?.color }]}>
       <View style={styles.fireHallHeader}>
         <View style={[styles.stationBadge, { backgroundColor: selectedDistrictData?.color }]}>
-          <Icon name="local-gas-station" size={16} style={{ color: 'white' }} />
+          <Icon name="car" size={16} style={{ color: 'white' }} />
         </View>
         <Text style={styles.fireHallName}>{fuelYard.name}</Text>
       </View>
@@ -406,7 +406,7 @@ export default function FireHalls() {
         paddingHorizontal: getCardPadding(),
       }]}>
         <Icon 
-          name={selectedDistrict === 'Fuel Yards' ? 'local-gas-station' : 'business'} 
+          name={selectedDistrict === 'Fuel Yards' ? 'car' : 'business'} 
           size={isSmallScreen ? 18 : 20} 
           style={{ color: 'white', marginRight: 8 }} 
         />
