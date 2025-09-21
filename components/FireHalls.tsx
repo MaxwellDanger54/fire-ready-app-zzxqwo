@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Text, View, ScrollView, TouchableOpacity, StyleSheet, Linking, Alert } from 'react-native';
+import { Text, View, ScrollView, TouchableOpacity, StyleSheet, Linking, Alert, Dimensions } from 'react-native';
 import { commonStyles, colors } from '../styles/commonStyles';
 import Icon from './Icon';
 
@@ -20,6 +20,8 @@ interface FuelYard {
   name: string;
   address: string;
 }
+
+const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 export default function FireHalls() {
   const [selectedDistrict, setSelectedDistrict] = useState<string>('North');
@@ -285,7 +287,10 @@ export default function FireHalls() {
         <View style={[styles.stationBadge, { backgroundColor: selectedDistrictData?.color }]}>
           <Icon name="business" size={16} style={{ color: 'white' }} />
         </View>
-        <Text style={styles.fireHallName}>{location.name}</Text>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.fireHallName}>{location.name}</Text>
+          <Text style={styles.addressText}>{location.address}</Text>
+        </View>
       </View>
       <TouchableOpacity 
         style={styles.directionsButton}
@@ -332,6 +337,29 @@ export default function FireHalls() {
     return 'Fire Halls';
   };
 
+  // Responsive calculations
+  const isSmallScreen = screenWidth < 375;
+  const isMediumScreen = screenWidth >= 375 && screenWidth < 768;
+  const isLargeScreen = screenWidth >= 768;
+
+  const getTabWidth = () => {
+    if (isLargeScreen) return screenWidth / 6 - 16;
+    if (isMediumScreen) return Math.max(screenWidth / 6 - 8, 80);
+    return Math.max(screenWidth / 6 - 4, 70);
+  };
+
+  const getTabFontSize = () => {
+    if (isSmallScreen) return 12;
+    if (isMediumScreen) return 14;
+    return 16;
+  };
+
+  const getCardPadding = () => {
+    if (isSmallScreen) return 12;
+    if (isMediumScreen) return 16;
+    return 20;
+  };
+
   return (
     <View style={commonStyles.container}>
       <View style={commonStyles.sectionHeader}>
@@ -339,12 +367,12 @@ export default function FireHalls() {
         <Text style={commonStyles.sectionTitle}>Toronto Fire Halls</Text>
       </View>
 
-      {/* District Tabs - Enhanced with bigger text, centered, and properly spaced */}
+      {/* District Tabs - Responsive design */}
       <ScrollView 
         horizontal 
         showsHorizontalScrollIndicator={false}
         style={styles.tabScrollContainer}
-        contentContainerStyle={styles.tabContainer}
+        contentContainerStyle={[styles.tabContainer, { paddingHorizontal: screenWidth * 0.02 }]}
       >
         {districts.map(district => (
           <TouchableOpacity
@@ -354,6 +382,9 @@ export default function FireHalls() {
               {
                 backgroundColor: selectedDistrict === district.name ? district.color : colors.card,
                 elevation: selectedDistrict === district.name ? 4 : 2,
+                width: getTabWidth(),
+                paddingHorizontal: isSmallScreen ? 8 : 12,
+                paddingVertical: isSmallScreen ? 12 : 16,
               }
             ]}
             onPress={() => setSelectedDistrict(district.name)}
@@ -363,6 +394,7 @@ export default function FireHalls() {
               {
                 color: selectedDistrict === district.name ? 'white' : colors.textSecondary,
                 fontWeight: selectedDistrict === district.name ? 'bold' : '600',
+                fontSize: getTabFontSize(),
               }
             ]}>
               {district.name}
@@ -371,25 +403,36 @@ export default function FireHalls() {
         ))}
       </ScrollView>
 
-      {/* Header */}
-      <View style={[styles.header, { backgroundColor: selectedDistrictData?.color }]}>
+      {/* Header - Responsive */}
+      <View style={[styles.header, { 
+        backgroundColor: selectedDistrictData?.color,
+        marginHorizontal: screenWidth * 0.025,
+        paddingHorizontal: getCardPadding(),
+      }]}>
         <Icon 
           name={selectedDistrict === 'Fuel Yards' ? 'local-gas-station' : 'business'} 
-          size={20} 
+          size={isSmallScreen ? 18 : 20} 
           style={{ color: 'white', marginRight: 8 }} 
         />
         <View style={{ flex: 1 }}>
-          <Text style={styles.headerText}>
+          <Text style={[styles.headerText, { fontSize: isSmallScreen ? 16 : 18 }]}>
             {`${selectedDistrict} - ${getContentCount()} ${getContentType()}`}
           </Text>
-          <Text style={styles.headerSubtext}>
+          <Text style={[styles.headerSubtext, { fontSize: isSmallScreen ? 12 : 14 }]}>
             {selectedDistrictData?.description}
           </Text>
         </View>
       </View>
 
-      {/* Content List */}
-      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+      {/* Content List - Responsive */}
+      <ScrollView 
+        style={styles.scrollView} 
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ 
+          paddingHorizontal: screenWidth * 0.025,
+          paddingBottom: screenHeight * 0.1 
+        }}
+      >
         {selectedDistrict === 'Other' && otherLocations.map(renderOtherLocation)}
         {selectedDistrict === 'Fuel Yards' && fuelYards.map(renderFuelYard)}
         {selectedDistrict !== 'Other' && selectedDistrict !== 'Fuel Yards' && currentFireHalls.map(renderFireHall)}
@@ -402,15 +445,14 @@ const styles = StyleSheet.create({
   tabScrollContainer: {
     backgroundColor: colors.background,
     marginBottom: 8,
+    maxHeight: 80,
   },
   tabContainer: {
-    paddingHorizontal: 12,
     paddingVertical: 16,
     alignItems: 'center',
+    minHeight: 60,
   },
   tab: {
-    paddingHorizontal: 16,
-    paddingVertical: 18,
     borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
@@ -419,11 +461,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 3,
     marginHorizontal: 4,
-    minHeight: 50,
-    minWidth: 80,
+    minHeight: 44,
   },
   tabText: {
-    fontSize: 16,
     fontWeight: '600',
     textAlign: 'center',
     letterSpacing: 0.5,
@@ -431,9 +471,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 15,
     paddingVertical: 12,
-    marginHorizontal: 10,
     borderRadius: 10,
     elevation: 2,
     shadowColor: '#000',
@@ -443,67 +481,68 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   headerText: {
-    fontSize: 18,
     fontWeight: 'bold',
     color: 'white',
   },
   headerSubtext: {
-    fontSize: 14,
     color: 'white',
     opacity: 0.9,
     marginTop: 2,
   },
   scrollView: {
     flex: 1,
-    paddingHorizontal: 10,
   },
   fireHallCard: {
     backgroundColor: colors.card,
-    marginBottom: 12,
+    marginBottom: screenHeight * 0.015,
     borderRadius: 12,
-    padding: 16,
+    padding: screenWidth < 375 ? 12 : 16,
     elevation: 3,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     borderLeftWidth: 4,
+    width: '100%',
   },
   fireHallHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 12,
+    flexWrap: 'wrap',
   },
   stationBadge: {
-    paddingHorizontal: 12,
+    paddingHorizontal: screenWidth < 375 ? 8 : 12,
     paddingVertical: 6,
     borderRadius: 20,
     marginRight: 12,
-    minWidth: 40,
+    minWidth: screenWidth < 375 ? 35 : 40,
     alignItems: 'center',
   },
   stationNumber: {
     color: 'white',
     fontWeight: 'bold',
-    fontSize: 14,
+    fontSize: screenWidth < 375 ? 12 : 14,
   },
   fireHallName: {
-    fontSize: 18,
+    fontSize: screenWidth < 375 ? 16 : 18,
     fontWeight: 'bold',
     color: colors.text,
     flex: 1,
+    flexWrap: 'wrap',
   },
   addressText: {
-    fontSize: 14,
+    fontSize: screenWidth < 375 ? 12 : 14,
     color: colors.textSecondary,
     marginTop: 4,
+    flexWrap: 'wrap',
   },
   directionsButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#4CAF50', // Subtle green color
-    paddingVertical: 12,
+    backgroundColor: '#4CAF50',
+    paddingVertical: screenWidth < 375 ? 10 : 12,
     paddingHorizontal: 16,
     borderRadius: 8,
     elevation: 2,
@@ -511,10 +550,11 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
+    minHeight: 44,
   },
   directionsButtonText: {
     color: 'white',
     fontWeight: '600',
-    fontSize: 16,
+    fontSize: screenWidth < 375 ? 14 : 16,
   },
 });
