@@ -1,46 +1,30 @@
-// https://docs.expo.dev/guides/using-eslint/
+
 module.exports = {
   extends: [
     'expo',
+    '@react-native-community',
     'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:react/recommended',
-    'plugin:react/jsx-runtime'
+    '@typescript-eslint/recommended',
   ],
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'react', 'import'],
-  root: true,
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true
-    }
-  },
-  ignorePatterns: ['/dist/*', '/public/*'],
-  env: {
-    browser: true,
-  },
+  plugins: ['@typescript-eslint', 'react', 'react-native'],
   rules: {
-    '@typescript-eslint/no-unused-vars': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/prefer-as-const': 'off',
-    '@typescript-eslint/no-var-requires': 'off',
-    'react/react-in-jsx-scope': 'off',
-    '@typescript-eslint/no-empty-object-type': 'off',
-    '@typescript-eslint/no-wrapper-object-types': 'off',
-    'react/no-unescaped-entities': 'off',
-    'import/no-unresolved': 'error',
-    'prefer-const': 'off',
-    'react/prop-types': 1,
-    'no-case-declarations': 'off'
+    // Disable some rules that might cause issues during development
+    '@typescript-eslint/no-unused-vars': 'warn',
+    '@typescript-eslint/no-explicit-any': 'warn',
+    'react-native/no-unused-styles': 'warn',
+    'react-native/split-platform-components': 'warn',
+    'react-native/no-inline-styles': 'off', // Allow inline styles for now
+    'react-native/no-color-literals': 'off', // Allow color literals
+    'react/react-in-jsx-scope': 'off', // Not needed with new JSX transform
+    'no-console': 'off', // Allow console.log for debugging
   },
-  overrides: [
-    {
-      files: ['metro.config.js'],
-      rules: {
-        '@typescript-eslint/no-var-requires': 'off'
-      }
-    }
-  ]
+  env: {
+    'react-native/react-native': true,
+  },
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
 };
