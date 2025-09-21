@@ -8,10 +8,12 @@ import { getCurrentShift } from './ShiftCalendar';
 import { WebView } from 'react-native-webview';
 import AnaphylaxisImageViewer from './AnaphylaxisImageViewer';
 import ChildBirthImageViewer from './ChildBirthImageViewer';
+import OpioidImageViewer from './OpioidImageViewer';
 
 export default function HomeInfo() {
   const [isAnaphylaxisModalVisible, setIsAnaphylaxisModalVisible] = useState(false);
   const [isChildBirthModalVisible, setIsChildBirthModalVisible] = useState(false);
+  const [isOpioidModalVisible, setIsOpioidModalVisible] = useState(false);
   
   const currentShift = getCurrentShift();
   const currentDate = new Date();
@@ -72,6 +74,8 @@ export default function HomeInfo() {
       setIsAnaphylaxisModalVisible(true);
     } else if (type === 'Child Birth') {
       setIsChildBirthModalVisible(true);
+    } else if (type === 'Opioid') {
+      setIsOpioidModalVisible(true);
     } else {
       Alert.alert(
         `${type} Protocol`,
@@ -301,6 +305,11 @@ export default function HomeInfo() {
       <ChildBirthImageViewer
         visible={isChildBirthModalVisible}
         onClose={() => setIsChildBirthModalVisible(false)}
+      />
+
+      <OpioidImageViewer
+        visible={isOpioidModalVisible}
+        onClose={() => setIsOpioidModalVisible(false)}
       />
     </ScrollView>
   );
