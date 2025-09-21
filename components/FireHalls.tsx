@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Text, View, ScrollView, TouchableOpacity, StyleSheet, Linking, Alert } from 'react-native';
 import { commonStyles, colors } from '../styles/commonStyles';
@@ -13,6 +14,11 @@ interface OtherLocation {
   name: string;
   address: string;
   searchQuery: string;
+}
+
+interface FuelYard {
+  name: string;
+  address: string;
 }
 
 export default function FireHalls() {
@@ -125,6 +131,22 @@ export default function FireHalls() {
     ]
   };
 
+  // Fuel Yards data
+  const fuelYards: FuelYard[] = [
+    { name: 'Booth', address: '50 booth ave Toronto, ON' },
+    { name: 'Pears', address: '1008 yonge st Toronto, ON' },
+    { name: 'Manitoba', address: '2 Manitoba Dr, Toronto, ON' },
+    { name: 'Disco', address: '150 Disco Rd, Etobicoke, ON' },
+    { name: 'Bering', address: '320 Bering Ave, Etobicoke, ON' },
+    { name: 'Castlefield', address: '1401 Castlefield Ave, Toronto ON' },
+    { name: 'Alness', address: '1026 Finch ave W, Toronto, ON' },
+    { name: 'Bermondsey', address: '25 Old Eglinton ave, Toronto, ON' },
+    { name: 'Ellesmere', address: '1050 Ellesmere Rd, Toronto, ON' },
+    { name: 'Morningside', address: '891 Morningside Ave, Toronto, ON' },
+    { name: 'Nashdene', address: '70 Nashdene Rd, Scarborough, ON' },
+    { name: 'Toryork', address: '61 Toryork Dr, North York, ON' }
+  ];
+
   // Other locations data
   const otherLocations: OtherLocation[] = [
     {
@@ -159,6 +181,7 @@ export default function FireHalls() {
     { name: 'East', color: '#4ECDC4', description: 'Districts 21, 22, 23, 24' },
     { name: 'South', color: '#45B7D1', description: 'Districts 31, 32, 33, 34' },
     { name: 'West', color: '#96CEB4', description: 'Districts 41, 42, 43, 44' },
+    { name: 'Fuel Yards', color: '#FF9500', description: 'Fuel Supply Locations' },
     { name: 'Other', color: '#FFA726', description: 'Training & Support Facilities' }
   ];
 
@@ -191,6 +214,30 @@ export default function FireHalls() {
 
   const handleOtherLocationDirections = async (location: OtherLocation) => {
     const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location.searchQuery)}`;
+    
+    try {
+      const supported = await Linking.canOpenURL(googleMapsUrl);
+      if (supported) {
+        await Linking.openURL(googleMapsUrl);
+      } else {
+        Alert.alert(
+          'Unable to Open Maps',
+          'Google Maps is not available on this device.',
+          [{ text: 'OK' }]
+        );
+      }
+    } catch (error) {
+      console.error('Error opening Google Maps:', error);
+      Alert.alert(
+        'Error',
+        'Unable to open directions. Please try again.',
+        [{ text: 'OK' }]
+      );
+    }
+  };
+
+  const handleFuelYardDirections = async (fuelYard: FuelYard) => {
+    const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(fuelYard.address)}`;
     
     try {
       const supported = await Linking.canOpenURL(googleMapsUrl);
@@ -251,6 +298,40 @@ export default function FireHalls() {
     </View>
   );
 
+  const renderFuelYard = (fuelYard: FuelYard) => (
+    <View key={fuelYard.name} style={[styles.fireHallCard, { borderLeftColor: selectedDistrictData?.color }]}>
+      <View style={styles.fireHallHeader}>
+        <View style={[styles.stationBadge, { backgroundColor: selectedDistrictData?.color }]}>
+          <Icon name="local-gas-station" size={16} style={{ color: 'white' }} />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.fireHallName}>{fuelYard.name}</Text>
+          <Text style={styles.addressText}>{fuelYard.address}</Text>
+        </View>
+      </View>
+      <TouchableOpacity 
+        style={styles.directionsButton}
+        onPress={() => handleFuelYardDirections(fuelYard)}
+        activeOpacity={0.7}
+      >
+        <Icon name="navigate" size={20} style={{ color: 'white', marginRight: 8 }} />
+        <Text style={styles.directionsButtonText}>Get Directions</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+  const getContentCount = () => {
+    if (selectedDistrict === 'Other') return otherLocations.length;
+    if (selectedDistrict === 'Fuel Yards') return fuelYards.length;
+    return currentFireHalls.length;
+  };
+
+  const getContentType = () => {
+    if (selectedDistrict === 'Other') return 'Locations';
+    if (selectedDistrict === 'Fuel Yards') return 'Fuel Yards';
+    return 'Fire Halls';
+  };
+
   return (
     <View style={commonStyles.container}>
       <View style={commonStyles.sectionHeader}>
@@ -259,7 +340,12 @@ export default function FireHalls() {
       </View>
 
       {/* District Tabs - Enhanced with bigger text, centered, and properly spaced */}
-      <View style={styles.tabContainer}>
+      <ScrollView 
+        horizontal 
+        showsHorizontalScrollIndicator={false}
+        style={styles.tabScrollContainer}
+        contentContainerStyle={styles.tabContainer}
+      >
         {districts.map(district => (
           <TouchableOpacity
             key={district.name}
@@ -283,17 +369,18 @@ export default function FireHalls() {
             </Text>
           </TouchableOpacity>
         ))}
-      </View>
+      </ScrollView>
 
       {/* Header */}
       <View style={[styles.header, { backgroundColor: selectedDistrictData?.color }]}>
-        <Icon name="business" size={20} style={{ color: 'white', marginRight: 8 }} />
+        <Icon 
+          name={selectedDistrict === 'Fuel Yards' ? 'local-gas-station' : 'business'} 
+          size={20} 
+          style={{ color: 'white', marginRight: 8 }} 
+        />
         <View style={{ flex: 1 }}>
           <Text style={styles.headerText}>
-            {selectedDistrict === 'Other' 
-              ? `${selectedDistrict} Facilities - ${otherLocations.length} Locations`
-              : `${selectedDistrict} Command - ${currentFireHalls.length} Fire Halls`
-            }
+            {`${selectedDistrict} - ${getContentCount()} ${getContentType()}`}
           </Text>
           <Text style={styles.headerSubtext}>
             {selectedDistrictData?.description}
@@ -301,30 +388,28 @@ export default function FireHalls() {
         </View>
       </View>
 
-      {/* Fire Halls List */}
+      {/* Content List */}
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        {selectedDistrict === 'Other' 
-          ? otherLocations.map(renderOtherLocation)
-          : currentFireHalls.map(renderFireHall)
-        }
+        {selectedDistrict === 'Other' && otherLocations.map(renderOtherLocation)}
+        {selectedDistrict === 'Fuel Yards' && fuelYards.map(renderFuelYard)}
+        {selectedDistrict !== 'Other' && selectedDistrict !== 'Fuel Yards' && currentFireHalls.map(renderFireHall)}
       </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  tabContainer: {
-    flexDirection: 'row',
-    paddingHorizontal: 12,
-    paddingVertical: 16,
+  tabScrollContainer: {
     backgroundColor: colors.background,
     marginBottom: 8,
-    justifyContent: 'center',
+  },
+  tabContainer: {
+    paddingHorizontal: 12,
+    paddingVertical: 16,
     alignItems: 'center',
   },
   tab: {
-    flex: 1,
-    paddingHorizontal: 6,
+    paddingHorizontal: 16,
     paddingVertical: 18,
     borderRadius: 12,
     alignItems: 'center',
@@ -335,9 +420,10 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     marginHorizontal: 4,
     minHeight: 50,
+    minWidth: 80,
   },
   tabText: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '600',
     textAlign: 'center',
     letterSpacing: 0.5,
@@ -406,6 +492,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: colors.text,
     flex: 1,
+  },
+  addressText: {
+    fontSize: 14,
+    color: colors.textSecondary,
+    marginTop: 4,
   },
   directionsButton: {
     flexDirection: 'row',
